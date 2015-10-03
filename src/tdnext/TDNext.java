@@ -9,11 +9,14 @@ import tdnext.TDNextLogicAPI.CommandType;
 public class TDNext {
 	
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
+	private String _lastCommand = new String();
+	private Task _lastTask = new Task();
 	
 	public TDNext(){
 	}
 	
 	public ArrayList<Task> executeCommand(String input) {
+		_lastCommand = input;
 		CommandType command = ParserAPI.parseCommand(input);
 		
 		switch (command) {
@@ -72,6 +75,47 @@ public class TDNext {
 
 
 	private void undo() {
+		CommandType command = ParserAPI.parseCommand(_lastCommand);
+		
+		switch(command) {
+			case ADD :  
+				undoAdd();
+				
+			case DELETE : 
+				undoDelete();
+			
+			case EDIT :
+				undoEdit();
+				
+			case CLEAR :
+				undoClear();
+			
+			case DONE :
+				undoMarkAsDone();
+		}
+	}
+
+	private void undoMarkAsDone() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void undoClear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void undoEdit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void undoDelete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void undoAdd() {
 		// TODO Auto-generated method stub
 		
 	}
