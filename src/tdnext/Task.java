@@ -15,10 +15,6 @@ public class Task {
 	private boolean _done = false;
 	private ColourType _colour = ColourType.WHITE;
 	
-	public Task() throws MissingInformationException {
-		throw new MissingInformationException("Missing all information");
-	}
-	
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
 	public Task(ArrayList<String> information) throws IllegalArgumentException {
@@ -34,6 +30,9 @@ public class Task {
 		determineColourType();
 	}
 	
+	public Task() {
+	}
+
 	private void calculateDeadline(String dateString) throws IllegalArgumentException {
 		String[] dateList = dateString.split("/");
 		int day = Integer.parseInt(dateList[0]);
@@ -52,6 +51,10 @@ public class Task {
 	
 	public void markAsDone() {
 		_done = true;
+	}
+	
+	public void markAsUndone() {
+		_done = false;
 	}
 	
 	@Override
