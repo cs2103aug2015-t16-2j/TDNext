@@ -2,6 +2,7 @@ package tdnext;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import tdnext.TDNextLogicAPI.CommandType;
 
@@ -91,12 +92,11 @@ public class TDNext {
 	}
 
 	private void sortName() {
-		// TODO Auto-generated method stub
-		
+		Collections.sort(_listTask, new NameComparator());
 	}
 
 	private void sortDeadline() {
-		// TODO Auto-generated method stub
+		Collections.sort(_listTask, new DateComparator());
 		
 	}
 
@@ -112,20 +112,30 @@ public class TDNext {
 		try {
 			StorageAPI.writeToFile(newTask.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
 	private void deleteTask(String input) {
+		int index = ParserAPI.parseIndex(input);
+		_listTask.remove(index);
 	}
 	
-	private ArrayList<Task> searchTask(String name) {
-		return new ArrayList<Task>(); 
+	private ArrayList<Task> searchTask(String input) {
+		ArrayList<String> information = ParserAPI.parseInformation(input);
+		String name = information.get(0);
+		ArrayList<Task> output = new ArrayList<Task>();
+		
+		for(int i = 0; i < _listTask.size(); i++) {
+			Task currTask = _listTask.get(i);
+			if(currTask.getDescription().contains(name)) {
+				output.add(currTask);
+			}
+		}
+		
+		return output;
 	}
 	
 	private void sortDefault() {
-		// TODO Auto-generated method stub
-		
+		Collections.sort(_listTask, new PriorityComparator());
 	}
 }
