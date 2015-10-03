@@ -50,6 +50,10 @@ public class Task {
 		}
 	}
 	
+	public void markAsDone() {
+		_done = true;
+	}
+	
 	@Override
 	public String toString() {
 		if(!_done) {
