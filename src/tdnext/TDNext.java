@@ -10,8 +10,8 @@ public class TDNext {
 	
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private String _lastCommand = new String();
-	private Task _lastTask = new Task();
-	
+	private Task _lastTask;
+
 	public TDNext(){
 	}
 	
@@ -96,8 +96,12 @@ public class TDNext {
 	}
 
 	private void undoMarkAsDone() {
-		// TODO Auto-generated method stub
-		
+		int index = ParserAPI.parseIndex(_lastCommand);
+		Task currTask = _listTask.get(index);
+		String oldDesc = currTask.getDescription();
+		currTask.markAsUndone();
+		String newDesc = currTask.getDescription();
+		StorageAPI.editToFile(oldDesc, newDesc);
 	}
 
 	private void undoClear() {
@@ -112,12 +116,10 @@ public class TDNext {
 
 	private void undoDelete() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void undoAdd() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void editTask(String input) {	
