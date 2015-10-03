@@ -76,19 +76,21 @@ public class TDNext {
 		
 	}
 
-	private void editTask(String input) {
-		// TODO Auto-generated method stub
-		
+	private void editTask(String input) {	
 	}
 
-	private void clearAll() {
-		// TODO Auto-generated method stub
-		
+	private void clearAll() throws IOException {
+		_listTask.clear();
+		StorageAPI.clearFile();		
 	}
 
 	private void markTaskAsDone(String input) {
-		// TODO Auto-generated method stub
-		
+		int index = ParserAPI.parseIndex(input);
+		Task currTask = _listTask.get(index);
+		String oldDesc = currTask.getDescription();
+		currTask.markAsDone();
+		String newDesc = currTask.getDescription();
+		StorageAPI.editToFile(oldDesc, newDesc);
 	}
 
 	private void sortName() {
