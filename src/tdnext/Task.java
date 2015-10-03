@@ -1,6 +1,7 @@
 package tdnext;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import tdnext.TDNextLogicAPI.ColourType;
 
@@ -13,7 +14,6 @@ public class Task {
 	private int _priorityIndex = 0;
 	private boolean _done = false;
 	private ColourType _colour = ColourType.WHITE;
-	private String _type = new String();
 	
 	public Task() throws MissingInformationException {
 		throw new MissingInformationException("Missing all information");
@@ -88,8 +88,8 @@ public class Task {
 		return _description;
 	}
 	
-	public String getDeadline() {
-		return _deadline.toString();
+	public Date getDeadline() {
+		return _deadline;
 	}
 	
 	public ColourType getColour() {
@@ -100,4 +100,38 @@ public class Task {
 		return _priorityIndex;
 	}
 	
+}
+
+class NameComparator implements Comparator<Task> {
+	@Override
+	public int compare(Task task1, Task task2) {
+        return task1.getDescription().compareToIgnoreCase(task2.getDescription());
+    }
+}
+
+class PriorityComparator implements Comparator<Task> {
+	@Override
+	public int compare(Task task1, Task task2) {
+		if(task1.getPriorityIndex() > task2.getPriorityIndex()) {
+			return 1;
+		} else if (task1.getPriorityIndex() < task2.getPriorityIndex()) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+}
+
+class DateComparator implements Comparator<Task> {
+	@Override
+	public int compare(Task task1, Task task2) {
+		int difference = task1.getDeadline().difference(task2.getDeadline());
+		if(difference > 0) {
+			return 1;
+		} else if (difference < 0) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
 }
