@@ -24,39 +24,6 @@ public class TDNextLogicAPI {
 	public ArrayList<Task> executeCommand(String input) {
 		ArrayList<Task> output = _first.executeCommand(input);
 		
-		/*ArrayList<Task> output = new ArrayList<Task>();
-		ArrayList<String> list = new ArrayList<String>();
-		
-		list.add("IMPORTANT and 1 DAY TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("28/09/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 1 DAY TO DEADLINE");
-		list.add("");
-		list.add("28/09");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 14 DAYS TO DEADLINE");
-		list.add("");
-		list.add("11/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and NO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and 15 DAYS TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("12/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and NO DEADLINE");
-		list.add("");
-		list.add("");
-		output.add(new Task(list));*/
-		
 		return output;
 	}
 	
@@ -64,39 +31,6 @@ public class TDNextLogicAPI {
 	// returns an array of events
 	public ArrayList<Task> startProgram() {
 		ArrayList<Task> output = _first.startProgram();
-		
-		/*ArrayList<Task> output = new ArrayList<Task>();
-		ArrayList<String> list = new ArrayList<String>();
-		
-		list.add("IMPORTANT and 1 DAY TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("28/09/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 1 DAY TO DEADLINE");
-		list.add("");
-		list.add("28/09");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 14 DAYS TO DEADLINE");
-		list.add("");
-		list.add("11/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and NO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and 15 DAYS TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("12/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and NO DEADLINE");
-		list.add("");
-		list.add("");
-		output.add(new Task(list));*/
 		
 		return output;
 	}
