@@ -26,7 +26,7 @@ public class ParserAPI {
 	public static int parseIndex(String input) {
 		String[] breakdownString = input.split(" ");
 		
-		return Integer.parseInt(breakdownString[breakdownString.length-1]);
+		return Integer.parseInt(breakdownString[1]);
 	}
 	
 	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
@@ -53,6 +53,11 @@ public class ParserAPI {
 		for (int i=0; i<=tempEvent.length-1; i++)
 			if (!tempEvent[i].equals("WITH"))
 				brokenEvent.add(tempEvent[i]);
+		
+		if (!eventInfo.contains("ADD")) {
+			eventInfo.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
+			copy = input.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
+		}
 		
 		if (eventInfo.contains("BY") || eventInfo.contains("ON")) {
 			int indexBY = getIndexBY(brokenEvent);
