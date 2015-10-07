@@ -72,8 +72,16 @@ public class TDNext {
 		}
 	}
 	
-
-
+	public ArrayList<Task> startProgram() throws IOException {
+		ArrayList<String> allFileInfo = StorageAPI.getFromFile();
+		for(int i = 0; i < allFileInfo.size(); i++) {
+			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
+			_listTask.add(new Task(information));
+		}
+		
+		return _listTask;
+	}
+	
 	private void undo() {
 		CommandType command = ParserAPI.parseCommand(_lastCommand);
 		
