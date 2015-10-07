@@ -9,16 +9,6 @@ import org.junit.Test;
 public class TestTask {
 	
 	@Test
-	public void testConstructor_DefaultConstructor_ShouldHaveException() {
-		try {
-			new Task();
-			fail();
-		} catch (MissingInformationException e) {
-			assertEquals("", "Missing all information", e.getMessage());
-		}
-	}
-	
-	@Test
 	public void testConstructor_ConstructorWithValidInformation_ShouldNotHaveException(){
 		try {
 			ArrayList<String> list = new ArrayList<String>();
