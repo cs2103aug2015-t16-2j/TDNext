@@ -93,6 +93,20 @@ public class ParserAPI {
 				}
 			}
 		}
+		else if (!(eventInfo.contains("BY") && !eventInfo.contains("ON"))) {
+			ArrayList<String> toReturn = new ArrayList<String> ();
+			
+			toReturn.add(eventInfo.replace("ADD","").trim());
+			if (eventInfo.contains("IMPORTANT"))
+				toReturn.add("IMPORTANT");
+			else
+				toReturn.add("");
+			toReturn.add("");
+			toReturn.add("");
+			
+			return toReturn;
+		}
+		
 		else {
 			for (int index=0; index<brokenEvent.size()-1; index++)
 				if (!brokenEvent.get(index).equals("ADD"))
@@ -208,14 +222,14 @@ public class ParserAPI {
 	
 
     //For testing purposes.
-	/*
-	 * public static void main(String[] args) {
+	
+	 public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
-		System.out.println(parseIndex(in));
+		System.out.println(parseInformation(in));
 	 }
-     */
+  
 }
