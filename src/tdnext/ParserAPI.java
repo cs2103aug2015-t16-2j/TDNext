@@ -4,13 +4,6 @@ import java.util.*;
 import tdnext.TDNextLogicAPI.CommandType;
 
 public class ParserAPI {
-
-	public enum COMMAND_TYPE {
-		ADD, SORT,
-		ADD_EVENT_TASK, ADD_DEADLINE_TASK, ADD_FLOATING_TASK, SORT_BY_IMPORTANCE, SORT_BY_DEADLINE,
-		SORT_BY_NAME, DISPLAY, SEARCH, EXIT, DELETE, CHANGE, INVALID;
-	}
-
 	//Returns command word from user input.
 	public static CommandType parseCommand(String input) {
 		if (input.contains("ADD"))
@@ -27,26 +20,13 @@ public class ParserAPI {
 			return CommandType.EXIT;
 		return CommandType.INVALID;
 	}
-
+    
 	
-	private static String checkImportance(String eventInfo) {
-		if (eventInfo.contains("IMPORTANT"))
-			return "IMPORTANT";
-		return null;
-	}
-	
-	private static int getIndexBY(ArrayList<String> brokenEvent) {
-		for (int index=0; index<brokenEvent.size()-1; index++)
-			if (brokenEvent.get(index).equals("BY"))
-				return index;
-		return 0;
-	}
-	
-	private static int getIndexADD(ArrayList<String> brokenEvent) {
-		for (int index=0; index<brokenEvent.size()-1; index++)
-			if (brokenEvent.get(index).equals("ADD"))
-				return index;
-		return 0;
+	//Find the index of the task which will be edited.
+	private static int parseIndex(String input) {
+		String[] breakdownString = input.split(" ");
+		
+		return Integer.parseInt(breakdownString[breakdownString.length-1]);
 	}
 	
 	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
@@ -198,14 +178,44 @@ public class ParserAPI {
 		information.add("");
 		return information;
 	}
+	
+	
+	/* --------------------------------Other Sub-methods----------------------------------- */
+	
+	//To check if word "IMPORTANT" is present in a string.
+	private static String checkImportance(String eventInfo) {
+		if (eventInfo.contains("IMPORTANT"))
+			return "IMPORTANT";
+		return null;
+	}
+	
+	
+	//To find the index of word "BY"
+	private static int getIndexBY(ArrayList<String> brokenEvent) {
+		for (int index=0; index<brokenEvent.size()-1; index++)
+			if (brokenEvent.get(index).equals("BY"))
+				return index;
+		return 0;
+	}
+	
+	//To find the index of word "ADD"
+	private static int getIndexADD(ArrayList<String> brokenEvent) {
+		for (int index=0; index<brokenEvent.size()-1; index++)
+			if (brokenEvent.get(index).equals("ADD"))
+				return index;
+		return 0;
+	}
+	
 
-	/*public static void main(String[] args) {
+    //For testing purposes.
+	/*
+	 * public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
-		System.out.println(parseInformation(in));
-
-	} */
+		System.out.println(parseIndex(in));
+	 }
+     */
 }
