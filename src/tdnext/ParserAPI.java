@@ -187,9 +187,12 @@ public class ParserAPI {
 		ArrayList<String> information = new ArrayList<String>();
 
 		information.add((copy.replace("IMPORTANT", "").replace("ADD", "").trim()));
+		
 		//Add specific task description.
-		if (importance != null)
+		if (importance != null) {
 			information.add(importance);
+			information.set(0, information.get(0) + " IMPORTANT");
+		}
 		else
 			information.add("");
 		information.add(deadline.trim());
@@ -227,12 +230,12 @@ public class ParserAPI {
 
     //For testing purposes.
 	
-	 public static void main(String[] args) {
+	 /* public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
 		System.out.println(parseInformation(in));
-	 }
+	 } */
 }
