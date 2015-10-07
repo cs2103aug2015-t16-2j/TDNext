@@ -187,11 +187,11 @@ public class TDNext {
 	private void addTask(String input) {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
-		_listTask.add(newTask);
 		try {
 			StorageAPI.writeToFile(newTask.toString());
 		} catch (IOException e) {
 		}
+		_listTask.add(newTask);
 	}
 	
 	private void deleteTask(String input) {
