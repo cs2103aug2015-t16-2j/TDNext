@@ -3,7 +3,7 @@ import java.util.*;
 
 public class ParserAPI {
 
-	enum COMMAND_TYPE {
+	public enum COMMAND_TYPE {
 		ADD, SORT,
 		ADD_EVENT_TASK, ADD_DEADLINE_TASK, ADD_FLOATING_TASK, SORT_BY_IMPORTANCE, SORT_BY_DEADLINE,
 		SORT_BY_NAME, DISPLAY, SEARCH, EXIT, DELETE, CHANGE, INVALID;
@@ -28,115 +28,178 @@ public class ParserAPI {
 		return COMMAND_TYPE.INVALID;
 	}
 
+	
+	private static String checkImportance(String eventInfo) {
+		if (eventInfo.contains("IMPORTANT"))
+			return "IMPORTANT";
+		return null;
+	}
+	
+	private static int getIndexBY(ArrayList<String> brokenEvent) {
+		for (int index=0; index<brokenEvent.size()-1; index++)
+			if (brokenEvent.get(index).equals("BY"))
+				return index;
+		return 0;
+	}
+	
+	private static int getIndexADD(ArrayList<String> brokenEvent) {
+		for (int index=0; index<brokenEvent.size()-1; index++)
+			if (brokenEvent.get(index).equals("ADD"))
+				return index;
+		return 0;
+	}
+	
 	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
-	public static ArrayList<String> parseInformation(String eventInfo) {
+	public static ArrayList<String> parseInformation(String input) {
+		String eventInfo = input;
 		String task_description = "";
 		String deadline = "";
-		String importance = "";
+		String importance = checkImportance(eventInfo);
+	
+		if (importance != null) {
+			if (eventInfo.contains("IMPORTANT "))
+				eventInfo.replace("IMPORTANT ", "");
+			else
+			    eventInfo.replace(" IMPORTANT", "");
+		}
+		if (eventInfo.contains("WITH "))
+			eventInfo.replace("WITH ", "");
+		else
+			eventInfo.replace("WITH", "");
 		
-		if (eventInfo.contains(" BY ")) {
-			String[] first = eventInfo.split(" BY ", 0);
+		String[] tempEvent = eventInfo.split(" ");
+		
+		ArrayList<String> brokenEvent = new ArrayList<String> ();
 
-			task_description = first[0];
+		for (int i=0; i<=tempEvent.length-1; i++)
+			if (!tempEvent[i].equals("WITH"))
+				brokenEvent.add(tempEvent[i]);
+		
+		if (eventInfo.contains("BY") || eventInfo.contains("ON")) {
+			int indexBY = getIndexBY(brokenEvent);
+			int indexADD = getIndexADD(brokenEvent);
 
-			String[] second = first[1].split(" WITH ", 0);
-
-			deadline = second[0];
-
-			if (second[1].equals("IMPORTANT"))
-				importance = second[1];
-		}
-
-		else if (eventInfo.contains(" ON ")) {
-			String[] first = eventInfo.split(" ON ", 0);
-
-			task_description = first[0];
-
-			String[] second = first[1].split(" WITH ", 0);
-
-			deadline = second[0];
-
-			if (second[1].equals("IMPORTANT"))
-				importance = second[1];
-		}
-
-		if (deadline != null) {
-			if (deadline.contains("-"))
-				deadline = deadline.replace("-", "/");
+			if (indexADD<indexBY && indexBY-indexADD != 1) {
+				for (int index=indexADD+1; index<indexBY; index++)
+					task_description += (brokenEvent.get(index) + " ");
+				for (int index=indexBY+1; index<=brokenEvent.size()-1; index++)
+					deadline += (brokenEvent.get(index) + " ");
+			}
+			else if (indexADD>indexBY && indexADD-indexBY != 1) {
+				for (int index=indexBY+1; index<indexADD; index++)
+					deadline += (brokenEvent.get(index) + " ");
+				for (int index=indexADD+1; index<=brokenEvent.size()-1; index++)
+					task_description += (brokenEvent.get(index) + " ");
+			}
 			else {
-				String[] date = deadline.split(" ", 0);
-
-				if (date[0].length() < date[1].length()) {
-					String switchDateNMonth = date[1];
-
-					date[1] = date[0];
-
-					date[0] = switchDateNMonth;
+				if (brokenEvent.get(indexBY+1).contains("-") || brokenEvent.get(indexBY+1).contains("/")) {
+					deadline = brokenEvent.get(indexBY+1);
+					
+					for (int taskIndex=indexBY+2; taskIndex<brokenEvent.size(); taskIndex++)
+						task_description += (brokenEvent.get(taskIndex) + " ");
 				}
-
-				String month = date[0].toLowerCase();
-				deadline = "";
-
-				if (month.equals("january"))
-					month = "01";
-				else if (month.equals("february"))
-					month = "02";
-				else if (month.equals("march"))
-					month = "03";
-				else if (month.equals("april"))
-					month = "04";
-				else if (month.equals("may"))
-					month = "05";
-				else if (month.equals("june"))
-					month = "06";
-				else if (month.equals("july"))
-					month = "07";
-				else if (month.equals("august"))
-					month = "08";
-				else if (month.equals("september"))
-					month = "09";
-				else if (month.equals("october"))
-					month = "10";
-				else if (month.equals("november"))
-					month = "11";
-				else if (month.equals("december"))
-					month = "12";
-
-				String day = date[1];
-				char[] count = day.toCharArray();
-
-				if (count.length == 3) 
-					day = "0" + day.substring(0, 1);
-				else if (count.length == 4)
-					day = day.substring(0, 2);
-
-				deadline = day + "/" + month;
+				else if (brokenEvent.get(indexBY+3).contains("20")) {
+					System.out.println("1");
+					for (int deadlineIndex=indexBY+1; deadlineIndex<=(indexBY+3); deadlineIndex++)
+						deadline += (brokenEvent.get(deadlineIndex) + " ");
+					for (int taskIndex=indexBY+4; taskIndex<brokenEvent.size(); taskIndex++)
+						task_description += (brokenEvent.get(taskIndex) + " ");
+				}
+				else {
+					for (int deadlineIndex=indexBY+1; deadlineIndex<=(indexBY+2); deadlineIndex++)
+						deadline += (brokenEvent.get(deadlineIndex) + " ");
+					for (int taskIndex=indexBY+3; taskIndex<brokenEvent.size(); taskIndex++)
+						task_description += (brokenEvent.get(taskIndex) + " ");
+				}
 			}
 		}
-		else if (!eventInfo.contains("BY") && !eventInfo.contains("ON") && eventInfo.contains("WITH")){
-			String[] breakDown = eventInfo.split(" WITH ", 1);
-
-			task_description = breakDown[0];
-
-			if (breakDown[1].equals("IMPORTANCE"))
-				importance = breakDown[1];
+		else {
+			for (int index=0; index<brokenEvent.size()-1; index++)
+				if (!brokenEvent.get(index).equals("ADD"))
+					deadline += brokenEvent.get(index);
 		}
 
-		else 
-			task_description = eventInfo;
+		if (deadline != null && !deadline.contains("/")) {
+			if (deadline.contains("-"))
+				deadline = deadline.replace("-", "/");
+
+			else {
+				String[] date = deadline.split(" ");
+				char[] furtherBreakdown = date[1].toCharArray();
+				
+				if (furtherBreakdown.length <= 2 && (date[1].contains("0") || date[1].contains("1"))) {
+					if (date.length == 2) {
+					deadline = date[0] + "/" + date[1];
+					}
+					else
+						deadline = date[0] + "/" + date[1] + "/" + date[2];
+				}
+
+				else {
+					if (date[0].trim().length() < date[1].trim().length()) {
+
+						String switchDateNMonth = date[1];
+
+						date[1] = date[0];
+
+						date[0] = switchDateNMonth;
+					}
+
+					String month = date[0].toLowerCase();
+					deadline = "";
+
+					if (month.equals("january"))
+						month = "01";
+					else if (month.equals("february"))
+						month = "02";
+					else if (month.equals("march"))
+						month = "03";
+					else if (month.equals("april"))
+						month = "04";
+					else if (month.equals("may"))
+						month = "05";
+					else if (month.equals("june"))
+						month = "06";
+					else if (month.equals("july"))
+						month = "07";
+					else if (month.equals("august"))
+						month = "08";
+					else if (month.equals("september"))
+						month = "09";
+					else if (month.equals("october"))
+						month = "10";
+					else if (month.equals("november"))
+						month = "11";
+					else if (month.equals("december"))
+						month = "12";
+
+					String day = date[1];
+					char[] count = day.toCharArray();
+
+					if (count.length == 3) 
+						day = "0" + day.substring(0, 1);
+					else if (count.length == 4)
+						day = day.substring(0, 2);
+
+					deadline = day + "/" + month;
+				}
+			}
+		}
 
 		ArrayList<String> information = new ArrayList<String>();
 
-		information.add(task_description);
+		information.add(task_description.replace("IMPORTANT", "").trim());
 		//Add specific task description.
-		information.add(importance);
-		information.add(deadline);
+		if (importance != null)
+			information.add(importance);
+		else
+			information.add("");
+		information.add(deadline.trim());
 		information.add("");
-
 		return information;
 	}
 
-	/* public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
@@ -144,5 +207,5 @@ public class ParserAPI {
 
 		System.out.println(parseInformation(in));
 
-	}  */
+	} */
 }
