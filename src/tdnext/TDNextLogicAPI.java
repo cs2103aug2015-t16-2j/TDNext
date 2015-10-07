@@ -1,11 +1,10 @@
 package tdnext;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TDNextLogicAPI {
 	
-	private TDNext _first = new TDNext();
+	private TDNext _first;
 	
 	public enum ColourType {
 		RED, WHITE, GREEN, YELLOW
@@ -17,6 +16,7 @@ public class TDNextLogicAPI {
 	}
 	
 	public TDNextLogicAPI(){
+		_first = new TDNext();
 	}
 	
 	// This method receives a string which is the command.
