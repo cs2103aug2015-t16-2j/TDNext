@@ -250,12 +250,12 @@ public class ParserAPI {
     }
     //For testing purposes.
 	
-	 public static void main(String[] args) {
+	/* public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
 		System.out.println(parseInformation(in));
-	 }
+	 } */
 }
