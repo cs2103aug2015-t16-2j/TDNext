@@ -117,9 +117,9 @@ class NameComparator implements Comparator<Task> {
 class PriorityComparator implements Comparator<Task> {
 	@Override
 	public int compare(Task task1, Task task2) {
-		if(task1.getPriorityIndex() > task2.getPriorityIndex()) {
+		if(task1.getPriorityIndex() < task2.getPriorityIndex()) {
 			return 1;
-		} else if (task1.getPriorityIndex() < task2.getPriorityIndex()) {
+		} else if (task1.getPriorityIndex() > task2.getPriorityIndex()) {
 			return -1;
 		} else {
 			return 0;
