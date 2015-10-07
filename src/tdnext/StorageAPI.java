@@ -75,7 +75,7 @@ public class StorageAPI {
 	}
 	
 	//API method to update tasks, either change value or mark as done
-	public static void updateTask(String newVal, String orig) throws IOException{
+	public static void editToFile(String newVal, String orig) throws IOException{
 		int index = findIndex(data,orig);
 		updateTextFile(data,index,newVal);
 	}
