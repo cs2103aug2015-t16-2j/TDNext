@@ -64,7 +64,7 @@ public class TDNextLogicAPI {
 	// This method runs at the start of the program and 
 	// returns an array of events
 	public ArrayList<Task> startProgram() {
-		ArrayList<Task> output;
+		ArrayList<Task> output = new ArrayList<Task>();
 		try {
 			output = first.startProgram();
 		} catch (IOException e) {
