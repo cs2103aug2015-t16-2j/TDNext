@@ -134,7 +134,7 @@ public class ParserAPI {
 				}
 
 				else {
-					if (date[0].trim().length() < date[1].trim().length()) {
+					if ((date[0].trim().length() < date[1].trim().length()) && (checkInteger(date[0]))) {
 
 						String switchDateNMonth = date[1];
 
@@ -227,15 +227,35 @@ public class ParserAPI {
 		return 0;
 	}
 	
-
+    private static Boolean checkInteger(String date) {
+    	if (date.contains("0"))
+    		return true;
+    	else if (date.contains("1"))
+    		return true;
+    	else if (date.contains("2"))
+    		return true;
+    	else if (date.contains("3"))
+    		return true;
+    	else if (date.contains("4"))
+    		return true;
+    	else if (date.contains("5"))
+    		return true;
+    	else if (date.contains("6"))
+    		return true;
+    	else if (date.contains("7"))
+    		return true;
+    	else if (date.contains("8"))
+    		return true;
+    	return date.contains("9");
+    }
     //For testing purposes.
 	
-	 /* public static void main(String[] args) {
+	 public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
 		System.out.println(parseInformation(in));
-	 } */
+	 }
 }
