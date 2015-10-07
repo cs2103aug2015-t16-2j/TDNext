@@ -46,17 +46,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.SwingWorker;
+
 public class UI extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
+	private static ArrayList<Task> parsedInfo;	
 	
-	private static String input;
-	private static ArrayList<Task> parsedInfo;
-	private static boolean refresh= true;
-	
-
 	//Functions added by Maple
 	private static String getInput(JTextField textInput){
 		return textInput.getText();
@@ -64,7 +62,8 @@ public class UI extends JFrame {
 	
 	private static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
-		ArrayList<String> list = new ArrayList<String>();
+		TDNextLogicAPI logic1 = new TDNextLogicAPI();
+		output = logic1.executeCommand(input);
 		parsedInfo = output;
 	}
 	
@@ -89,22 +88,22 @@ public class UI extends JFrame {
 	//
 	}*/
 	
-	private static void updateArea(final JTextArea textArea){
-		while(true){
-			if(refresh){
-		textArea.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				textArea.setText(getDisplay(parsedInfo));
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
-		}
-			refresh=false;
-		}
-	}
+//	private static void updateArea(final JTextArea textArea){
+//		while(true){
+//			if(refresh){
+//		textArea.addAncestorListener(new AncestorListener() {
+//			public void ancestorAdded(AncestorEvent event) {
+//				textArea.setText(getDisplay(parsedInfo));
+//			}
+//			public void ancestorMoved(AncestorEvent event) {
+//			}
+//			public void ancestorRemoved(AncestorEvent event) {
+//			}
+//		});
+//		}
+//			refresh=false;
+//		}
+//	}
 	
 	
 	//End of functions added by Maple
@@ -123,7 +122,6 @@ public class UI extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				updateArea(textArea);
 			}
 		});
 	}
@@ -150,9 +148,10 @@ public class UI extends JFrame {
 		JButton btnHelp = new JButton("HELP");
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String message = "This is the help section. Please see below for more information:"
-						+"\n\n"
-						+ "Create-\n"
+				String message = 
+"This is the help section. Please see below for more information:"
++"\n\n"
++ "Create-\n"
 +"To create a task with deadline, use this command:\n"
 +"	ADD <task description> BY <deadline> WITH <importance>\n"
 +"To create an event with a set date and/or time, use this command:\n"
@@ -199,7 +198,6 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			passInput(getInput(textInput));
 			clearInput(textInput);
-			refresh=true;
 		}
 	});
 		textInput.setBounds(4, 265, 404, 28);
@@ -215,7 +213,6 @@ public class UI extends JFrame {
 		
 		
 		textArea = new JTextArea();
-		//updateArea(textArea);
 		textArea.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				textArea.setText(getDisplay(parsedInfo));
@@ -242,7 +239,6 @@ public class UI extends JFrame {
 				//JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput(getInput(textInput));
 				clearInput(textInput);
-				refresh=true;
 			}
 		});
 		btnEnter.setBounds(407, 266, 100, 29);
@@ -255,7 +251,6 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT DEFAULT");
-				refresh=true;
 			}
 			
 		});
@@ -269,7 +264,6 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT priority");
-				refresh=true;
 			}
 		});
 		btnPriority.setBounds(410, 175, 97, 29);
@@ -282,7 +276,6 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT urgency");
-				refresh=true;
 			}
 		});
 		btnUrgency.setBounds(410, 143, 97, 29);
@@ -293,8 +286,9 @@ public class UI extends JFrame {
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			JOptionPane.showInputDialog("Enter keyword:");
-			refresh=true;
+				String keyword;
+			keyword = JOptionPane.showInputDialog("Enter keyword:");
+			passInput(keyword);
 			}
 		});
 		
