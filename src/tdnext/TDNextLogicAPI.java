@@ -1,8 +1,11 @@
 package tdnext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TDNextLogicAPI {
+	
+	private TDNext first;
 	
 	public enum ColourType {
 		RED, WHITE, GREEN, YELLOW
@@ -14,12 +17,12 @@ public class TDNextLogicAPI {
 	}
 	
 	public TDNextLogicAPI(){
+		TDNext first = new TDNext();
 	}
 	
 	// This method receives a string which is the command.
 	// Returns an array of Task objects
 	public ArrayList<Task> executeCommand(String input) {
-		TDNext first = new TDNext();
 		ArrayList<Task> output = first.executeCommand(input);
 		
 		/*ArrayList<Task> output = new ArrayList<Task>();
@@ -61,7 +64,15 @@ public class TDNextLogicAPI {
 	// This method runs at the start of the program and 
 	// returns an array of events
 	public ArrayList<Task> startProgram() {
-		ArrayList<Task> output = new ArrayList<Task>();
+		ArrayList<Task> output;
+		try {
+			output = first.startProgram();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*ArrayList<Task> output = new ArrayList<Task>();
 		ArrayList<String> list = new ArrayList<String>();
 		
 		list.add("IMPORTANT and 1 DAY TO DEADLINE");
@@ -92,7 +103,7 @@ public class TDNextLogicAPI {
 		list.add("Not Important and NO DEADLINE");
 		list.add("");
 		list.add("");
-		output.add(new Task(list));
+		output.add(new Task(list));*/
 		
 		return output;
 	}
