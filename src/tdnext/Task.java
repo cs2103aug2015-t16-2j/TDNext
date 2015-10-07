@@ -60,11 +60,9 @@ public class Task {
 	@Override
 	public String toString() {
 		if(!_done) {
-			return _description + (_deadline.isValid() ? " BY " + _deadline : "")
-					+ " " + ((_importance)? "IMPORTANT" : "");
+			return _description;
 		} else {
-			return "(x) " + _description + (_deadline.isValid() ?  " BY " + _deadline : "")
-						+ " " + ((_importance)? "IMPORTANT" : "");
+			return "(x) " + _description;
 		}
 	}
 	
