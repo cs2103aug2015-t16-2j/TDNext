@@ -9,7 +9,8 @@ public class TDNextLogicAPI {
 	}
 	
 	public enum CommandType {
-		ADD, DONE, DELETE, EDIT, CLEAR, SEARCH, SORT, EXIT
+		ADD, DONE, DELETE, EDIT, CLEAR, SEARCH, SORT_DEFAULT, SORT_BY_NAME, 
+		SORT_BY_DEADLINE, UNDO, EXIT
 	}
 	
 	public TDNextLogicAPI(){
@@ -18,10 +19,10 @@ public class TDNextLogicAPI {
 	// This method receives a string which is the command.
 	// Returns an array of Task objects
 	public ArrayList<Task> executeCommand(String input) {
-		//TDNext first = new TDNext();
-		//ArrayList<Task> output = first.executeCommand(input);
+		TDNext first = new TDNext();
+		ArrayList<Task> output = first.executeCommand(input);
 		
-		ArrayList<Task> output = new ArrayList<Task>();
+		/*ArrayList<Task> output = new ArrayList<Task>();
 		ArrayList<String> list = new ArrayList<String>();
 		
 		list.add("IMPORTANT and 1 DAY TO DEADLINE");
@@ -52,7 +53,7 @@ public class TDNextLogicAPI {
 		list.add("Not Important and NO DEADLINE");
 		list.add("");
 		list.add("");
-		output.add(new Task(list));
+		output.add(new Task(list));*/
 		
 		return output;
 	}
