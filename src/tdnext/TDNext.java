@@ -106,6 +106,8 @@ public class TDNext {
 			
 			case DONE :
 				undoMarkAsDone();
+		default:
+			break;
 		}
 	}
 
@@ -115,7 +117,12 @@ public class TDNext {
 		String oldDesc = currTask.getDescription();
 		currTask.markAsUndone();
 		String newDesc = currTask.getDescription();
-		StorageAPI.editToFile(oldDesc, newDesc);
+		try {
+			StorageAPI.editToFile(oldDesc, newDesc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void undoClear() {
@@ -155,7 +162,12 @@ public class TDNext {
 		String oldDesc = currTask.getDescription();
 		currTask.markAsDone();
 		String newDesc = currTask.getDescription();
-		StorageAPI.editToFile(oldDesc, newDesc);
+		try {
+			StorageAPI.editToFile(oldDesc, newDesc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void sortName() {
