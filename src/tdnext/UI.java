@@ -74,7 +74,7 @@ public class UI extends JFrame {
 	private static String getDisplay(ArrayList<Task> parsedInfo){
 		String output = new String();
 		for (int i = 0; i < parsedInfo.size(); i++ ){
-			output = output + parsedInfo.get(i).toString() + "\n";
+			output = output + parsedInfo.get(i).toString();
 		}
 		
 		return output;
