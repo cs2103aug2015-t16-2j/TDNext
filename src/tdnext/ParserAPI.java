@@ -26,7 +26,7 @@ public class ParserAPI {
 	public static int parseIndex(String input) {
 		String[] breakdownString = input.split(" ");
 		
-		return Integer.parseInt(breakdownString[breakdownString.length-1]);
+		return Integer.parseInt(breakdownString[1]);
 	}
 	
 	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
@@ -53,6 +53,11 @@ public class ParserAPI {
 		for (int i=0; i<=tempEvent.length-1; i++)
 			if (!tempEvent[i].equals("WITH"))
 				brokenEvent.add(tempEvent[i]);
+		
+		if (!eventInfo.contains("ADD")) {
+			eventInfo.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
+			copy = input.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
+		}
 		
 		if (eventInfo.contains("BY") || eventInfo.contains("ON")) {
 			int indexBY = getIndexBY(brokenEvent);
@@ -182,9 +187,12 @@ public class ParserAPI {
 		ArrayList<String> information = new ArrayList<String>();
 
 		information.add((copy.replace("IMPORTANT", "").replace("ADD", "").trim()));
+		
 		//Add specific task description.
-		if (importance != null)
+		if (importance != null) {
 			information.add(importance);
+			information.set(0, information.get(0) + " IMPORTANT");
+		}
 		else
 			information.add("");
 		information.add(deadline.trim());
@@ -222,12 +230,12 @@ public class ParserAPI {
 
     //For testing purposes.
 	
-	 public static void main(String[] args) {
+	 /* public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("Input: ");
 		String in = input.nextLine();
 
 		System.out.println(parseInformation(in));
-	 }
+	 } */
 }
