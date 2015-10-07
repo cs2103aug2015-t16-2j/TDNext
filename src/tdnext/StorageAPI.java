@@ -35,8 +35,6 @@ public class StorageAPI {
 		FileWriter writer = new FileWriter(outputName,true);	
 		writer.write(newTask + System.getProperty( "line.separator" ));
 		writer.close();
-		
-		System.out.println(newTask +" added to: " + outputName);
 	}
 	
 	//API method to undo add command
@@ -53,7 +51,6 @@ public class StorageAPI {
 			return data;
 		}
 		else {
-			System.out.println("File does not exist yet. New file created.");
 			return new ArrayList<String>();
 		}
 	}
@@ -70,7 +67,6 @@ public class StorageAPI {
 			data.add(line);
 		}
 		reader.close();
-		System.out.println("All data from file fetched into data.");
 		return data;
 	}
 	
@@ -92,7 +88,6 @@ public class StorageAPI {
 	private static int findIndex(ArrayList<String> list,String term){
 		
 		if(list.contains(term)){
-			System.out.println("found " +term + "at: " + list.indexOf(term));
 			return list.indexOf(term);
 		}
 		//Return -1 if not found
@@ -111,7 +106,6 @@ public class StorageAPI {
 		PrintWriter writer = new PrintWriter(f);
 		writer.print("");
 		writer.close();
-		System.out.println(outputName + " cleared.");
 	}
 	
 	//API method to undo a clear command. data arrayList is re-populated and temp is cleared
@@ -124,7 +118,7 @@ public class StorageAPI {
 	}
 
 	//API method to delete a task from text file
-	public static void deleteTask(String task) throws IOException{
+	public static void deleteFromFile(String task) throws IOException{
 		data.remove(task);
 		tempDel.add(task);
 		syncFile(data);
