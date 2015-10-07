@@ -13,7 +13,7 @@ public class TDNextLogicAPI {
 	
 	public enum CommandType {
 		ADD, DONE, DELETE, EDIT, CLEAR, SEARCH, SORT_DEFAULT, SORT_BY_NAME, 
-		SORT_BY_DEADLINE, UNDO, EXIT
+		SORT_BY_DEADLINE, UNDO, EXIT, INVALID
 	}
 	
 	public TDNextLogicAPI(){
