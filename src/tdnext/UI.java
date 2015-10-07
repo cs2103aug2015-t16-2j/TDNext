@@ -46,7 +46,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Test3 extends JFrame {
+public class UI extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField textInput;
@@ -149,7 +149,7 @@ public class Test3 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Test3 frame = new Test3();
+					UI frame = new UI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -161,7 +161,7 @@ public class Test3 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Test3() {
+	public UI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 555, 370);
 		contentPane = new JPanel();
