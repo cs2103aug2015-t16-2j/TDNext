@@ -72,8 +72,14 @@ public class TDNext {
 		}
 	}
 	
-	public ArrayList<Task> startProgram() throws IOException {
-		ArrayList<String> allFileInfo = StorageAPI.getFromFile();
+	public ArrayList<Task> startProgram() {
+		ArrayList<String> allFileInfo = new ArrayList<String>();
+		try {
+			allFileInfo = StorageAPI.getFromFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(int i = 0; i < allFileInfo.size(); i++) {
 			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
 			_listTask.add(new Task(information));
@@ -133,9 +139,14 @@ public class TDNext {
 	private void editTask(String input) {	
 	}
 
-	private void clearAll() throws IOException {
+	private void clearAll(){
 		_listTask.clear();
-		StorageAPI.clearFile();		
+		try {
+			StorageAPI.clearFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	private void markTaskAsDone(String input) {

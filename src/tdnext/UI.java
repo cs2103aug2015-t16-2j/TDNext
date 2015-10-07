@@ -50,7 +50,7 @@ public class UI extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField textInput;
-	private JTextArea textArea;
+	private static JTextArea textArea;
 	
 	private static String input;
 	private static ArrayList<Task> parsedInfo;
@@ -65,37 +65,6 @@ public class UI extends JFrame {
 	private static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		ArrayList<String> list = new ArrayList<String>();
-		
-		list.add("IMPORTANT and 1 DAY TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("28/09/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 1 DAY TO DEADLINE");
-		list.add("");
-		list.add("28/09");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and 14 DAYS TO DEADLINE");
-		list.add("");
-		list.add("11/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and NO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("");
-		output.add(new Task(list));
-		list.clear();
-		list.add("IMPORTANT and 15 DAYS TO DEADLINE");
-		list.add("IMPORTANT");
-		list.add("12/10/15");
-		output.add(new Task(list));
-		list.clear();
-		list.add("Not Important and NO DEADLINE");
-		list.add("");
-		list.add("");
-		output.add(new Task(list));
-		
 		parsedInfo = output;
 	}
 	
@@ -154,6 +123,7 @@ public class UI extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				updateArea(textArea);
 			}
 		});
 	}
