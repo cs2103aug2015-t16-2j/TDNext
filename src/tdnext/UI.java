@@ -50,10 +50,20 @@ import javax.swing.SwingWorker;
 
 public class UI extends JFrame {
 
+	public static class RThread implements Runnable {
+	    public void run() {
+	    	System.out.println("before updateArea");
+	        updateArea(textArea);
+	        System.out.println("after updateArea");
+	    }
+	}
+	
+	
 	private JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
 	private static ArrayList<Task> parsedInfo;	
+	private static boolean refresh;
 	
 	//Functions added by Maple
 	private static String getInput(JTextField textInput){
@@ -73,10 +83,10 @@ public class UI extends JFrame {
 	
 	private static String getDisplay(ArrayList<Task> parsedInfo){
 		String output = new String();
+		//output = "test String";
 		for (int i = 0; i < parsedInfo.size(); i++ ){
-			output = output + parsedInfo.get(i).toString();
+			output = output + parsedInfo.get(i).toString() +"\n";
 		}
-		
 		return output;
 	}
 	
@@ -88,23 +98,15 @@ public class UI extends JFrame {
 	//
 	}*/
 	
-/*	private static void updateArea(final JTextArea textArea){
+	private static void updateArea(JTextArea textArea){
 		while(true){
 			if(refresh){
-		textArea.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				textArea.setText(getDisplay(parsedInfo));
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
+		textArea.update(textArea.getGraphics());
 		}
 			refresh=false;
 		}
 	}
-*/	
+	
 	
 	//End of functions added by Maple
 
@@ -114,6 +116,10 @@ public class UI extends JFrame {
 	public static void main(String[] args) {
 		TDNextLogicAPI logic1 = new TDNextLogicAPI();
 		parsedInfo = logic1.startProgram();
+		
+		Thread dynamicRefresh = new Thread(new RThread());
+		dynamicRefresh.start();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -198,8 +204,10 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			passInput(getInput(textInput));
 			clearInput(textInput);
+			refresh=true;
 		}
 	});
+		
 		textInput.setBounds(4, 265, 404, 28);
 		textInput.setFont(new Font("Bookman Old Style", Font.PLAIN, 13));
 		panel.add(textInput);
@@ -216,6 +224,7 @@ public class UI extends JFrame {
 		textArea.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				textArea.setText(getDisplay(parsedInfo));
+				refresh=true;
 			}
 			public void ancestorMoved(AncestorEvent event) {
 			}
@@ -239,6 +248,7 @@ public class UI extends JFrame {
 				//JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput(getInput(textInput));
 				clearInput(textInput);
+				refresh=true;
 			}
 		});
 		btnEnter.setBounds(407, 266, 100, 29);
@@ -251,6 +261,7 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT DEFAULT");
+				refresh=true;
 			}
 			
 		});
@@ -264,6 +275,7 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT BY DEADLINE");
+				refresh=true;
 			}
 		});
 		btnDeadline.setBounds(410, 175, 97, 29);
@@ -276,6 +288,7 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT BY NAME");
+				refresh=true;
 			}
 		});
 		btnName.setBounds(410, 143, 97, 29);
@@ -289,6 +302,7 @@ public class UI extends JFrame {
 				String keyword;
 			keyword = JOptionPane.showInputDialog("Enter keyword:");
 			passInput("SEARCH "+ keyword);
+			refresh=true;
 			}
 		});
 		
