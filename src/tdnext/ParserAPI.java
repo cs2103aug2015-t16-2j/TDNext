@@ -31,6 +31,7 @@ public class ParserAPI {
 	
 	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
 	public static ArrayList<String> parseInformation(String input) {
+		String copy = input;
 		String eventInfo = input;
 		String task_description = "";
 		String deadline = "";
@@ -44,8 +45,6 @@ public class ParserAPI {
 		}
 		if (eventInfo.contains("WITH "))
 			eventInfo.replace("WITH ", "");
-		else
-			eventInfo.replace("WITH", "");
 		
 		String[] tempEvent = eventInfo.split(" ");
 		
@@ -96,8 +95,8 @@ public class ParserAPI {
 		else if (!(eventInfo.contains("BY") && !eventInfo.contains("ON"))) {
 			ArrayList<String> toReturn = new ArrayList<String> ();
 			
-			toReturn.add(eventInfo.replace("ADD","").trim());
-			if (eventInfo.contains("IMPORTANT"))
+			toReturn.add(copy.replace("ADD","").trim());
+			if (copy.contains("IMPORTANT"))
 				toReturn.add("IMPORTANT");
 			else
 				toReturn.add("");
@@ -182,7 +181,7 @@ public class ParserAPI {
 
 		ArrayList<String> information = new ArrayList<String>();
 
-		information.add(task_description.replace("IMPORTANT", "").trim());
+		information.add((copy.replace("IMPORTANT", "").replace("ADD", "").trim()));
 		//Add specific task description.
 		if (importance != null)
 			information.add(importance);
@@ -231,5 +230,4 @@ public class ParserAPI {
 
 		System.out.println(parseInformation(in));
 	 }
-  
 }
