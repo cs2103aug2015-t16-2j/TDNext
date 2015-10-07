@@ -1,6 +1,8 @@
 package tdnext;
 import java.util.*;
 
+import tdnext.TDNextLogicAPI.CommandType;
+
 public class ParserAPI {
 
 	public enum COMMAND_TYPE {
@@ -10,22 +12,20 @@ public class ParserAPI {
 	}
 
 	//Returns command word from user input.
-	public static COMMAND_TYPE parseCommand(String input) {
+	public static CommandType parseCommand(String input) {
 		if (input.contains("ADD"))
-			return COMMAND_TYPE.ADD;
-		else if (input.contains("SORT"))
-			return COMMAND_TYPE.SORT;
+			return CommandType.ADD;
+		/*else if (input.contains("SORT"))
+			return CommandType.SORT;*/
 		else if (input.contains("DELETE"))
-			return COMMAND_TYPE.DELETE;
+			return CommandType.DELETE;
 		else if (input.contains("CHANGE"))
-			return COMMAND_TYPE.CHANGE;
+			return CommandType.EDIT;
 		else if (input.contains("SEARCH"))
-			return COMMAND_TYPE.SEARCH;
+			return CommandType.SEARCH;
 		else if (input.contains("EXIT"))
-			return COMMAND_TYPE.EXIT;
-		else if (input.contains("DISPLAY"))
-			return COMMAND_TYPE.DISPLAY;
-		return COMMAND_TYPE.INVALID;
+			return CommandType.EXIT;
+		return CommandType.INVALID;
 	}
 
 	
