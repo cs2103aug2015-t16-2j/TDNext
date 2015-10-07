@@ -88,23 +88,23 @@ public class UI extends JFrame {
 	//
 	}*/
 	
-//	private static void updateArea(final JTextArea textArea){
-//		while(true){
-//			if(refresh){
-//		textArea.addAncestorListener(new AncestorListener() {
-//			public void ancestorAdded(AncestorEvent event) {
-//				textArea.setText(getDisplay(parsedInfo));
-//			}
-//			public void ancestorMoved(AncestorEvent event) {
-//			}
-//			public void ancestorRemoved(AncestorEvent event) {
-//			}
-//		});
-//		}
-//			refresh=false;
-//		}
-//	}
-	
+/*	private static void updateArea(final JTextArea textArea){
+		while(true){
+			if(refresh){
+		textArea.addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent event) {
+				textArea.setText(getDisplay(parsedInfo));
+			}
+			public void ancestorMoved(AncestorEvent event) {
+			}
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+		});
+		}
+			refresh=false;
+		}
+	}
+*/	
 	
 	//End of functions added by Maple
 
@@ -259,41 +259,45 @@ public class UI extends JFrame {
 		btnDefault.setForeground(new Color(0, 0, 153));
 		panel.add(btnDefault);
 		
-		JButton btnPriority = new JButton("PRIORITY");
-		btnPriority.addActionListener(new ActionListener() {
+		JButton btnDeadline = new JButton("DEADLINE");
+		btnDeadline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT priority");
+				passInput("SORT BY DEADLINE");
 			}
 		});
-		btnPriority.setBounds(410, 175, 97, 29);
-		btnPriority.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
-		btnPriority.setForeground(new Color(255, 153, 0));
-		panel.add(btnPriority);
+		btnDeadline.setBounds(410, 175, 97, 29);
+		btnDeadline.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
+		btnDeadline.setForeground(new Color(255, 153, 0));
+		panel.add(btnDeadline);
 		
-		JButton btnUrgency = new JButton("URGENCY");
-		btnUrgency.addActionListener(new ActionListener() {
+		JButton btnName = new JButton("NAME");
+		btnName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT urgency");
+				passInput("SORT BY NAME");
 			}
 		});
-		btnUrgency.setBounds(410, 143, 97, 29);
-		btnUrgency.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
-		btnUrgency.setForeground(new Color(204, 0, 0));
-		panel.add(btnUrgency);
+		btnName.setBounds(410, 143, 97, 29);
+		btnName.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
+		btnName.setForeground(new Color(204, 0, 0));
+		panel.add(btnName);
 		
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String keyword;
 			keyword = JOptionPane.showInputDialog("Enter keyword:");
-			passInput(keyword);
+			passInput("SEARCH "+ keyword);
 			}
 		});
 		
-		btnSearch.setBounds(410, 114, 97, 29);
+		btnSearch.setBounds(410, 60, 97, 29);
 		btnSearch.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
 		panel.add(btnSearch);
+		
+		JLabel lblSortBy = new JLabel("Sort by:");
+		lblSortBy.setBounds(420, 125, 61, 16);
+		panel.add(lblSortBy);
 	}
 }
