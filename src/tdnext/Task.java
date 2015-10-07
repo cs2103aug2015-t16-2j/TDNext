@@ -17,9 +17,8 @@ public class Task {
 	
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
-	public Task(ArrayList<String> information) throws IllegalArgumentException {
+	public Task(ArrayList<String> information) {
 		_description = information.get(0);
-		//_type = information.get(1);
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
 		}
