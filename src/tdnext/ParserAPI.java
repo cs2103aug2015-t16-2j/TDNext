@@ -23,7 +23,7 @@ public class ParserAPI {
     
 	
 	//Find the index of the task which will be edited.
-	private static int parseIndex(String input) {
+	public static int parseIndex(String input) {
 		String[] breakdownString = input.split(" ");
 		
 		return Integer.parseInt(breakdownString[breakdownString.length-1]);
