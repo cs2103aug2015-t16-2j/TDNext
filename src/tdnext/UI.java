@@ -62,11 +62,11 @@ public class UI extends JFrame {
 	*/
 	
 	private JPanel contentPane;
-	private static JTextField textInput;
 	//private static JTextArea textArea;
 	//private static ArrayList<Task> parsedInfo;	
 	private static boolean refresh;
 	
+		static JTextField textInput = new JTextField();
 		static JTextArea textArea = new JTextArea();
 		static ArrayList<Task> parsedInfo = new ArrayList<Task>();
 		static TDNextLogicAPI logic1 = new TDNextLogicAPI();
@@ -76,24 +76,22 @@ public class UI extends JFrame {
 		return textInput.getText();
 	}
 	
-	private static void passInput(String input){
-		parsedInfo = logic1.executeCommand(input);
+/*	private static void passInput(String input){
+		
 	}
+	*/
 	
 	private static void clearInput(JTextField textInput){
 		textInput.setText(" ");
 	}
 	
-	private static String getDisplay(ArrayList<Task> parsedInfo){
+	private static String getDisplay(String input){
 		String output = new String();
-		//output = "test String";
-/*		for(int i =0; i<10; i++){
-			output = "test String" + (i+1) + "\n";
-		}
-		*/
+		parsedInfo = logic1.executeCommand(input);
 		for (int i = 0; i < parsedInfo.size(); i++ ){
 			output = output + parsedInfo.get(i).toString() +"\n";
 		}
+		System.out.println(output);
 		return output;
 	}
 	
@@ -106,7 +104,7 @@ public class UI extends JFrame {
 	}*/
 	
 	private static void updateArea(){
-			textArea.setText(getDisplay(parsedInfo));
+			textArea.setText(getDisplay(getInput(textInput)));
 	}
 	
 	//End of functions added by Maple
@@ -204,10 +202,9 @@ public class UI extends JFrame {
 		btnHelp.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
 		panel.add(btnHelp);
 		
-		textInput = new JTextField();
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			passInput(getInput(textInput));
+			getDisplay(getInput(textInput));
 			clearInput(textInput);
 			refresh=true;
 		}
@@ -223,9 +220,6 @@ public class UI extends JFrame {
 		scrollPane.setBounds(6, 6, 402, 232);
 		panel.add(scrollPane);
 		
-		
-		
-		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
@@ -241,7 +235,7 @@ public class UI extends JFrame {
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput(getInput(textInput));
+				getDisplay(getInput(textInput));
 				clearInput(textInput);
 				refresh=true;
 			}
@@ -255,7 +249,7 @@ public class UI extends JFrame {
 		btnDefault.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT DEFAULT");
+				getDisplay("SORT DEFAULT");
 				refresh=true;
 			}
 			
@@ -269,7 +263,7 @@ public class UI extends JFrame {
 		btnDeadline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT BY DEADLINE");
+				getDisplay("SORT BY DEADLINE");
 				refresh=true;
 			}
 		});
@@ -282,7 +276,7 @@ public class UI extends JFrame {
 		btnName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT BY NAME");
+				getDisplay("SORT BY NAME");
 				refresh=true;
 			}
 		});
@@ -296,7 +290,7 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String keyword;
 			keyword = JOptionPane.showInputDialog("Enter keyword:");
-			passInput("SEARCH "+ keyword);
+			getDisplay("SEARCH "+ keyword);
 			refresh=true;
 			}
 		});
