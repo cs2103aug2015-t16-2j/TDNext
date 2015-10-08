@@ -36,6 +36,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import java.awt.GridLayout;
+import java.awt.List;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -50,43 +51,47 @@ import javax.swing.SwingWorker;
 
 public class UI extends JFrame {
 
-	public static class RThread implements Runnable {
+/*	public static class RThread implements Runnable {
 	    public void run() {
 	    	System.out.println("before updateArea");
 	        updateArea(textArea);
 	        System.out.println("after updateArea");
 	    }
 	}
-	
+	Runnable Thread
+	*/
 	
 	private JPanel contentPane;
-	private static JTextField textInput;
-	private static JTextArea textArea;
-	private static ArrayList<Task> parsedInfo;	
+	//private static JTextArea textArea;
+	//private static ArrayList<Task> parsedInfo;	
 	private static boolean refresh;
 	
+		static JTextField textInput = new JTextField();
+		static JTextArea textArea = new JTextArea();
+		static ArrayList<Task> parsedInfo = new ArrayList<Task>();
+		static TDNextLogicAPI logic1 = new TDNextLogicAPI();
+		
 	//Functions added by Maple
 	private static String getInput(JTextField textInput){
 		return textInput.getText();
 	}
 	
-	private static void passInput(String input){
-		ArrayList<Task> output = new ArrayList<Task>();
-		TDNextLogicAPI logic1 = new TDNextLogicAPI();
-		output = logic1.executeCommand(input);
-		parsedInfo = output;
+/*	private static void passInput(String input){
+		
 	}
+	*/
 	
 	private static void clearInput(JTextField textInput){
 		textInput.setText(" ");
 	}
 	
-	private static String getDisplay(ArrayList<Task> parsedInfo){
+	private static String getDisplay(String input){
 		String output = new String();
-		//output = "test String";
+		parsedInfo = logic1.executeCommand(input);
 		for (int i = 0; i < parsedInfo.size(); i++ ){
 			output = output + parsedInfo.get(i).toString() +"\n";
 		}
+		System.out.println(output);
 		return output;
 	}
 	
@@ -98,15 +103,9 @@ public class UI extends JFrame {
 	//
 	}*/
 	
-	private static void updateArea(JTextArea textArea){
-		while(true){
-			if(refresh){
-		textArea.update(textArea.getGraphics());
-		}
-			refresh=false;
-		}
+	private static void updateArea(){
+			textArea.setText(getDisplay(getInput(textInput)));
 	}
-	
 	
 	//End of functions added by Maple
 
@@ -114,12 +113,11 @@ public class UI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		TDNextLogicAPI logic1 = new TDNextLogicAPI();
 		parsedInfo = logic1.startProgram();
-		
-		Thread dynamicRefresh = new Thread(new RThread());
-		dynamicRefresh.start();
-		
+
+//		Thread dynamicRefresh = new Thread(new RThread());
+//		dynamicRefresh.start();
+						
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -130,6 +128,11 @@ public class UI extends JFrame {
 				}
 			}
 		});
+		while(true){
+			if(refresh)
+				updateArea();
+			refresh=false;
+		}
 	}
 
 	/**
@@ -199,10 +202,9 @@ public class UI extends JFrame {
 		btnHelp.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
 		panel.add(btnHelp);
 		
-		textInput = new JTextField();
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			passInput(getInput(textInput));
+			getDisplay(getInput(textInput));
 			clearInput(textInput);
 			refresh=true;
 		}
@@ -218,19 +220,6 @@ public class UI extends JFrame {
 		scrollPane.setBounds(6, 6, 402, 232);
 		panel.add(scrollPane);
 		
-		
-		
-		textArea = new JTextArea();
-		textArea.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-				textArea.setText(getDisplay(parsedInfo));
-				refresh=true;
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setFont(new Font("Bookman Old Style", Font.PLAIN, 15));
@@ -246,7 +235,7 @@ public class UI extends JFrame {
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput(getInput(textInput));
+				getDisplay(getInput(textInput));
 				clearInput(textInput);
 				refresh=true;
 			}
@@ -260,7 +249,7 @@ public class UI extends JFrame {
 		btnDefault.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT DEFAULT");
+				getDisplay("SORT DEFAULT");
 				refresh=true;
 			}
 			
@@ -274,7 +263,7 @@ public class UI extends JFrame {
 		btnDeadline.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT BY DEADLINE");
+				getDisplay("SORT BY DEADLINE");
 				refresh=true;
 			}
 		});
@@ -287,7 +276,7 @@ public class UI extends JFrame {
 		btnName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
-				passInput("SORT BY NAME");
+				getDisplay("SORT BY NAME");
 				refresh=true;
 			}
 		});
@@ -301,7 +290,7 @@ public class UI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String keyword;
 			keyword = JOptionPane.showInputDialog("Enter keyword:");
-			passInput("SEARCH "+ keyword);
+			getDisplay("SEARCH "+ keyword);
 			refresh=true;
 			}
 		});
