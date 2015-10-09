@@ -38,6 +38,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import java.awt.GridLayout;
 
 import net.miginfocom.swing.MigLayout;
+import tdnext.TDNextLogicAPI.ColourType;
 
 import javax.swing.SwingConstants;
 
@@ -56,7 +57,15 @@ public class GUI extends JFrame {
 	private static ArrayList<Task> parsedInfo;	
 	private static TDNextLogicAPI logic1; 
 	
-	//Functions added by Maple
+	//Colors used in textArea display
+	private static Color red = new Color(255,102,102);
+	private static Color yellow = new Color(255,153,0);
+	private static Color green = new Color(27, 161, 118);
+	private static Color white = new Color(255,255,255);
+	private static Color fontColor = new Color(123,58,136);
+	
+	
+	//By Maple: Input and display related
 	private static String getInput(JTextField textInput){
 		return textInput.getText();
 	}
@@ -75,18 +84,43 @@ public class GUI extends JFrame {
 		String output = new String();
 		for (int i = 0; i < parsedInfo.size(); i++ ){
 			output = output + parsedInfo.get(i).toString() +"\n";
+			setColor(i);
 		}
 		return output;
 	}
 	
-	/*private static ColourType getColourType(ArrayList<Task> parsedInfo){
-		return parsedInfo.getColour();
+	//By Maple: Color related
+
+	private static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
+		return parsedInfo.get(i).getColour();
 	}
 	
-	private static void setColourIcon(ColourType colour){
-	//
-	}*/
+	private static Color decideColor(ColourType cT){
+		Color c = null;
+		switch(cT){
+		case RED:
+			c= red;
+			break;
+		case WHITE:
+			c= white;
+			break;
+		case GREEN:
+			c= green;
+			break;
+		case YELLOW:
+			c= yellow;
+			break;
+		}	
+		return c;
+	}
 	
+	private static void setColor(int i){
+		ColourType cT = null;
+		Color c = null;
+		cT = getColorType(parsedInfo, i);
+		c = decideColor(cT);
+		textArea.setBackground(c);
+	}
 	
 	//End of functions added by Maple
 
