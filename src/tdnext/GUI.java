@@ -49,19 +49,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingWorker;
 
 public class GUI extends JFrame {
-
-	public static class RThread implements Runnable {
-	    public void run() {
-	        updateArea(textArea);
-	    }
-	}
-	
 	
 	private JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
 	private static ArrayList<Task> parsedInfo;	
-	private static boolean refresh;
 	private static TDNextLogicAPI logic1; 
 	
 	//Functions added by Maple
@@ -81,7 +73,6 @@ public class GUI extends JFrame {
 	
 	private static String getDisplay(ArrayList<Task> parsedInfo){
 		String output = new String();
-		//output = "test String";
 		for (int i = 0; i < parsedInfo.size(); i++ ){
 			output = output + parsedInfo.get(i).toString() +"\n";
 		}
@@ -96,15 +87,6 @@ public class GUI extends JFrame {
 	//
 	}*/
 	
-	private static void updateArea(JTextArea textArea){
-		while(true){
-			if(refresh){
-		textArea.update(textArea.getGraphics());
-		}
-			refresh=false;
-		}
-	}
-	
 	
 	//End of functions added by Maple
 
@@ -114,9 +96,6 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		logic1 = new TDNextLogicAPI();
 		parsedInfo = logic1.startProgram();
-		
-		Thread dynamicRefresh = new Thread(new RThread());
-		dynamicRefresh.start();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -203,7 +182,6 @@ public class GUI extends JFrame {
 			passInput(getInput(textInput));
 			clearInput(textInput);
 			textArea.setText(getDisplay(parsedInfo));
-			refresh=true;
 		}
 	});
 		
@@ -223,7 +201,7 @@ public class GUI extends JFrame {
 		textArea.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				textArea.setText(getDisplay(parsedInfo));
-				refresh=true;
+	
 			}
 			public void ancestorMoved(AncestorEvent event) {
 			}
@@ -248,7 +226,6 @@ public class GUI extends JFrame {
 				passInput(getInput(textInput));
 				clearInput(textInput);
 				textArea.setText(getDisplay(parsedInfo));				
-				refresh=true;
 			}
 		});
 		btnEnter.setBounds(407, 266, 100, 29);
@@ -261,8 +238,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT DEFAULT");
-				refresh=true;
-			}
+		}
 			
 		});
 		btnDefault.setBounds(410, 207, 97, 29);
@@ -275,8 +251,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT BY DEADLINE");
-				refresh=true;
-			}
+		}
 		});
 		btnDeadline.setBounds(410, 175, 97, 29);
 		btnDeadline.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
@@ -288,8 +263,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput("SORT BY NAME");
-				refresh=true;
-			}
+		}
 		});
 		btnName.setBounds(410, 143, 97, 29);
 		btnName.setFont(new Font("Chalkboard SE", Font.PLAIN, 13));
@@ -302,7 +276,7 @@ public class GUI extends JFrame {
 				String keyword;
 			keyword = JOptionPane.showInputDialog("Enter keyword:");
 			passInput("SEARCH "+ keyword);
-			refresh=true;
+		//	refresh=true;
 			}
 		});
 		
