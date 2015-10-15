@@ -1,5 +1,8 @@
 package tdnext;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -9,7 +12,7 @@ public class Task {
 	
 	// Instance attributes
 	private String _description = new String();
-	private Date _deadline = new Date();
+	private LocalDate _deadline;
 	private boolean _importance = false;
 	private int _priorityIndex = 0;
 	private boolean _done = false;
@@ -32,22 +35,14 @@ public class Task {
 	public Task() {
 	}
 
-	private void calculateDeadline(String dateString) throws IllegalArgumentException {
+	private void calculateDeadline(String dateString) throws DateTimeException {
 		String[] dateList = dateString.split("/");
 		int day = Integer.parseInt(dateList[0]);
 		int month = Integer.parseInt(dateList[1]);
-		try {
-			int year = Integer.parseInt(dateList[2]);
-			_deadline.setDate(day, month, year);
-		} catch(ArrayIndexOutOfBoundsException e) {
-			_deadline.setDate(day, month);
-		}
-		
-		if (!_deadline.isValid()) {
-			throw new IllegalArgumentException("Invalid Date");
-		}
+		int year = Integer.parseInt(dateList[2]);
+		_deadline = LocalDate.of(day,month,year);
 	}
-	
+				
 	public void markAsDone() {
 		_done = true;
 	}
@@ -66,8 +61,8 @@ public class Task {
 	}
 	
 	private void calculatePriorityIndex() {		
-		if((!_done) && (_deadline.isValid())) {
-			int difference = _deadline.difference();
+		if(!_done) {
+			int difference = dateDifference();
 			if(_importance) {
 				_priorityIndex = (14 - difference + 1) * 2 + 1;
 			} else {
@@ -88,11 +83,18 @@ public class Task {
 		}
 	}
 	
+	private int dateDifference() {
+		LocalDate day1 = LocalDate.now();
+		LocalDate day2 = _deadline;
+		
+		return (int) ChronoUnit.DAYS.between(day1, day2);
+	}
+	
 	public String getDescription() {
 		return _description;
 	}
 	
-	public Date getDeadline() {
+	public LocalDate getDeadline() {
 		return _deadline;
 	}
 	
@@ -129,11 +131,22 @@ class PriorityComparator implements Comparator<Task> {
 class DateComparator implements Comparator<Task> {
 	@Override
 	public int compare(Task task1, Task task2) {
-		int difference = task1.getDeadline().difference(task2.getDeadline());
-		if(difference > 0) {
+		int task1PriorityIndex = task1.getPriorityIndex();
+		int task2PriorityIndex = task2.getPriorityIndex();
+		if(task1PriorityIndex % 2 == 0) {
+			if(task2PriorityIndex % 2 == 0) {
+				if(task2PriorityIndex > task1PriorityIndex) {
+					return 1;
+				} else if(task1PriorityIndex > task2PriorityIndex) {
+					return -1;
+				} else {
+					return 0;
+				}
+			} else {
+				return -1;
+			}
+		} else if(task2PriorityIndex % 2 == 0){
 			return 1;
-		} else if (difference < 0) {
-			return -1;
 		} else {
 			return 0;
 		}
