@@ -3,6 +3,8 @@ package tdnext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import tdnext.ParserAPI;
 import tdnext.StorageAPI;
@@ -13,7 +15,8 @@ public class Logic {
 	
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private String _lastCommand = new String();
-	private Task _lastTask;
+	private ArrayList<Task> _tempTask;
+	private static Logger _logger = Logger.getLogger("Logic");
 
 	public Logic(){
 	}
@@ -129,6 +132,7 @@ public class Logic {
 	}
 
 	private void clearAll(){
+		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		try {
 			StorageAPI.clearFile();
@@ -152,14 +156,6 @@ public class Logic {
 		}
 	}
 
-	private void sortName() {
-		Collections.sort(_listTask, new NameComparator());
-	}
-
-	private void sortDeadline() {
-		Collections.sort(_listTask, new DateComparator());
-		
-	}
 
 	private void exitProgram() {
 		// TODO Auto-generated method stub
@@ -178,6 +174,8 @@ public class Logic {
 		int index = _listTask.indexOf(newTask);
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "DELETE " + index;
+		_logger.log(Level.INFO, "Task added");
+		
 	}
 	
 	private void deleteTask(String input) {
@@ -191,6 +189,7 @@ public class Logic {
 		}
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
+		_logger.log(Level.INFO, "Task deleted");
 		
 	}
 	
@@ -211,5 +210,17 @@ public class Logic {
 	
 	private void sortDefault() {
 		Collections.sort(_listTask, new PriorityComparator());
+		_logger.log(Level.INFO, "Default sorted");
+	}
+	
+	private void sortName() {
+		Collections.sort(_listTask, new NameComparator());
+		_logger.log(Level.INFO, "Sorted by name");
+	}
+
+	private void sortDeadline() {
+		Collections.sort(_listTask, new DateComparator());
+		_logger.log(Level.INFO, "Sorted by deadline");
+		
 	}
 }
