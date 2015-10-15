@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import TDNextLocal.ParserAPI;
-import TDNextLocal.StorageAPI;
-import TDNextLocal.Task;
+import tdnext.ParserAPI;
+import tdnext.StorageAPI;
+import tdnext.Task;
 import tdnext.TDNextLogicAPI.CommandType;
 
 public class Logic {
@@ -91,27 +91,7 @@ public class Logic {
 		return _listTask;
 	}
 	
-	private void undo() {
-		CommandType command = ParserAPI.parseCommand(_lastCommand);
-		
-		switch(command) {
-			case ADD :  
-				undoAdd();
-				
-			case DELETE : 
-				undoDelete();
-			
-			case EDIT :
-				undoEdit();
-				
-			case CLEAR :
-				undoClear();
-			
-			case DONE :
-				undoMarkAsDone();
-		default:
-			break;
-		}
+	private void undo(){ 
 	}
 
 	private void undoMarkAsDone() {
@@ -126,24 +106,6 @@ public class Logic {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	private void undoClear() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void undoEdit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void undoDelete() {
-		// TODO Auto-generated method stub
-	}
-
-	private void undoAdd() {
-		// TODO Auto-generated method stub
 	}
 
 	private void editTask(String input) {
