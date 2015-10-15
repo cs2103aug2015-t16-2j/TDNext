@@ -32,7 +32,8 @@ public class Task {
 		determineColourType();
 	}
 	
-	public Task() {
+	public Task() throws MissingInformationException {
+		throw new MissingInformationException("All information are missing");
 	}
 
 	private void calculateDeadline(String dateString) throws DateTimeException {
