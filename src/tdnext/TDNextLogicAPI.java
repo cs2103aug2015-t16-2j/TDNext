@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TDNextLogicAPI {
 	
-	private TDNext _first;
+	private Logic _first;
 	
 	public enum ColourType {
 		RED, WHITE, GREEN, YELLOW
@@ -16,7 +16,7 @@ public class TDNextLogicAPI {
 	}
 	
 	public TDNextLogicAPI(){
-		_first = new TDNext();
+		_first = new Logic();
 	}
 	
 	// This method receives a string which is the command.

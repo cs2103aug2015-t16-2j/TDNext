@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import TDNextLocal.ParserAPI;
+import TDNextLocal.StorageAPI;
+import TDNextLocal.Task;
 import tdnext.TDNextLogicAPI.CommandType;
 
-public class TDNext {
+public class Logic {
 	
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private String _lastCommand = new String();
 	private Task _lastTask;
 
-	public TDNext(){
+	public Logic(){
 	}
 	
 	public ArrayList<Task> executeCommand(String input) {
@@ -143,7 +146,20 @@ public class TDNext {
 		// TODO Auto-generated method stub
 	}
 
-	private void editTask(String input) {	
+	private void editTask(String input) {
+		int index = ParserAPI.parseIndex(input);
+		String oldDesc = _listTask.get(index).getDescription();
+		_listTask.remove(index);
+		ArrayList<String> information = ParserAPI.parseInformation(input);
+		Task newTask = new Task(information);
+		_listTask.add(newTask);
+		try {
+			StorageAPI.editToFile(newTask.getDescription(), oldDesc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sortDefault();
 	}
 
 	private void clearAll(){
