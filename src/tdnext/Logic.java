@@ -92,6 +92,7 @@ public class Logic {
 	}
 	
 	private void undo(){ 
+		executeCommand(_lastCommand);
 	}
 
 	private void undoMarkAsDone() {
@@ -122,6 +123,9 @@ public class Logic {
 			e.printStackTrace();
 		}
 		sortDefault();
+		_lastCommand = new String();
+		_lastCommand = _lastCommand + "EDIT " + _listTask.indexOf(newTask) +
+						" " + oldDesc;
 	}
 
 	private void clearAll(){
@@ -170,11 +174,24 @@ public class Logic {
 		} catch (IOException e) {
 		}
 		_listTask.add(newTask);
+		sortDefault();
+		int index = _listTask.indexOf(newTask);
+		_lastCommand = new String();
+		_lastCommand = _lastCommand + "DELETE " + index;
 	}
 	
 	private void deleteTask(String input) {
 		int index = ParserAPI.parseIndex(input);
-		_listTask.remove(index);
+		Task deletedTask = _listTask.remove(index);
+		try {
+			StorageAPI.deleteFromFile(deletedTask.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_lastCommand = new String();
+		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
+		
 	}
 	
 	private ArrayList<Task> searchTask(String input) {
