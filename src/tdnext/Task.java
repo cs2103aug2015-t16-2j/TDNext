@@ -41,7 +41,7 @@ public class Task {
 		int day = Integer.parseInt(dateList[0]);
 		int month = Integer.parseInt(dateList[1]);
 		int year = Integer.parseInt(dateList[2]);
-		_deadline = LocalDate.of(day,month,year);
+		_deadline = LocalDate.of(year,  month,  day);
 	}
 				
 	public void markAsDone() {
