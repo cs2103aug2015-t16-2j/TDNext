@@ -88,7 +88,10 @@ public class Logic {
 		}
 		for(int i = 0; i < allFileInfo.size(); i++) {
 			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
-			_listTask.add(new Task(information));
+			Task currTask = new Task(information);
+			if(!currTask.isDone()) {
+				_listTask.add(currTask);
+			}
 		}
 		
 		return _listTask;
