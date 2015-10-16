@@ -147,7 +147,7 @@ public class Logic {
 
 	private void markTaskAsDone(String input) {
 		int index = ParserAPI.parseIndex(input);
-		Task currTask = _listTask.get(index);
+		Task currTask = _listTask.remove(index);;
 		String oldDesc = currTask.toString();
 		currTask.markAsDone();
 		String newDesc = currTask.toString();
@@ -156,7 +156,7 @@ public class Logic {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 	}
 
 
