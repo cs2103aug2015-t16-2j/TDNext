@@ -46,10 +46,12 @@ public class Task {
 				
 	public void markAsDone() {
 		_done = true;
+		_priorityIndex = 0;
 	}
 	
 	public void markAsUndone() {
 		_done = false;
+		calculatePriorityIndex();
 	}
 	
 	@Override
