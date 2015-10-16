@@ -145,9 +145,9 @@ public class Logic {
 	private void markTaskAsDone(String input) {
 		int index = ParserAPI.parseIndex(input);
 		Task currTask = _listTask.get(index);
-		String oldDesc = currTask.getDescription();
+		String oldDesc = currTask.toString();
 		currTask.markAsDone();
-		String newDesc = currTask.getDescription();
+		String newDesc = currTask.toString();
 		try {
 			StorageAPI.editToFile(oldDesc, newDesc);
 		} catch (IOException e) {
