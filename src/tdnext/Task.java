@@ -109,6 +109,10 @@ public class Task {
 		return _priorityIndex;
 	}
 	
+	public boolean isDone() {
+		return _done;
+	}
+	
 }
 
 class NameComparator implements Comparator<Task> {
