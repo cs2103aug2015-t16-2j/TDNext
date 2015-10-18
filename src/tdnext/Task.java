@@ -28,6 +28,9 @@ public class Task {
 		if(information.get(2) != "") {
 			calculateDeadline(information.get(2));
 		}
+		if(information.get(3) == "done") {
+			_done = true;
+		}
 		calculatePriorityIndex();
 		determineColourType();
 	}
