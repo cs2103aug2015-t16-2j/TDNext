@@ -14,6 +14,7 @@ public class TestLogic {
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
+	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
@@ -150,5 +151,23 @@ public class TestLogic {
 			fail();
 		}
 	}
-
+	
+	@Test
+	public void testEditWithIndexOutOfBound() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_INDEXOUTOFBOUND);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (Exception e) {
+			String desiredOutput = "Index: 99, Size: 2";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
 }
