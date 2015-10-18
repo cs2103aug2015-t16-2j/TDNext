@@ -16,24 +16,21 @@ public class Logic {
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private String _lastCommand = new String();
 	private ArrayList<Task> _tempTask;
-	private static Logger _logger = Logger.getLogger("Logic");
+	public static Logger _logger = Logger.getLogger("Logic");
 
 	public Logic(){
 	}
 	
 	public ArrayList<Task> executeCommand(String input) {
-		_lastCommand = input;
 		CommandType command = ParserAPI.parseCommand(input);
 		
 		switch (command) {
 			case ADD :  
 				addTask(input);
-				sortDefault();
 				return _listTask;
 				
 			case DELETE : 
 				deleteTask(input);
-				sortDefault();
 				return _listTask;
 			
 			case SEARCH :
@@ -42,7 +39,6 @@ public class Logic {
 			
 			case EDIT :
 				editTask(input);
-				sortDefault();
 				return _listTask;
 				
 			case CLEAR :
