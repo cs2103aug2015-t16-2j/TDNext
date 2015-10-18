@@ -157,7 +157,14 @@ public class Logic {
 	
 	private void deleteTask(String input) throws IOException{
 		int index = ParserAPI.parseIndex(input);
-		Task deletedTask = _listTask.remove(index);
+		Task deletedTask = null;
+		
+		if(_lastCommand.equals("Search")) {
+			deletedTask = _searchList.remove(index);
+			_listTask.remove(deletedTask);
+		} else {
+			deletedTask = _listTask.remove(index);
+		}
 		StorageAPI.deleteFromFile(deletedTask.toString());
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
