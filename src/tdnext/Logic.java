@@ -161,8 +161,7 @@ public class Logic {
 
 
 	private void exitProgram() {
-		// TODO Auto-generated method stub
-		
+		System.exit(0);
 	}
 
 	private void addTask(String input) {
