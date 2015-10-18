@@ -13,6 +13,7 @@ public class TestLogic {
 	private static String ADD_TASK3_WITHDATE = "ADD task3 BY 30/10/2015";
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
+	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
@@ -23,7 +24,7 @@ public class TestLogic {
 	}
 	
 	@Test
-	public void testAddWithTwoSimpleTask() {
+	public void testAddWithSimpleTask() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		
@@ -43,7 +44,7 @@ public class TestLogic {
 	}
 	
 	@Test
-	public void testAddWithAnotherSimpleTask() {
+	public void testAddWithTwoSimpleTasks() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
@@ -108,6 +109,7 @@ public class TestLogic {
 		}
 	}
 	
+	@Test
 	public void testDeleteWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -124,6 +126,28 @@ public class TestLogic {
 			String desiredOutput = "Index: 99, Size: 3";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEdit() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_INDEX1);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "taskEdit\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
 		}
 	}
 
