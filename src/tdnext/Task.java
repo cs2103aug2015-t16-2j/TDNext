@@ -97,6 +97,8 @@ public class Task {
 	}
 	
 	private int dateDifference() {
+		assert(_deadline != null);
+		
 		LocalDate day1 = LocalDate.now();
 		LocalDate day2 = _deadline;
 		
