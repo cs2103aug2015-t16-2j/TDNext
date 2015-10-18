@@ -109,16 +109,30 @@ public class Logic {
 
 	private void editTask(String input) throws IOException {
 		int index = ParserAPI.parseIndex(input);
-		String oldDesc = _listTask.get(index).getDescription();
-		_listTask.remove(index);
-		ArrayList<String> information = ParserAPI.parseInformation(input);
-		Task newTask = new Task(information);
-		_listTask.add(index, newTask);
-		StorageAPI.editToFile(newTask.getDescription(), oldDesc);
+		Task oldTask = null;
+		Task newTask = null;
+	
+		if(_lastCommand.equals("Search")) {
+			oldTask = _searchList.remove(index);
+			int originalIndex = _listTask.indexOf(oldTask);
+			_listTask.remove(originalIndex);
+			ArrayList<String> information = ParserAPI.parseInformation(input);
+			newTask = new Task(information);
+			_listTask.add(originalIndex, newTask);
+		} else {
+			oldTask = _listTask.get(index);
+			_listTask.remove(index);
+			ArrayList<String> information = ParserAPI.parseInformation(input);
+			newTask = new Task(information);
+			_listTask.add(index, newTask);
+		}
+		
+		StorageAPI.editToFile(newTask.toString(), oldTask.toString());
 		sortDefault();
 		_lastCommand = new String();
-		_lastCommand = _lastCommand + "EDIT " + _listTask.indexOf(newTask) +
-						" " + oldDesc;
+		int newIndex = _listTask.indexOf(newTask) + 1;
+		_lastCommand = _lastCommand + "EDIT " + newIndex +
+						" " + oldTask.toString();
 	}
 
 	private void clearAll() throws IOException{
