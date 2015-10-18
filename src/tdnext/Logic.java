@@ -16,6 +16,7 @@ public class Logic {
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private String _lastCommand = new String();
 	private ArrayList<Task> _tempTask;
+	private ArrayList<Task> _searchList;
 	public static Logger _logger = Logger.getLogger("Logic");
 
 	public Logic(){
@@ -167,16 +168,17 @@ public class Logic {
 	private ArrayList<Task> searchTask(String input) {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		String name = information.get(0);
-		ArrayList<Task> output = new ArrayList<Task>();
+		ArrayList<Task> _searchList = new ArrayList<Task>();
 		
 		for(int i = 0; i < _listTask.size(); i++) {
 			Task currTask = _listTask.get(i);
 			if(currTask.getDescription().contains(name)) {
-				output.add(currTask);
+				_searchList.add(currTask);
 			}
 		}
 		
-		return output;
+		_lastCommand = "Search";
+		return _searchList;
 	}
 	
 	private void sortDefault() {
