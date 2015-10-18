@@ -72,7 +72,7 @@ public class Logic {
 				return _listTask;
 			
 			default :
-				return _listTask;
+				throw new CommandException("Invalid Command");
 		}
 	}
 	
