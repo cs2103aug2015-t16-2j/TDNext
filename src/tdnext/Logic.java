@@ -75,14 +75,9 @@ public class Logic {
 		}
 	}
 	
-	public ArrayList<Task> startProgram() {
+	public ArrayList<Task> startProgram() throws IOException {
 		ArrayList<String> allFileInfo = new ArrayList<String>();
-		try {
-			allFileInfo = StorageAPI.getFromFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		allFileInfo = StorageAPI.getFromFile();
 		for(int i = 0; i < allFileInfo.size(); i++) {
 			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
 			Task currTask = new Task(information);
@@ -90,13 +85,13 @@ public class Logic {
 				_listTask.add(currTask);
 			}
 		}
-		
 		return _listTask;
 	}
 	
 	private void undo() throws Exception{ 
-		if(_lastCommand != "") {
+		if(!_lastCommand.isEmpty()) {
 			executeCommand(_lastCommand);
+			_lastCommand = new String();
 		} else {
 			throw new CommandException("There is no command before this.");
 		}
@@ -129,6 +124,7 @@ public class Logic {
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		StorageAPI.clearFile();
+		_logger.log(Level.INFO, "All task cleared");
 	}
 
 	private void markTaskAsDone(String input) throws IOException {
