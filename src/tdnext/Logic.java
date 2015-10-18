@@ -112,7 +112,7 @@ public class Logic {
 		_listTask.remove(index);
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
-		_listTask.add(newTask);
+		_listTask.add(index, newTask);
 		StorageAPI.editToFile(newTask.getDescription(), oldDesc);
 		sortDefault();
 		_lastCommand = new String();
