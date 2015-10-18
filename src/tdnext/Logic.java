@@ -21,7 +21,8 @@ public class Logic {
 	public Logic(){
 	}
 	
-	public ArrayList<Task> executeCommand(String input) {
+	public ArrayList<Task> executeCommand(String input) throws Exception {
+		assert(input != "");
 		CommandType command = ParserAPI.parseCommand(input);
 		
 		switch (command) {
@@ -93,66 +94,50 @@ public class Logic {
 		return _listTask;
 	}
 	
-	private void undo(){ 
-		executeCommand(_lastCommand);
+	private void undo() throws Exception{ 
+		if(_lastCommand != "") {
+			executeCommand(_lastCommand);
+		} else {
+			throw new CommandException("There is no command before this.");
+		}
 	}
 
-	private void undoMarkAsDone() {
+	private void undoMarkAsDone() throws IOException {
 		int index = ParserAPI.parseIndex(_lastCommand);
 		Task currTask = _listTask.get(index);
 		String oldDesc = currTask.getDescription();
 		currTask.markAsUndone();
 		String newDesc = currTask.getDescription();
-		try {
-			StorageAPI.editToFile(oldDesc, newDesc);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		StorageAPI.editToFile(oldDesc, newDesc);
 	}
 
-	private void editTask(String input) {
+	private void editTask(String input) throws IOException {
 		int index = ParserAPI.parseIndex(input);
 		String oldDesc = _listTask.get(index).getDescription();
 		_listTask.remove(index);
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
 		_listTask.add(newTask);
-		try {
-			StorageAPI.editToFile(newTask.getDescription(), oldDesc);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		StorageAPI.editToFile(newTask.getDescription(), oldDesc);
 		sortDefault();
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "EDIT " + _listTask.indexOf(newTask) +
 						" " + oldDesc;
 	}
 
-	private void clearAll(){
+	private void clearAll() throws IOException{
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
-		try {
-			StorageAPI.clearFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		StorageAPI.clearFile();
 	}
 
-	private void markTaskAsDone(String input) {
+	private void markTaskAsDone(String input) throws IOException {
 		int index = ParserAPI.parseIndex(input);
 		Task currTask = _listTask.remove(index);;
 		String oldDesc = currTask.toString();
 		currTask.markAsDone();
 		String newDesc = currTask.toString();
-		try {
-			StorageAPI.editToFile(oldDesc, newDesc);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+		StorageAPI.editToFile(oldDesc, newDesc);
 	}
 
 
@@ -160,13 +145,10 @@ public class Logic {
 		System.exit(0);
 	}
 
-	private void addTask(String input) {
+	private void addTask(String input) throws IOException {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
-		try {
-			StorageAPI.writeToFile(newTask.toString());
-		} catch (IOException e) {
-		}
+		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
 		sortDefault();
 		int index = _listTask.indexOf(newTask);
@@ -176,15 +158,10 @@ public class Logic {
 		
 	}
 	
-	private void deleteTask(String input) {
+	private void deleteTask(String input) throws IOException{
 		int index = ParserAPI.parseIndex(input);
 		Task deletedTask = _listTask.remove(index);
-		try {
-			StorageAPI.deleteFromFile(deletedTask.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		StorageAPI.deleteFromFile(deletedTask.toString());
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
 		_logger.log(Level.INFO, "Task deleted");
