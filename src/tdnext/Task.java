@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Level;
 
 import tdnext.TDNextLogicAPI.ColourType;
 
@@ -24,7 +25,7 @@ public class Task {
 		_description = information.get(0);
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
-		}
+		}	
 		if(information.get(2) != "") {
 			calculateDeadline(information.get(2));
 		}
@@ -33,6 +34,8 @@ public class Task {
 		}
 		calculatePriorityIndex();
 		determineColourType();
+		
+		Logic._logger.log(Level.INFO, "Task created");
 	}
 	
 	public Task() throws MissingInformationException {
@@ -67,14 +70,18 @@ public class Task {
 	}
 	
 	private void calculatePriorityIndex() {		
-		if(!_done) {
+		if((!_done) && (_deadline != null)) {
 			int difference = dateDifference();
 			if(_importance) {
 				_priorityIndex = (14 - difference + 1) * 2 + 1;
 			} else {
 				_priorityIndex = (14 - difference + 1) * 2;
 			}
-		}	
+		} else if(_importance) {
+			_priorityIndex = 1;
+		} else {
+			_priorityIndex = -1;
+		}
 	}
 	
 	private void determineColourType() {
