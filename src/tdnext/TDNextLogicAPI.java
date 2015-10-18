@@ -21,7 +21,7 @@ public class TDNextLogicAPI {
 	
 	// This method receives a string which is the command.
 	// Returns an array of Task objects
-	public ArrayList<Task> executeCommand(String input) {
+	public ArrayList<Task> executeCommand(String input) throws Exception {
 		ArrayList<Task> output = _first.executeCommand(input);
 		
 		return output;
