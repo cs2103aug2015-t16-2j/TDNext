@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class StorageAPI {
-	public static String dir;
+	public static String dir = System.getProperty("user.dir").concat("\\");//Getting the current directory of the user
 	public static String outputName = "TDNext.txt"; //Name of the output text file
 	public static ArrayList<String> tempClear= new ArrayList<String>(); //ArrayList to save data when user clears
 	public static ArrayList<String> tempAdd= new ArrayList<String>(); //ArrayList to save data when user deletes
@@ -19,6 +19,11 @@ public class StorageAPI {
 	//API method for the user to save the file with a different name
 	public static void setName(String newName){
 		outputName=newName;
+	}
+	
+	//API method for user to change directory of the output text file
+	public static void changeDir(String newDir){
+		dir = newDir;
 	}
 	
 	//API method to add new tasks into text file 
@@ -32,7 +37,8 @@ public class StorageAPI {
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
 	private static void addToFile(String newTask) throws IOException{
 		
-		FileWriter writer = new FileWriter(outputName,true);	
+		File f = new File(dir+outputName); 
+		FileWriter writer = new FileWriter(f,true);	
 		writer.write(newTask + System.getProperty( "line.separator" ));
 		writer.close();
 	}
@@ -58,7 +64,7 @@ public class StorageAPI {
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
 	private static ArrayList<String> fetchFromFile(String dir) throws IOException{
 			
-		File f = new File(dir); 
+		File f = new File(dir+outputName); 
 		FileReader reader = new FileReader(f);
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String line;
@@ -102,7 +108,7 @@ public class StorageAPI {
 			tempClear.add(data.get(i));
 		}
 		data.clear();
-		File f =  new File(outputName);
+		File f =  new File(dir+outputName);
 		PrintWriter writer = new PrintWriter(f);
 		writer.print("");
 		writer.close();
@@ -132,8 +138,8 @@ public class StorageAPI {
 	}
 	//Internal method to replace the entire text file according to the "data" arrayList
 	private static void syncFile(ArrayList<String> list) throws IOException{
-			
-		FileWriter writer = new FileWriter(outputName,false);
+		File f = new File(dir+outputName);	
+		FileWriter writer = new FileWriter(f,false);
 		for(int i =0;i<list.size();i++){
 			writer.write(list.get(i) + System.getProperty( "line.separator" ));
 		}
@@ -147,8 +153,8 @@ public class StorageAPI {
 		
 		try  
 		{
-			File f = new File(outputName);
-			FileWriter fileCreate = new FileWriter(outputName,true);
+			File f = new File(dir+outputName);
+			FileWriter fileCreate = new FileWriter(f,true);
 			if(f.exists()){
 				fileCreate.close();
 				return true;
@@ -164,5 +170,4 @@ public class StorageAPI {
 	return false;
 	}
 }	
-	
 
