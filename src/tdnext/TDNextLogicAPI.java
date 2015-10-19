@@ -29,7 +29,7 @@ public class TDNextLogicAPI {
 	
 	// This method runs at the start of the program and 
 	// returns an array of events
-	public ArrayList<Task> startProgram() {
+	public ArrayList<Task> startProgram() throws Exception {
 		ArrayList<Task> output = _first.startProgram();
 		
 		return output;
