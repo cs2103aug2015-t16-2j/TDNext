@@ -9,12 +9,12 @@ import tdnext.TDNextLogicAPI.CommandType;
 
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
-	private static String origin = new String();;
-	private static String noCommand = new String();;
-	private static String commandWord = new String();;
+	private static String origin = new String();
+	private static String noCommand = new String();
+	private static String commandWord = new String();
 	private static Boolean importance = false;
-	private static String date = new String();;
-	private static String taskDescription = new String();;
+	private static String date = new String();
+	private static String taskDescription = new String();
 	private static Boolean containsEdit = false;
 	private static int year = 2015;
 	private static int day = 0;
@@ -24,7 +24,9 @@ public class ParserAPI {
 	private static String specificTime = new String();
 	//private static Boolean isDateWord = false;
 	public static ArrayList<String> task = new ArrayList<String> (5);
-	 
+	public static Boolean isEdit = false;
+	public static Boolean isAdd = false;
+	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
 	private static final String ON = "ON";
@@ -35,7 +37,7 @@ public class ParserAPI {
 	//-------------------------Main methods---------------------------
 	
 	public static CommandType parseCommand(String input) {
-		String[] breakDown = input.split(" ", 1);
+		String[] breakDown = input.split(" ", 2);
 		String command = breakDown[0].toLowerCase();
 		
 		if (command.equals("add"))
@@ -71,13 +73,34 @@ public class ParserAPI {
 	}
 	
 	public static ArrayList<String> parseInformation(String input) {
-		setCurrentTime();
-		noCommand = input;
-		origin = input;
-		checkImportance(origin);
-		origin = checkEdit(origin.replace("\\s+", ""));
-		origin = checkOn(origin);
-		origin.replace("\\s+", ""); //Removing duplicated spaces in string
+		day = 0;
+		month = 0;
+		year = 2015;
+		importance = false;
+		date = "";
+		isAdd = false;
+		isEdit = false;
+		task = new ArrayList<String> (5);
+		specificTime = "";
+		isTmrw = false;
+		taskDescription = "";
+		origin = "";
+		noCommand = "";
+		
+		setCurrentTime(); //Set day, month and year attributes to today's date
+		
+		origin = input; //origin = add/edit_2 <task>
+		
+		System.out.println("Origin be4 checkImportance = " + origin + " " + importance);
+		checkImportance(origin); //If origin contains IMPORTANT, remove IMPORTANT
+		
+
+		origin = removeCommand(origin); //To check if it contains add/edit and remove accordingly
+		noCommand = origin;
+		origin = checkOn(origin); //To check if origin contains on and replace it with add
+		
+		origin.replace("\\s+", " "); //Removing duplicated spaces in string
+		
 		String[] sentence = origin.split(" ");
 		
 		checkInfo(sentence);
@@ -85,13 +108,39 @@ public class ParserAPI {
 		return setTask(task);
 	}
 	
-	private static ArrayList<String> setTask(ArrayList<String> taks) {	
-		//System.out.println(specificTime);
-		task.add(noCommand.replace("IMPORTANT", "").replace("add", "").replace("\\s+", "").trim());
-		if (containsEdit) {
-			task.set(0, noCommand.replace("IMPORTANT", "").replace("edit" + " " + parseIndex(noCommand), "").replace("\\s+", "").trim());
+	private static String removeCommand(String input) {
+		String[] breakDown = input.split(" ");
+		String firstWord = breakDown[0];
+		
+		if (firstWord.equalsIgnoreCase("add")) {
+			isAdd = true;
+		}
+		else {
+			isEdit = true;
 		}
 		
+		return formNew(breakDown);
+	}
+	
+	private static String formNew(String[] array) {
+		String toReturn = new String();
+		
+		if (isAdd) {
+			for (int index=1; index<array.length; index++) {
+				toReturn += (array[index] + " ");
+			}
+		}
+		else
+			for (int index=2; index<array.length; index++) {
+				toReturn += array[index] + " ";
+			}
+		return toReturn.trim();
+	}
+	
+	private static ArrayList<String> setTask(ArrayList<String> taks) {	
+		//System.out.println(specificTime);
+        task.add(noCommand);
+        
 		if (importance)
 			task.add("IMPORTANT");
 		else
@@ -112,6 +161,7 @@ public class ParserAPI {
 			task.add(specificTime);
 		else
 			task.add("");
+		
 		return task;
 	}
 	
@@ -134,8 +184,9 @@ public class ParserAPI {
 			date = "";
 		}
 		
-		else if (indexBy == 1) {
-			int index = 2;
+		else if (indexBy == 0) {
+			System.out.println("I was here");
+			int index = 1;
 			
 			if (isDateWord(sentence[index]))
 				while (isDateWord(sentence[index])) {
@@ -205,7 +256,10 @@ public class ParserAPI {
 	private static void setDate() {
 		String initial = date;
 		date = date.trim();
-		//System.out.println(date);
+		
+		if (date.contains("important"))
+			date = date.replace("important", "").trim();
+		System.out.println("Date at setDate method: = " + date);
 		//date.replace("IMPORTANT", "").replace("\\s+", " ");
 		String[] temp = date.trim().split(" ");
 		int length = temp.length;
@@ -394,20 +448,28 @@ public class ParserAPI {
 			if (temp[index].equalsIgnoreCase(ON))
 				break;
 		
-		if ((input.contains("on") || input.contains("ON")) && index != temp.length -1) 
+		if ((input.contains("on") || input.contains("ON")) && index != temp.length-1) 
 			return input.replace(temp[index], "by");
 		return input;
 	}
 	
+	//Checks and replace the word IMPORTANT
 	private static void checkImportance(String input) {
-		if (input.contains("IMPORTANT ")) {
-			origin.replace("IMPORTANT ", "");
-			importance = true;
+		String[] temp = input.split(" ");
+		String tempString = "";
+		
+		for (int index=1; index<temp.length; index++)
+			if (temp[index].equalsIgnoreCase("IMPORTANT"))
+				importance = true;
+		
+		if (importance) {
+			for (int i=0; i<temp.length; i++)
+				if (!temp[i].equals("IMPORTANT"))
+					tempString += (temp[i] + " ");
+			origin = tempString.trim();
 		}
-		else if (input.contains("IMPORTANT")) {
-			origin.replace(" IMPORTANT", "");
-			importance = true;
-		}
+
+		System.out.println("Origin at checImportance = " + origin + " " + importance);
 	}
 	
 	private static int indexOf(String word, String[] sentence) {
@@ -481,8 +543,10 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
+		while (true) {
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseInformation(input.nextLine()));
-	}
+		}
+	}*/
 }
