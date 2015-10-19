@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TDNextLogicAPI {
 	
-	private TDNext _first;
+	private Logic _first;
 	
 	public enum ColourType {
 		RED, WHITE, GREEN, YELLOW
@@ -16,12 +16,12 @@ public class TDNextLogicAPI {
 	}
 	
 	public TDNextLogicAPI(){
-		_first = new TDNext();
+		_first = new Logic();
 	}
 	
 	// This method receives a string which is the command.
 	// Returns an array of Task objects
-	public ArrayList<Task> executeCommand(String input) {
+	public ArrayList<Task> executeCommand(String input) throws Exception {
 		ArrayList<Task> output = _first.executeCommand(input);
 		
 		return output;
@@ -29,7 +29,7 @@ public class TDNextLogicAPI {
 	
 	// This method runs at the start of the program and 
 	// returns an array of events
-	public ArrayList<Task> startProgram() {
+	public ArrayList<Task> startProgram() throws Exception {
 		ArrayList<Task> output = _first.startProgram();
 		
 		return output;

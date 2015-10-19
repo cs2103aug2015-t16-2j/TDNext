@@ -1,261 +1,488 @@
 package tdnext;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 import tdnext.TDNextLogicAPI.CommandType;
 
 public class ParserAPI {
-	//Returns command word from user input.
+	//-------------------------Attributes-----------------------------
+	private static String origin = new String();;
+	private static String noCommand = new String();;
+	private static String commandWord = new String();;
+	private static Boolean importance = false;
+	private static String date = new String();;
+	private static String taskDescription = new String();;
+	private static Boolean containsEdit = false;
+	private static int year = 2015;
+	private static int day = 0;
+	private static int month = 0;
+	private static String format = new String();
+	private static Boolean isTmrw = false;
+	private static String specificTime = new String();
+	//private static Boolean isDateWord = false;
+	public static ArrayList<String> task = new ArrayList<String> (5);
+	 
+	//-------------------------Constants-----------------------------
+	private static final String ADD = "ADD";
+	private static final String ON = "ON";
+	private static final String BY = "BY";
+	private static final String EDIT = "EDIT";
+	private static final String IMPORTANT = "IMPORTANT";
+	
+	//-------------------------Main methods---------------------------
+	
 	public static CommandType parseCommand(String input) {
-		if (input.contains("ADD"))
+		String[] breakDown = input.split(" ", 1);
+		String command = breakDown[0].toLowerCase();
+		
+		if (command.equals("add"))
 			return CommandType.ADD;
-		/*else if (input.contains("SORT"))
-			return CommandType.SORT;*/
-		else if (input.contains("DELETE"))
+		else if (command.contains("sort")) {
+			if (breakDown[1].equalsIgnoreCase("date"))
+				return CommandType.SORT_BY_DEADLINE;
+			else if (breakDown[1].equalsIgnoreCase("name"))
+				return CommandType.SORT_BY_NAME;
+			else
+				return CommandType.SORT_DEFAULT;
+		}
+		else if (command.equalsIgnoreCase("done"))
+			return CommandType.DONE;
+		else if (command.equalsIgnoreCase("clear"))
+			return CommandType.CLEAR;
+		else if (command.contains("delete"))
 			return CommandType.DELETE;
-		else if (input.contains("CHANGE"))
+		else if (command.contains("edit"))
 			return CommandType.EDIT;
-		else if (input.contains("SEARCH"))
+		else if (command.contains("search"))
 			return CommandType.SEARCH;
-		else if (input.contains("EXIT"))
+		else if (command.contains("exit"))
 			return CommandType.EXIT;
 		return CommandType.INVALID;
 	}
-    
 	
-	//Find the index of the task which will be edited.
+	//Returns index number of a task to edit
 	public static int parseIndex(String input) {
-		String[] breakdownString = input.split(" ");
-		
-		return Integer.parseInt(breakdownString[1]);
+		String[] breakDown = input.split(" ");
+
+		return Integer.parseInt(breakDown[1]);
 	}
 	
-	//Returns an ArrayList of strings in <task><IMPORTANCE><dd/mm/yyyy><DONE> format.
 	public static ArrayList<String> parseInformation(String input) {
-		String copy = input;
-		String eventInfo = input;
-		String task_description = "";
-		String deadline = "";
-		String importance = checkImportance(eventInfo);
+		setCurrentTime();
+		noCommand = input;
+		origin = input;
+		checkImportance(origin);
+		origin = checkEdit(origin.replace("\\s+", ""));
+		origin = checkOn(origin);
+		origin.replace("\\s+", ""); //Removing duplicated spaces in string
+		String[] sentence = origin.split(" ");
+		
+		checkInfo(sentence);
+
+		return setTask(task);
+	}
 	
-		if (importance != null) {
-			if (eventInfo.contains("IMPORTANT "))
-				eventInfo.replace("IMPORTANT ", "");
-			else
-			    eventInfo.replace(" IMPORTANT", "");
-		}
-		if (eventInfo.contains("WITH "))
-			eventInfo.replace("WITH ", "");
-		
-		String[] tempEvent = eventInfo.split(" ");
-		
-		ArrayList<String> brokenEvent = new ArrayList<String> ();
-
-		for (int i=0; i<=tempEvent.length-1; i++)
-			if (!tempEvent[i].equals("WITH"))
-				brokenEvent.add(tempEvent[i]);
-		
-		if (!eventInfo.contains("ADD")) {
-			eventInfo.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
-			copy = input.replace((brokenEvent.get(0) + " " + brokenEvent.get(1) + " "), "ADD");
+	private static ArrayList<String> setTask(ArrayList<String> taks) {	
+		//System.out.println(specificTime);
+		task.add(noCommand.replace("IMPORTANT", "").replace("add", "").replace("\\s+", "").trim());
+		if (containsEdit) {
+			task.set(0, noCommand.replace("IMPORTANT", "").replace("edit" + " " + parseIndex(noCommand), "").replace("\\s+", "").trim());
 		}
 		
-		if (eventInfo.contains("BY") || eventInfo.contains("ON")) {
-			int indexBY = getIndexBY(brokenEvent);
-			int indexADD = getIndexADD(brokenEvent);
-
-			if (indexADD<indexBY && indexBY-indexADD != 1) {
-				for (int index=indexADD+1; index<indexBY; index++)
-					task_description += (brokenEvent.get(index) + " ");
-				for (int index=indexBY+1; index<=brokenEvent.size()-1; index++)
-					deadline += (brokenEvent.get(index) + " ");
-			}
-			else if (indexADD>indexBY && indexADD-indexBY != 1) {
-				for (int index=indexBY+1; index<indexADD; index++)
-					deadline += (brokenEvent.get(index) + " ");
-				for (int index=indexADD+1; index<=brokenEvent.size()-1; index++)
-					task_description += (brokenEvent.get(index) + " ");
-			}
-			else {
-				if (brokenEvent.get(indexBY+1).contains("-") || brokenEvent.get(indexBY+1).contains("/")) {
-					deadline = brokenEvent.get(indexBY+1);
-					
-					for (int taskIndex=indexBY+2; taskIndex<brokenEvent.size(); taskIndex++)
-						task_description += (brokenEvent.get(taskIndex) + " ");
-				}
-				else if (brokenEvent.get(indexBY+3).contains("20")) {
-					System.out.println("1");
-					for (int deadlineIndex=indexBY+1; deadlineIndex<=(indexBY+3); deadlineIndex++)
-						deadline += (brokenEvent.get(deadlineIndex) + " ");
-					for (int taskIndex=indexBY+4; taskIndex<brokenEvent.size(); taskIndex++)
-						task_description += (brokenEvent.get(taskIndex) + " ");
-				}
-				else {
-					for (int deadlineIndex=indexBY+1; deadlineIndex<=(indexBY+2); deadlineIndex++)
-						deadline += (brokenEvent.get(deadlineIndex) + " ");
-					for (int taskIndex=indexBY+3; taskIndex<brokenEvent.size(); taskIndex++)
-						task_description += (brokenEvent.get(taskIndex) + " ");
-				}
-			}
-		}
-		else if (!(eventInfo.contains("BY") && !eventInfo.contains("ON"))) {
-			ArrayList<String> toReturn = new ArrayList<String> ();
-			
-			toReturn.add(copy.replace("ADD","").trim());
-			if (copy.contains("IMPORTANT"))
-				toReturn.add("IMPORTANT");
-			else
-				toReturn.add("");
-			toReturn.add("");
-			toReturn.add("");
-			
-			return toReturn;
-		}
+		if (importance)
+			task.add("IMPORTANT");
+		else
+			task.add("");
 		
-		else {
-			for (int index=0; index<brokenEvent.size()-1; index++)
-				if (!brokenEvent.get(index).equals("ADD"))
-					deadline += brokenEvent.get(index);
-		}
-
-		if (deadline != null && !deadline.contains("/")) {
-			if (deadline.contains("-"))
-				deadline = deadline.replace("-", "/");
-
-			else {
-				String[] date = deadline.split(" ");
-				char[] furtherBreakdown = date[1].toCharArray();
-				
-				if (furtherBreakdown.length <= 2 && (date[1].contains("0") || date[1].contains("1"))) {
-					if (date.length == 2) {
-					deadline = date[0] + "/" + date[1];
-					}
-					else
-						deadline = date[0] + "/" + date[1] + "/" + date[2];
-				}
-
-				else {
-					if ((date[0].trim().length() < date[1].trim().length()) && (checkInteger(date[0]))) {
-
-						String switchDateNMonth = date[1];
-
-						date[1] = date[0];
-
-						date[0] = switchDateNMonth;
-					}
-
-					String month = date[0].toLowerCase();
-					deadline = "";
-
-					if (month.equals("january"))
-						month = "01";
-					else if (month.equals("february"))
-						month = "02";
-					else if (month.equals("march"))
-						month = "03";
-					else if (month.equals("april"))
-						month = "04";
-					else if (month.equals("may"))
-						month = "05";
-					else if (month.equals("june"))
-						month = "06";
-					else if (month.equals("july"))
-						month = "07";
-					else if (month.equals("august"))
-						month = "08";
-					else if (month.equals("september"))
-						month = "09";
-					else if (month.equals("october"))
-						month = "10";
-					else if (month.equals("november"))
-						month = "11";
-					else if (month.equals("december"))
-						month = "12";
-
-					String day = date[1];
-					char[] count = day.toCharArray();
-
-					if (count.length == 3) 
-						day = "0" + day.substring(0, 1);
-					else if (count.length == 4)
-						day = day.substring(0, 2);
-
-					deadline = day + "/" + month;
-				}
-			}
-		}
-
-		ArrayList<String> information = new ArrayList<String>();
-
-		information.add((copy.replace("IMPORTANT", "").replace("ADD", "").trim()));
-		
-		//Add specific task description.
-		if (importance != null) {
-			information.add(importance);
-			information.set(0, information.get(0) + " IMPORTANT");
+		if (date.contains("tmrw") || date.contains("tomorrow")) {
+			setCurrentTime();
+			setNewDate(1);
+			task.add(date);
 		}
 		else
-			information.add("");
-		information.add(deadline.trim());
-		information.add("");
-		return information;
+			task.add(date);
+		
+		task.add("");
+		
+		findSpecificTime();
+		if (specificTime != null)
+			task.add(specificTime);
+		else
+			task.add("");
+		return task;
 	}
 	
-	
-	/* --------------------------------Other Sub-methods----------------------------------- */
-	
-	//To check if word "IMPORTANT" is present in a string.
-	private static String checkImportance(String eventInfo) {
-		if (eventInfo.contains("IMPORTANT"))
-			return "IMPORTANT";
-		return null;
+	private static void findSpecificTime() {
+		String[] breakDown = noCommand.split(" ");
+		
+		for (int index=0; index<breakDown.length; index++) {
+			if (breakDown[index].contains("pm") || breakDown[index].contains("am"))
+				if (breakDown[index].contains(":")) {
+					specificTime = breakDown[index];
+					break;
+				}
+		}
 	}
 	
+	private static void checkInfo(String[] sentence) {
+		int indexBy = indexOf("by", sentence);
+		
+		if (indexBy == -1) {
+			date = "";
+		}
+		
+		else if (indexBy == 1) {
+			int index = 2;
+			
+			if (isDateWord(sentence[index]))
+				while (isDateWord(sentence[index])) {
+					date += (sentence[index] + " ");
+					index++;
+				}
+			else {
+				while (!isDateWord(sentence[index])) {
+					date += (sentence[index] + " ");
+					index++;
+				}
+				while (isDateWord(sentence[index])) {
+					date += (sentence[index] + " ");
+					index++;
+				}
+			}
+			date.trim();
+			
+			while (index < sentence.length) {
+				taskDescription += (sentence[index] + " ");
+				index++;
+			}
+			taskDescription.trim();
+		}
+		else {
+			for (int index=1; index<indexBy; index++)
+				taskDescription += (sentence[index] + " ");
+			taskDescription.trim();
+			
+			for (int index=indexBy+1; index<sentence.length; index++)
+				date += (sentence[index] + " ");
+			date.trim();
+		}
+		
+		setDate();
+	}
 	
-	//To find the index of word "BY"
-	private static int getIndexBY(ArrayList<String> brokenEvent) {
-		for (int index=0; index<brokenEvent.size()-1; index++)
-			if (brokenEvent.get(index).equals("BY"))
+	private static void setNewDate(int add) {
+			day += add;
+			
+			while (day > daysInMonth(month)) {
+				day -= daysInMonth(month);
+				month++;
+				
+				if (month > 12) {
+					month -= 12;
+					year++;
+				}
+			}
+	}
+	
+	private static Boolean isLongMonth() {
+		return (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12);
+	}
+	
+	private static int daysInMonth(int month2) {
+		if (isLongMonth())
+			return 31;
+		else if (month == 2 && isLeapYear())
+			return 29;
+		else if (month == 2 && !isLeapYear())
+			return 28;
+		else
+			return 30;
+	}
+
+	private static void setDate() {
+		String initial = date;
+		date = date.trim();
+		//System.out.println(date);
+		//date.replace("IMPORTANT", "").replace("\\s+", " ");
+		String[] temp = date.trim().split(" ");
+		int length = temp.length;
+		if (length == 1) {
+
+			if (date.contains("-") || date.contains("/")) {
+	
+				date = date.replace("-", "/");
+				String[] in = date.split("/");
+				
+				if (in[0].toCharArray().length == 4 && in.length == 3) {
+					day = Integer.parseInt(in[2]);
+					String stringDay = Integer.toString(day);
+					if (stringDay.toCharArray().length == 1)
+						stringDay = "0" + stringDay;
+					date = stringDay + "/" + in[1] + "/" + in[0];
+				}
+				
+			}
+			//Case: Tomorrow
+			else if (date.contains("tomorrow") || date.contains("tmrw") || date.contains("tmw")) {
+                setCurrentTime();
+                day += 1;
+                if (day > daysInMonth(month)) {
+                	month++;
+                	day -= (daysInMonth(month-1));
+                }
+                if (month > 12) {
+                	month -= 12;
+                	year++;
+                }
+                date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+			}
+			
+			//Case: Today
+			else if (date.equals("today"))
+				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+
+		}
+		
+		else if (length == 2 || date.contains("IMPORTANT")) {
+		
+			//Cases: next week/month/year
+			if (temp[0].equalsIgnoreCase("next")) {
+				if (temp[1].equalsIgnoreCase("week")) {
+					setNewDate(7);
+				}
+				//Case: next month
+				else if (temp[1].equalsIgnoreCase("month")|| temp[1].equalsIgnoreCase("mbyth") || temp[1].equalsIgnoreCase("mbyths"))
+					month++;
+				
+				//Case: next year
+				else
+					year++;
+			}
+			
+			//Case: 5:00pm today
+			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("today")))
+				setNewDate(0);
+
+			//Case: today 5:00pm
+			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("today")))
+				setNewDate(0);
+
+			
+			//Case: 5:00pm tmrw/tomorrow
+			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("tomorrow") || temp[1].equalsIgnoreCase("tmrw")))
+				setNewDate(1);
+
+			//Case: tmrw/tomorrow 5:00pm
+			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("tomorrow") || temp[0].equalsIgnoreCase("tmrw")))
+				setNewDate(1);
+			
+			//Case: 1st September
+			else if (isDate(temp[0])) {
+				convertDate(temp[0]);
+				convertMonth(temp[1]);
+			}
+			
+			//Case: September 1st
+			else {
+				convertDate(temp[1]);
+				convertMonth(temp[0]);
+			}
+			String stringDay = Integer.toString(day);
+			if (stringDay.toCharArray().length == 1)
+				stringDay = "0" + stringDay;
+			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+		}
+		else if (length == 3) {
+			//Case: next 2 days/weeks/months
+			//System.out.println(temp[0] + " " + temp[1]);
+			if (temp[0].equalsIgnoreCase("next")) {
+				int toAdd = Integer.parseInt(temp[1]);
+				
+				if (temp[2].equalsIgnoreCase("week") || temp[2].equalsIgnoreCase("weeks"))
+					setNewDate(toAdd * 7);
+				else if (temp[2].equalsIgnoreCase("days") || temp[2].equalsIgnoreCase("day"))
+					setNewDate(toAdd);
+				else
+					setNewDate(toAdd * 30);
+			}
+			String stringDay = Integer.toString(day);
+			if (stringDay.toCharArray().length == 1)
+				stringDay = "0" + stringDay;
+			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+		}
+		/*else
+			date = initial;*/
+	}
+	
+	private static Boolean isDate(String word) {
+		return ((word.contains("th") || word.contains("st") || word.contains("nd") || word.contains("rd")) && (containInt(word)));
+	}
+	
+	private static void convertDate(String word) {
+		if (word.contains("nd"))
+			day = 2;
+		else if (word.contains("rd"))
+			day = 3;
+		else if (word.contains("st"))
+			day = 1;
+		else
+			day = Integer.parseInt(word.replace("th", ""));
+	}
+	
+	private static void convertMonth(String word) {
+		word = word.toLowerCase();
+		
+		if (word.equals("january"))
+			month = 1;
+		else if (word.equals("february"))
+			month = 2;
+		else if (word.equals("march"))
+			month = 3;
+		else if (word.equals("april"))
+			month = 4;
+		else if (word.equals("may"))
+			month = 5;
+		else if (word.equals("june"))
+			month = 6;
+		else if (word.equals("july"))
+			month = 7;
+		else if (word.equals("august"))
+			month = 8;
+		else if (word.equals("september"))
+			month = 9;
+		else if (word.equals("october"))
+			month = 10;
+		else if (word.equals("november"))
+			month = 11;
+		else if (word.equals("december"))
+			month = 12;
+	}
+	
+	private static Boolean isLeapYear() {
+		if (year % 4 == 0)
+			return false;
+		else if (year % 100 != 0)
+			return true;
+		else if (year % 400 != 0)
+			return false;
+		else
+			return true;
+	}
+	
+	private static String checkEdit(String input) {
+		String[] temp = input.split(" ");
+		
+		if (temp[0].equalsIgnoreCase("add"))
+			return input;
+		
+		if (!temp[0].equalsIgnoreCase("add")) {
+			containsEdit = true;
+			String toRemove = temp[0] + " " + parseIndex(input) + " ";
+			return input.replace(toRemove, "add ");
+		}
+		return input;
+	}
+	
+	private static String checkOn(String input) {
+		String[] temp = input.split(" ");
+		int index = 1;
+		
+		for (; index<temp.length-1; index++)
+			if (temp[index].equalsIgnoreCase(ON))
+				break;
+		
+		if ((input.contains("on") || input.contains("ON")) && index != temp.length -1) 
+			return input.replace(temp[index], "by");
+		return input;
+	}
+	
+	private static void checkImportance(String input) {
+		if (input.contains("IMPORTANT ")) {
+			origin.replace("IMPORTANT ", "");
+			importance = true;
+		}
+		else if (input.contains("IMPORTANT")) {
+			origin.replace(" IMPORTANT", "");
+			importance = true;
+		}
+	}
+	
+	private static int indexOf(String word, String[] sentence) {
+		for (int index=0; index<sentence.length; index++)
+			if (sentence[index].equalsIgnoreCase(word))
 				return index;
-		return 0;
+		return -1;
 	}
 	
-	//To find the index of word "ADD"
-	private static int getIndexADD(ArrayList<String> brokenEvent) {
-		for (int index=0; index<brokenEvent.size()-1; index++)
-			if (brokenEvent.get(index).equals("ADD"))
-				return index;
-		return 0;
+	private static void setCurrentTime() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date thisDate = new Date();
+		String today = dateFormat.format(thisDate);
+		String[] separate = today.split("/");
+		
+		day = Integer.parseInt(separate[0]);
+		month = Integer.parseInt(separate[1]);
+		year = Integer.parseInt(separate[2]);
 	}
 	
-    private static Boolean checkInteger(String date) {
-    	if (date.contains("0"))
-    		return true;
-    	else if (date.contains("1"))
-    		return true;
-    	else if (date.contains("2"))
-    		return true;
-    	else if (date.contains("3"))
-    		return true;
-    	else if (date.contains("4"))
-    		return true;
-    	else if (date.contains("5"))
-    		return true;
-    	else if (date.contains("6"))
-    		return true;
-    	else if (date.contains("7"))
-    		return true;
-    	else if (date.contains("8"))
-    		return true;
-    	return date.contains("9");
-    }
-    //For testing purposes.
+	//Checks if a number is present in a String
+	private static Boolean containInt(String word)  {
+		return word.matches(".*\\d+.*");
+	}
 	
-	/* public static void main(String[] args) {
+	private static Boolean containMonth(String word) {
+		return (word.equalsIgnoreCase("january") || word.equalsIgnoreCase("feburary") || word.equalsIgnoreCase("march")
+				|| word.equalsIgnoreCase("april") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
+				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("august") || word.equalsIgnoreCase("september")
+				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december"));
+	}
+	
+	private static Boolean isDateWord(String word) {
+		if (word.equalsIgnoreCase("weeks") || word.equalsIgnoreCase("week"))
+			return true;
+		else if (word.contains("tmrw") || word.contains("tomorrow")) {
+			isTmrw = true;
+			return true;
+		}
+		else if (word.contains("days"))
+			return true;
+		else if (word.equalsIgnoreCase("next"))
+			return true;
+		else if (word.equalsIgnoreCase("month") || word.equalsIgnoreCase("months") || word.equalsIgnoreCase("mbyth") || word.equalsIgnoreCase("mbyths"))
+			return true;
+		else if (word.equalsIgnoreCase("year"))
+			return true;
+		else if (word.equalsIgnoreCase("today"))
+			return true;
+		else if (word.contains("th") || word.contains("st") || word.contains("rd") || word.contains("nd")) {
+			return containInt(word);
+		}
+		else if (containMonth(word))
+			return true;
+		else if (word.matches("\\d+"))
+			return true;
+		else if (word.contains("/") || word.contains("-"))
+			return containInt(word);
+		else if (word.equals("pm") || word.equals("am"))
+			return true;
+		else if (word.equalsIgnoreCase("IMPORTANT"))
+			return false;
+		else if (word.contains(":")) {
+			specificTime = word;
+			return containInt(word);
+		}
+		else if (word.equalsIgnoreCase("tomorrow ") || word.equals("tmrw ")) {
+			isTmrw = true;
+			return true;
+		}
+		return word.contains(":");
+	}
+	
+	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-
-		System.out.println("Input: ");
-		String in = input.nextLine();
-
-		System.out.println(parseInformation(in));
-	 } */
+		System.out.println(parseInformation(input.nextLine()));
+	}
 }
