@@ -137,9 +137,20 @@ class NameComparator implements Comparator<Task> {
 class PriorityComparator implements Comparator<Task> {
 	@Override
 	public int compare(Task task1, Task task2) {
-		if(task1.getPriorityIndex() < task2.getPriorityIndex()) {
+		int task1PriorityIndex = task1.getPriorityIndex();
+		int task2PriorityIndex = task2.getPriorityIndex();
+		
+		if((task1PriorityIndex != -1) && (task2PriorityIndex != -1)){
+			if(task1.getPriorityIndex() < task2.getPriorityIndex()) {
+				return 1;
+			} else if (task1.getPriorityIndex() > task2.getPriorityIndex()) {
+				return -1;
+			} else {
+				return 0;
+			}
+		} else if(task1PriorityIndex == -1) {
 			return 1;
-		} else if (task1.getPriorityIndex() > task2.getPriorityIndex()) {
+		} else if (task2PriorityIndex == -1) {
 			return -1;
 		} else {
 			return 0;
