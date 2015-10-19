@@ -12,6 +12,7 @@ public class TestLogic {
 	private static String ADD_TASK2 = "ADD task2";
 	private static String ADD_TASK3_WITHDATE = "ADD task3 BY 30/10/2015";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
+	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
@@ -187,6 +188,31 @@ public class TestLogic {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			String desiredOutput = "homework1\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchWithMoreTasks() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework1\n" + "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
