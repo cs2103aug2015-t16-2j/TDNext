@@ -366,4 +366,26 @@ public class TestLogic {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testUndoAfterEdit() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(EDIT_INDEX1);
+		allInputs.add(UNDO);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "task1\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 }
