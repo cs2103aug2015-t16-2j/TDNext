@@ -222,4 +222,31 @@ public class TestLogic {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testEditAfterSearchWithIndex1 () {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_INDEX1);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "task3 BY 30/10/2015\n" + "task1\n" +
+									"task2\n" + "editTask\n" + "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 }
