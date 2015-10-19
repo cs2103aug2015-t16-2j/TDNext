@@ -47,6 +47,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -68,6 +69,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -90,6 +92,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -113,6 +116,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -155,6 +159,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -198,6 +203,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -223,6 +229,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -250,6 +257,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -277,6 +285,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -344,6 +353,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -366,6 +376,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();			
 			fail();
 		}
 	}
@@ -388,6 +399,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -418,6 +430,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
@@ -445,6 +458,7 @@ public class TestLogic {
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 	}
