@@ -239,7 +239,7 @@ public class TestLogic {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			String desiredOutput = "task3 BY 30/10/2015\n" + "task1\n" +
-									"task2\n" + "editTask\n" + "homework2\n";
+									"task2\n" + "taskEdit\n" + "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
