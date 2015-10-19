@@ -36,7 +36,7 @@ public class ParserAPI {
 	
 	public static CommandType parseCommand(String input) {
 		String[] breakDown = input.split(" ", 1);
-		String command = breakDown[1].toLowerCase();
+		String command = breakDown[0].toLowerCase();
 		
 		if (command.equals("add"))
 			return CommandType.ADD;
