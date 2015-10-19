@@ -24,7 +24,7 @@ public class ParserAPI {
 	private static String specificTime = new String();
 	//private static Boolean isDateWord = false;
 	public static ArrayList<String> task = new ArrayList<String> (5);
-	
+	 
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
 	private static final String ON = "ON";
