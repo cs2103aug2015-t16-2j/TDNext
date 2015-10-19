@@ -1,53 +1,32 @@
 package tdnext;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JDesktopPane;
-
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.util.ArrayList;
 
-import javax.swing.JInternalFrame;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
 import java.awt.Font;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
-import java.awt.GridLayout;
-
-import net.miginfocom.swing.MigLayout;
 import tdnext.TDNextLogicAPI.ColourType;
 
 import javax.swing.SwingConstants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.SwingWorker;
 
 public class GUI extends JFrame {
 	
@@ -67,7 +46,9 @@ public class GUI extends JFrame {
 	
 	//By Maple: Input and display related
 	private static String getInput(JTextField textInput){
-		return textInput.getText();
+		String output = new String();
+		output = textInput.getText();
+		return output;
 	}
 	
 	private static void passInput(String input){
@@ -232,6 +213,7 @@ public class GUI extends JFrame {
 		
 		
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				textArea.setText(getDisplay(parsedInfo));
