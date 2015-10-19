@@ -11,6 +11,8 @@ public class TestLogic {
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
 	private static String ADD_TASK3_WITHDATE = "ADD task3 BY 30/10/2015";
+	private static String ADD_TASK4_WITHDATE = "ADD task4 BY 01/12/2015";
+	private static String ADD_TASK5_WITHIMPORTANCE = "ADD task5 IMPORTANT";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String DELETE_INDEX1 = "DELETE 1";
@@ -380,6 +382,36 @@ public class TestLogic {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			String desiredOutput = "task1\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSortDefault() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_TASK4_WITHDATE);
+		allInputs.add(ADD_TASK5_WITHIMPORTANCE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "task3 BY 31/10/2015\n" +
+									"task5 IMPORTANT\n" +
+									"task4 BY 01/12/2015\n" + 
+									"task1\n" + "task2\n" +
+									"homework1\n" + "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
