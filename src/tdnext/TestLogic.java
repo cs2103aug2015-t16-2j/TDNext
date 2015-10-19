@@ -299,4 +299,27 @@ public class TestLogic {
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
 	}
+	
+	@Test
+	public void testDeleteAfterSearchWithIndexOutOfBound() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(DELETE_INDEXOUTOFBOUND);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (Exception e) {
+			String desiredOutput = "Index: 99, Size: 2";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
 }
