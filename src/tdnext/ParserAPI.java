@@ -88,6 +88,9 @@ public class ParserAPI {
 	private static ArrayList<String> setTask(ArrayList<String> taks) {	
 		//System.out.println(specificTime);
 		task.add(noCommand.replace("IMPORTANT", "").replace("add", "").replace("\\s+", "").trim());
+		if (containsEdit) {
+			task.set(0, noCommand.replace("IMPORTANT", "").replace("edit" + " " + parseIndex(noCommand), "").replace("\\s+", "").trim());
+		}
 		
 		if (importance)
 			task.add("IMPORTANT");
@@ -101,6 +104,8 @@ public class ParserAPI {
 		}
 		else
 			task.add(date);
+		
+		task.add("");
 		
 		findSpecificTime();
 		if (specificTime != null)
