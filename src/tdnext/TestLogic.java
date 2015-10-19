@@ -18,6 +18,7 @@ public class TestLogic {
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
 	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
 	private static String SEARCH_HOME = "SEARCH home";
+	private static String UNDO = "UNDO";
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
@@ -320,6 +321,27 @@ public class TestLogic {
 			String desiredOutput = "Index: 99, Size: 2";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testUndoAfterAdd() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(UNDO);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = EMPTY_STRING;
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			fail();
 		}
 	}
 }
