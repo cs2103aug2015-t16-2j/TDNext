@@ -68,7 +68,7 @@ public class GUI extends JFrame {
 		String output = new String();
 		for (int i = 0; i < parsedInfo.size(); i++ ){
 			int j = i+1;
-			output = j + ". " + output + parsedInfo.get(i).toString() +"\n";
+			output = output + j + ". " + parsedInfo.get(i).toString() +"\n";
 			setColor(i);
 		}
 		return output;
