@@ -54,8 +54,8 @@ public class StorageAPI {
 	//API method to fetch all data from text file into "data" arrayList
 	public static ArrayList<String> getFromFile() throws IOException{
 		
-		if(fileExists(outputName)){
-			fetchFromFile(outputName);
+		if(fileExists(dir+outputName)){
+			fetchFromFile(dir+outputName);
 			return data;
 		}
 		else {
@@ -64,9 +64,9 @@ public class StorageAPI {
 	}
 			
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
-	private static ArrayList<String> fetchFromFile(String dir) throws IOException{
+	private static ArrayList<String> fetchFromFile(String filePath) throws IOException{
 			
-		File f = new File(dir+outputName); 
+		File f = new File(filePath); 
 		FileReader reader = new FileReader(f);
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String line;
@@ -151,11 +151,11 @@ public class StorageAPI {
 	
 	
 	//Internal method to check if file already exists, and create a new one if it doesn't exist yet
-	private static boolean fileExists(String dir){
+	private static boolean fileExists(String filePath){
 		
 		try  
 		{
-			File f = new File(dir+outputName);
+			File f = new File(filePath);
 			FileWriter fileCreate = new FileWriter(f,true);
 			if(f.exists()){
 				fileCreate.close();
