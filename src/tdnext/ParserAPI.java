@@ -7,6 +7,8 @@ import java.util.Date;
 
 import tdnext.TDNextLogicAPI.CommandType;
 
+//Edit by name --> Parse back ArrayList<String>
+//Edit by 
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
 	private static String origin = new String();
@@ -69,23 +71,11 @@ public class ParserAPI {
 	public static int parseIndex(String input) {
 		String[] breakDown = input.split(" ");
 
-		return Integer.parseInt(breakDown[1]) - 1 ;
+		return Integer.parseInt(breakDown[1])-1;
 	}
 	
 	public static ArrayList<String> parseInformation(String input) {
-		day = 0;
-		month = 0;
-		year = 2015;
-		importance = false;
-		date = "";
-		isAdd = false;
-		isEdit = false;
-		task = new ArrayList<String> (5);
-		specificTime = "";
-		isTmrw = false;
-		taskDescription = "";
-		origin = "";
-		noCommand = "";
+        initializeAll(); //Reset all attribute values
 		
 		setCurrentTime(); //Set day, month and year attributes to today's date
 		
@@ -106,6 +96,22 @@ public class ParserAPI {
 		checkInfo(sentence);
 
 		return setTask(task);
+	}
+	
+	private static void initializeAll() {
+		day = 0;
+		month = 0;
+		year = 2015;
+		importance = false;
+		date = "";
+		isAdd = false;
+		isEdit = false;
+		task = new ArrayList<String> (5);
+		specificTime = "";
+		isTmrw = false;
+		taskDescription = "";
+		origin = "";
+		noCommand = "";
 	}
 	
 	private static String removeCommand(String input) {
@@ -181,11 +187,22 @@ public class ParserAPI {
 		int indexBy = indexOf("by", sentence);
 		
 		if (indexBy == -1) {
-			date = "";
+			if (isEdit && isDateWord(sentence[0])) {
+                for (int index=0; index<sentence.length; index++)
+                	if (isDateWord(sentence[index]))
+                		date += (sentence[index] + " ");
+                noCommand = "";
+			}
+			else {
+			    date = "";
+			    
+			    if (sentence[0].equalsIgnoreCase("IMPORTANT"))
+			    	noCommand = "";
+			}
 		}
 		
 		else if (indexBy == 0) {
-			System.out.println("I was here");
+			//System.out.println("I was here");
 			int index = 1;
 			
 			if (isDateWord(sentence[index]))
@@ -548,5 +565,5 @@ public class ParserAPI {
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseInformation(input.nextLine()));
 		}
-	}*/
+	} */
 }
