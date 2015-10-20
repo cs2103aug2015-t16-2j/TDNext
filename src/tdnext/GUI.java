@@ -1,53 +1,32 @@
 package tdnext;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JDesktopPane;
-
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.util.ArrayList;
 
-import javax.swing.JInternalFrame;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
 import java.awt.Font;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
-import java.awt.GridLayout;
-
-import net.miginfocom.swing.MigLayout;
 import tdnext.TDNextLogicAPI.ColourType;
 
 import javax.swing.SwingConstants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.SwingWorker;
 
 public class GUI extends JFrame {
 	
@@ -72,8 +51,13 @@ public class GUI extends JFrame {
 	
 	private static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
-		output = logic1.executeCommand(input);
-		parsedInfo = output;
+		try {
+			output = logic1.executeCommand(input);
+			parsedInfo = output;
+			clearInput(textInput);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
 	}
 	
 	private static void clearInput(JTextField textInput){
@@ -83,7 +67,8 @@ public class GUI extends JFrame {
 	private static String getDisplay(ArrayList<Task> parsedInfo){
 		String output = new String();
 		for (int i = 0; i < parsedInfo.size(); i++ ){
-			output = output + parsedInfo.get(i).toString() +"\n";
+			int j = i+1;
+			output = j + ". " + output + parsedInfo.get(i).toString() +"\n";
 			setColor(i);
 		}
 		return output;
@@ -129,7 +114,11 @@ public class GUI extends JFrame {
 	 */
 	public static void main(String[] args) {
 		logic1 = new TDNextLogicAPI();
-		parsedInfo = logic1.startProgram();
+		try {
+			parsedInfo = logic1.startProgram();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -214,7 +203,6 @@ public class GUI extends JFrame {
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			passInput(getInput(textInput));
-			clearInput(textInput);
 			textArea.setText(getDisplay(parsedInfo));
 		}
 	});
@@ -232,6 +220,7 @@ public class GUI extends JFrame {
 		
 		
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				textArea.setText(getDisplay(parsedInfo));
