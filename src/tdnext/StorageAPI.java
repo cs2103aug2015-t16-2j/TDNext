@@ -32,6 +32,8 @@ public class StorageAPI {
 		data.add(Task);
 		tempAdd.add(Task);
 		addToFile(Task);
+		System.out.println("Current dir is : "+dir);
+		System.out.println("Current file name is :"+outputName);
 	}
 	
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
