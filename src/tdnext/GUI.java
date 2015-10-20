@@ -46,15 +46,18 @@ public class GUI extends JFrame {
 	
 	//By Maple: Input and display related
 	private static String getInput(JTextField textInput){
-		String output = new String();
-		output = textInput.getText();
-		return output;
+		return textInput.getText();
 	}
 	
 	private static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
-		output = logic1.executeCommand(input);
-		parsedInfo = output;
+		try {
+			output = logic1.executeCommand(input);
+			parsedInfo = output;
+			clearInput(textInput);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
 	}
 	
 	private static void clearInput(JTextField textInput){
@@ -64,7 +67,8 @@ public class GUI extends JFrame {
 	private static String getDisplay(ArrayList<Task> parsedInfo){
 		String output = new String();
 		for (int i = 0; i < parsedInfo.size(); i++ ){
-			output = output + parsedInfo.get(i).toString() +"\n";
+			int j = i+1;
+			output = j + ". " + output + parsedInfo.get(i).toString() +"\n";
 			setColor(i);
 		}
 		return output;
@@ -110,7 +114,11 @@ public class GUI extends JFrame {
 	 */
 	public static void main(String[] args) {
 		logic1 = new TDNextLogicAPI();
-		parsedInfo = logic1.startProgram();
+		try {
+			parsedInfo = logic1.startProgram();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -195,7 +203,6 @@ public class GUI extends JFrame {
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			passInput(getInput(textInput));
-			clearInput(textInput);
 			textArea.setText(getDisplay(parsedInfo));
 		}
 	});
