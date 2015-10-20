@@ -86,6 +86,8 @@ public class Logic {
 				_listTask.add(currTask);
 			}
 		}
+		
+		_logger.log(Level.INFO, "Program started");
 		return _listTask;
 	}
 	
@@ -157,6 +159,7 @@ public class Logic {
 	}
 
 	private void addTask(String input) throws IOException {
+		System.out.println("it reached here");
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
@@ -199,6 +202,7 @@ public class Logic {
 		}
 		
 		_lastCommand = "Search";
+		_logger.log(Level.INFO, "Search" + name + "is done.");
 		return _searchList;
 	}
 	
