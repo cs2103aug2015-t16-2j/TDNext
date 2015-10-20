@@ -69,7 +69,7 @@ public class ParserAPI {
 	public static int parseIndex(String input) {
 		String[] breakDown = input.split(" ");
 
-		return Integer.parseInt(breakDown[1]);
+		return Integer.parseInt(breakDown[1]) - 1 ;
 	}
 	
 	public static ArrayList<String> parseInformation(String input) {
