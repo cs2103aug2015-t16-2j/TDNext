@@ -8,7 +8,7 @@ import java.util.Date;
 import tdnext.TDNextLogicAPI.CommandType;
 
 //Edit by name --> Parse back ArrayList<String>
-//Edit by 
+//Edit by  
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
 	private static String origin = new String();
