@@ -214,12 +214,16 @@ public class GUI2 extends JFrame {
 			panelDisplay.add(createLines(s, i), -1);
 			panelDisplay.revalidate();
 		}
-		for(int j=0; j<15; j++){
+		if(parsedInfo.size() < 13){
+		for(int j=0; j<(13-parsedInfo.size()); j++){
 			textArea = new JTextArea("");
 			textArea.setEditable(false);
 			textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
 			textArea.setBorder(new LineBorder(new Color(255,255,255)));
 			textArea.setBackground(new Color(255,255,255));
+			panelDisplay.add(textArea);
+			panelDisplay.revalidate();
+		}
 		}
 		
 		JPanel panelCmd = new JPanel();
@@ -242,13 +246,16 @@ public class GUI2 extends JFrame {
 					panelDisplay.add(createLines(s, i), -1);
 					panelDisplay.revalidate();
 				}
-				for(int j=0; j<15; j++){
+				if(parsedInfo.size() < 13){
+				for(int j=0; j<(13-parsedInfo.size()); j++){
 					textArea = new JTextArea("");
 					textArea.setEditable(false);
 					textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
 					textArea.setBorder(new LineBorder(new Color(255,255,255)));
 					textArea.setBackground(new Color(255,255,255));
 					panelDisplay.add(textArea);
+					panelDisplay.revalidate();
+				}
 				}
 				
 			}
