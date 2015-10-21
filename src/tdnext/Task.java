@@ -53,6 +53,7 @@ public class Task {
 	public void markAsDone() {
 		_done = true;
 		_priorityIndex = 0;
+		Logic._logger.log(Level.INFO, this.toString() + " is marked as done");
 	}
 	
 	public void markAsUndone() {
