@@ -85,7 +85,8 @@ public class ParserAPI {
 	//Returns index number of a task to edit
 	public static int parseIndex(String input) {
 		String[] breakDown = input.split(" ");
-
+        /*int number = Integer.parseInt(breakDown[1])-1;
+        System.out.println(number);*/
 		return Integer.parseInt(breakDown[1])-1;
 	}
 	
