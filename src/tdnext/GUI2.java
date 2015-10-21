@@ -81,16 +81,15 @@ public class GUI2 extends JFrame {
 			+"To exit, use this command:\n"
 			+"	EXIT";
 	
-	//Colors used in textArea display
-	private static Color red = new Color(251,155,116);
-	private static Color yellow = new Color(248, 154, 126);
+	//Colors used in GUI display
+	private static Color red = new Color(255, 195, 206);
+	private static Color yellow = new Color(255, 207, 121);
 	private static Color green = new Color(142, 210, 201);
-	private static Color white = new Color(255,250,250);
-	private static Color displayFont = null;
-	private static Color inputFont= null;
+	private static Color white = new Color(245, 245, 245);
+	private static Color displayFontColor = null;
+	private static Color inputFontColor = null;
 	private static Color foreground = new Color(70, 32, 102);
 	private static Color background = new Color(230, 230, 250);
-	
 	
 	//By Maple: Input and display related
 	private static String getInput(JTextField textInput){
@@ -195,11 +194,19 @@ public class GUI2 extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
 		
-		final JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font("Comic Sans MS", Font.PLAIN, 16), foreground));
-		panel.setBackground(new Color(255, 250, 250));
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		final JPanel panelDisplay = new JPanel();
+		scrollPane.setViewportView(panelDisplay);
+		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font("Comic Sans MS", Font.PLAIN, 16), foreground));
+		panelDisplay.setBackground(new Color(255, 250, 250));
+		panelDisplay.setLayout(new GridLayout(0, 1, 0, 0));
+		for(int i =0; i<20; i++){
+			textArea = new JTextArea("Test"+i);
+			if(i<5) textArea.setBackground(red);
+			if(i>6 & i<10) textArea.setBackground(yellow);
+			if(i>9 & i<15) textArea.setBackground(green);
+			if(i>14) textArea.setBackground(white);
+			panelDisplay.add(textArea, "Test", -1);
+		}
 		
 		JPanel panelCmd = new JPanel();
 		panelCmd.setBackground(background);
@@ -211,14 +218,15 @@ public class GUI2 extends JFrame {
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passInput(getInput(textInput));
-				panel.removeAll();
-				for(int i=0; i <parsedInfo.size(); i++){
-					panel.add(createLines(getDisplay(parsedInfo, i), i));
+				panelDisplay.removeAll();
+				for(int i=0; i <parsedInfo.size()+1; i++){
+					panelDisplay.add(createLines(getDisplay(parsedInfo, i), i));
 				}
 			}
 		});
 		panelCmd.add(textInput);
-		textInput.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
+		textInput.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+		textInput.setForeground(foreground);
 		textInput.setColumns(10);
 		
 		JButton btnHelp = new JButton("HELP");
@@ -229,7 +237,7 @@ public class GUI2 extends JFrame {
 		});
 		btnHelp.setBackground(new Color(255, 250, 250));
 		btnHelp.setForeground(foreground);
-		btnHelp.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+		btnHelp.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny bottom");
 	}
 }
