@@ -148,11 +148,11 @@ public class Logic {
 
 	private void markTaskAsDone(String input) throws IOException {
 		int index = ParserAPI.parseIndex(input);
-		Task currTask = _listTask.remove(index);;
+		Task currTask = _listTask.remove(index);
 		String oldDesc = currTask.toString();
 		currTask.markAsDone();
 		String newDesc = currTask.toString();
-		StorageAPI.editToFile(oldDesc, newDesc);
+		StorageAPI.editToFile(newDesc, oldDesc);
 		
 		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
