@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -13,8 +14,12 @@ import javax.swing.JTextArea;
 
 import java.awt.Component;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
+
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
@@ -33,6 +38,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 
 public class GUI2 extends JFrame {
 
@@ -41,6 +47,7 @@ public class GUI2 extends JFrame {
 	private static JTextArea textArea;
 	private static ArrayList<Task> parsedInfo;	
 	private static TDNextLogicAPI logic1; 
+	private static Logger guiLog= Logger.getLogger("GUI");
 	
 	private static final String help = 
 			"This is the help section. Please see below for more information:"
@@ -116,13 +123,13 @@ public class GUI2 extends JFrame {
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
-			System.out.println("getDisplay: " + output);
+	//		System.out.println("getDisplay: " + output);
 		return output;
 	}
 	
 	private static JTextArea createLines(String s, int i){
 		textArea = new JTextArea(s);
-		System.out.println("CreateLines: " + s);
+	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
 		return textArea;
 	}
@@ -131,7 +138,7 @@ public class GUI2 extends JFrame {
 
 	private static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
-		System.out.println("color is:" + cT);
+	//	System.out.println("color is:" + cT);
 		return cT;
 	}
 	
@@ -155,7 +162,7 @@ public class GUI2 extends JFrame {
 	}
 	
 	private static void setStyle(int i){
-		System.out.println("Style set");
+	//	System.out.println("Style set");
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
@@ -182,7 +189,7 @@ public class GUI2 extends JFrame {
 					frame.setVisible(true);
 					frame.setResizable(false);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "GUI Error! Please restart program.");
+					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
 					e.printStackTrace();
 				}
 			}
@@ -199,16 +206,20 @@ public class GUI2 extends JFrame {
 		contentPane.setBackground(background);
 		contentPane.setBorder(new LineBorder(new Color(153, 102, 204), 1, true));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[405px][8px][76px]", "[401px][53px]"));
+		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
+		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
 		
-		JScrollPane scrollPane = new JScrollPane();
+		final JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
+		guiLog.log(Level.INFO, "GUI Initialised: 'scrollPane'.");
 		
 		final JPanel panelDisplay = new JPanel();
 		scrollPane.setViewportView(panelDisplay);
+		guiLog.log(Level.INFO, "GUI Initialised: 'panelDisplay'.");
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(new Color(255, 250, 250));
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
+		guiLog.log(Level.INFO, "GUI: startProgram called. First parsedInfo recieved.");
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getDisplay(parsedInfo, i));
 			panelDisplay.add(createLines(s, i), -1);
@@ -229,17 +240,19 @@ public class GUI2 extends JFrame {
 		JPanel panelCmd = new JPanel();
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 1,grow");
+		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
 		panelCmd.setLayout(new BorderLayout(0, 0));
+		guiLog.log(Level.INFO, "GUI Initialised: 'panelCmd'.");
 		
 		textInput = new JTextField();
+		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
 				passInput(getInput(textInput));
-				System.out.println("passInput");
-
+		//		System.out.println("passInput");
+				guiLog.log(Level.INFO, "Last input displayed.");
 				for(int i =0; i<parsedInfo.size(); i++){
 					String s = new String(getDisplay(parsedInfo, i));
 					System.out.println(s);
@@ -257,7 +270,6 @@ public class GUI2 extends JFrame {
 					panelDisplay.revalidate();
 				}
 				}
-				
 			}
 		});
 		panelCmd.add(textInput);
@@ -266,14 +278,24 @@ public class GUI2 extends JFrame {
 		textInput.setColumns(10);
 		
 		JButton btnHelp = new JButton("HELP");
+		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, help);
+				guiLog.log(Level.INFO, "Help button pressed.");
 			}
 		});
 		btnHelp.setBackground(new Color(255, 250, 250));
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 15));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny bottom");
+		
+		JButton btnTheme = new JButton("THEME");
+		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+		contentPane.add(btnTheme, "cell 2 2,growx,aligny top");
+
+		btnTheme.setBackground(new Color(255, 250, 250));
+		btnTheme.setForeground(foreground);
+		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 15));
 	}
 }
