@@ -79,15 +79,24 @@ public class Logic {
 				addAllTask();
 				return _listTask;
 				
-			case EDIT_DATE :
-				editDate();
-				return _listTask;
+			/*case EDIT_DATE :
+				editDate(input);
+				return _listTask;*/
 			
 			default :
 				throw new CommandException("Invalid Command");
 		}
 	}
 	
+	/*private void editDate(String input) {
+		int index = ParserAPI.parseIndex(input);
+		Task currTask = _listTask.get(index);
+		String date = ParserAPI.parseDate(input);
+		currTask.setDate(date);
+		
+		_logger.log(Level.INFO, "Date changed for " + currTask.toString());
+	}*/
+
 	private void addAllTask() throws IOException {
 		for(int i = 0; i < _tempTask.size(); i++) {
 			Task currTask = _tempTask.get(i);
@@ -128,7 +137,7 @@ public class Logic {
 		String oldDesc = currTask.getDescription();
 		currTask.markAsUndone();
 		String newDesc = currTask.getDescription();
-		StorageAPI.editToFile(oldDesc, newDesc);
+		StorageAPI.editToFile(newDesc, oldDesc);
 	}
 
 	private void editTask(String input) throws IOException {
@@ -164,6 +173,8 @@ public class Logic {
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		StorageAPI.clearFile();
+		
+		_lastCommand = "ADD ALL";
 		_logger.log(Level.INFO, "All tasks cleared");
 	}
 
@@ -175,6 +186,7 @@ public class Logic {
 		String newDesc = currTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
 		
+		_lastCommand = "UNDONE";
 		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
 
