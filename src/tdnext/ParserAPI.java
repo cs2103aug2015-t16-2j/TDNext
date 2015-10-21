@@ -33,6 +33,7 @@ public class ParserAPI {
 	public static Boolean isUndo = false;
 	public static Boolean isClear = false;
 	public static Boolean isDone = false;
+	public static Boolean isEditDate = false;
 	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
@@ -120,6 +121,7 @@ public class ParserAPI {
 		isUndo = false;
 		isDone = false;
 		isClear = false;
+		isEditDate = false;
 		task = new ArrayList<String> (5);
 		specificTime = "";
 		isTmrw = false;
@@ -132,18 +134,16 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
 		
-		if (firstWord.equalsIgnoreCase("add")) {
+		if (firstWord.equalsIgnoreCase("add"))
 			isAdd = true;
-		}
-		else if (firstWord.equalsIgnoreCase("edit")){
+		else if (firstWord.equalsIgnoreCase("edit"))
 			isEdit = true;
-		}
-		else if (firstWord.equals("search")) {
+		else if (firstWord.equalsIgnoreCase("editdate"))
+			isEditDate = true;
+		else if (firstWord.equals("search"))
 			isSearch = true;
-		}
-		else if (firstWord.equals("delete")) {
+		else if (firstWord.equals("delete"))
 			isDelete = true;
-		}
 		else if (firstWord.equals("undo"))
 			isUndo = true;
 		else if (firstWord.equals("clear"))
@@ -163,7 +163,7 @@ public class ParserAPI {
 			}
 		}
 		
-		else if (isEdit || isDelete || isSearch)
+		else if (isEdit || isDelete || isSearch || isEditDate)
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
@@ -221,7 +221,7 @@ public class ParserAPI {
 		int indexBy = indexOf("by", sentence);
 		
 		if (indexBy == -1) {
-			if (isEdit && isDateWord(sentence[0])) {
+			if (isEditDate) {
                 for (int index=0; index<sentence.length; index++)
                 	if (isDateWord(sentence[index]))
                 		date += (sentence[index] + " ");
