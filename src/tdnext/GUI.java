@@ -41,7 +41,7 @@ public class GUI extends JFrame {
 	private static Color yellow = new Color(255,153,0);
 	private static Color green = new Color(27, 161, 118);
 	private static Color white = new Color(255,255,255);
-	private static Color fontColor = new Color(123,58,136);
+	private static Color fontColor = new Color(225,225,255);
 	
 	
 	//By Maple: Input and display related
@@ -74,9 +74,14 @@ public class GUI extends JFrame {
 		return output;
 	}
 	
+	private static JTextArea createLines(String s){
+		return textArea = new JTextArea(s);
+	}
+	
 	//By Maple: Color related
 
 	private static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
+		System.out.println(parsedInfo.get(i).getColour());
 		return parsedInfo.get(i).getColour();
 	}
 	
@@ -125,6 +130,7 @@ public class GUI extends JFrame {
 				try {
 					GUI frame = new GUI();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -144,12 +150,13 @@ public class GUI extends JFrame {
 		setContentPane(contentPane);;
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		panel.setBounds(22, 36, 511, 295);
 		panel.setBackground(new Color(230, 230, 250));
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
 		
 		JButton btnHelp = new JButton("HELP");
 		btnHelp.addActionListener(new ActionListener() {
@@ -216,8 +223,7 @@ public class GUI extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(6, 6, 402, 232);
 		panel.add(scrollPane);
-		
-		
+				
 		
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
@@ -248,7 +254,7 @@ public class GUI extends JFrame {
 				//JOptionPane.showMessageDialog(null, "Under Construction!");
 				passInput(getInput(textInput));
 				clearInput(textInput);
-				textArea.setText(getDisplay(parsedInfo));				
+				//textArea.setText(getDisplay(parsedInfo));				
 			}
 		});
 		btnEnter.setBounds(407, 266, 100, 29);
