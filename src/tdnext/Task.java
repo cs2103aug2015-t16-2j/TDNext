@@ -126,6 +126,12 @@ public class Task {
 		return _done;
 	}
 	
+	public void setDate(String date) {
+		calculateDeadline(date);
+		calculatePriorityIndex();
+		determineColourType();
+	}
+	
 }
 
 class NameComparator implements Comparator<Task> {
