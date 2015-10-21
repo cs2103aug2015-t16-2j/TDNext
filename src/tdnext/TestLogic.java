@@ -21,8 +21,8 @@ public class TestLogic {
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
 	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
 	private static String SEARCH_HOME = "SEARCH home";
-	private static String SORT_BY_NAME = "SORT BY NAME";
-	private static String SORT_BY_DEADLINE = "SORT BY DEADLINE";
+	private static String SORT_BY_NAME = "SORT NAME";
+	private static String SORT_BY_DEADLINE = "SORT DEADLINE";
 	private static String UNDO = "UNDO";
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
@@ -453,7 +453,7 @@ public class TestLogic {
 			}
 			String desiredOutput = "homework1\n" + "homework2\n" + 
 									"task1\n" + "task2\n" + 
-									"task3 BY 31/10/2015";
+									"task3 BY 31/10/2015\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
