@@ -28,6 +28,10 @@ public class ParserAPI {
 	public static ArrayList<String> task = new ArrayList<String> (5);
 	public static Boolean isEdit = false;
 	public static Boolean isAdd = false;
+	public static Boolean isSearch = false;
+	public static Boolean isDelete = false;
+	public static Boolean isUndo = false;
+	public static Boolean isClear = false;
 	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
@@ -42,10 +46,11 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ", 2);
 		String command = breakDown[0].toLowerCase();
 		
+		
 		if (command.equals("add"))
 			return CommandType.ADD;
 		else if (command.contains("sort")) {
-			if (breakDown[1].equalsIgnoreCase("date"))
+			if (breakDown[1].equalsIgnoreCase("deadline"))
 				return CommandType.SORT_BY_DEADLINE;
 			else if (breakDown[1].equalsIgnoreCase("name"))
 				return CommandType.SORT_BY_NAME;
@@ -64,6 +69,8 @@ public class ParserAPI {
 			return CommandType.SEARCH;
 		else if (command.contains("exit"))
 			return CommandType.EXIT;
+		//else if (command.contains("editdate"))
+			//return CommandType.EDITDATE;
 		return CommandType.INVALID;
 	}
 	
@@ -106,6 +113,9 @@ public class ParserAPI {
 		date = "";
 		isAdd = false;
 		isEdit = false;
+		isDelete = false;
+		isUndo = false;
+		isClear = false;
 		task = new ArrayList<String> (5);
 		specificTime = "";
 		isTmrw = false;
@@ -121,9 +131,19 @@ public class ParserAPI {
 		if (firstWord.equalsIgnoreCase("add")) {
 			isAdd = true;
 		}
-		else {
+		else if (firstWord.equalsIgnoreCase("edit")){
 			isEdit = true;
 		}
+		else if (firstWord.equals("search")) {
+			isSearch = true;
+		}
+		else if (firstWord.equals("delete")) {
+			isDelete = true;
+		}
+		else if (firstWord.equals("undo"))
+			isUndo = true;
+		else if (firstWord.equals("clear"))
+			isClear = true;
 		
 		return formNew(breakDown);
 	}
@@ -136,10 +156,14 @@ public class ParserAPI {
 				toReturn += (array[index] + " ");
 			}
 		}
-		else
+		
+		else if (isEdit || isDelete || isSearch)
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
+		else
+			for (int index=0; index<array.length; index++)
+				toReturn += array[index] + " ";
 		return toReturn.trim();
 	}
 	
