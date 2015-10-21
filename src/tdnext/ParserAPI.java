@@ -51,6 +51,8 @@ public class ParserAPI {
 		
 		if (command.equals("add"))
 			return CommandType.ADD;
+		else if (command.contains("add_all"))
+			return CommandType.ADD_ALL;
 		else if (command.contains("sort")) {
 			if (breakDown[1].equalsIgnoreCase("deadline"))
 				return CommandType.SORT_BY_DEADLINE;
@@ -59,6 +61,8 @@ public class ParserAPI {
 			else
 				return CommandType.SORT_DEFAULT;
 		}
+		else if (command.equals("undone"))
+			return CommandType.UNDONE;
 		else if (command.equalsIgnoreCase("done"))
 			return CommandType.DONE;
 		else if (command.equalsIgnoreCase("clear"))
@@ -84,6 +88,14 @@ public class ParserAPI {
 
 		return Integer.parseInt(breakDown[1])-1;
 	}
+	
+	/*public static String parseDate (String input) {
+		initializeAll();
+		date = removeCommand(input);
+		setDate();
+		
+		return date;
+	}*/
 	
 	public static ArrayList<String> parseInformation(String input) {
         initializeAll(); //Reset all attribute values
