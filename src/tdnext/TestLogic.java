@@ -10,17 +10,19 @@ public class TestLogic {
 	private static String EMPTY_STRING = "";
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
-	private static String ADD_TASK3_WITHDATE = "ADD task3 BY 30/10/2015";
+	private static String ADD_TASK3_WITHDATE = "ADD task3 BY 31/10/2015";
 	private static String ADD_TASK4_WITHDATE = "ADD task4 BY 01/12/2015";
 	private static String ADD_TASK5_WITHIMPORTANCE = "ADD task5 IMPORTANT";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
+	private static String CLEAR = "CLEAR";
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
 	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
 	private static String SEARCH_HOME = "SEARCH home";
 	private static String SORT_BY_NAME = "SORT BY NAME";
+	private static String SORT_BY_DEADLINE = "SORT BY DEADLINE";
 	private static String UNDO = "UNDO";
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
@@ -85,7 +87,7 @@ public class TestLogic {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 30/10/2015\n" + "task1\n" + "task2\n";
+			String desiredOutput = "task3 BY 31/10/2015\n" + "task1\n" + "task2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
@@ -249,7 +251,7 @@ public class TestLogic {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 30/10/2015\n" + "task1\n" +
+			String desiredOutput = "task3 BY 31/10/2015\n" + "task1\n" +
 									"task2\n" + "taskEdit\n" + "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
@@ -277,7 +279,7 @@ public class TestLogic {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 30/10/2015\n" + "task1\n" +
+			String desiredOutput = "task3 BY 31/10/2015\n" + "task1\n" +
 									"task2\n" + "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
@@ -452,6 +454,61 @@ public class TestLogic {
 			String desiredOutput = "homework1\n" + "homework2\n" + 
 									"task1\n" + "task2\n" + 
 									"task3 BY 31/10/2015";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSortByDeadline() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_TASK4_WITHDATE);
+		allInputs.add(ADD_TASK5_WITHIMPORTANCE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SORT_BY_DEADLINE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "task3 BY 31/10/2015\n" +
+									"task4 BY 01/12/2015\n" + 
+									"task5 IMPORTANT\n" +
+									"task1\n" + "task2\n" +
+									"homework1\n" + "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testClear() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(CLEAR);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
