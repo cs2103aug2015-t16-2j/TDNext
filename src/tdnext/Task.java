@@ -29,7 +29,7 @@ public class Task {
 		if(information.get(2) != "") {
 			calculateDeadline(information.get(2));
 		}
-		if(information.get(3) == "done") {
+		if(information.get(3) == "DONE") {
 			_done = true;
 		}
 		calculatePriorityIndex();
@@ -140,21 +140,19 @@ class PriorityComparator implements Comparator<Task> {
 		int task1PriorityIndex = task1.getPriorityIndex();
 		int task2PriorityIndex = task2.getPriorityIndex();
 		
-		if((task1PriorityIndex != -1) && (task2PriorityIndex != -1)){
+		if(task1PriorityIndex == task2PriorityIndex) {
+			return 0;
+		} else if((task1PriorityIndex != -1) && (task2PriorityIndex != -1)){
 			if(task1.getPriorityIndex() < task2.getPriorityIndex()) {
 				return 1;
 			} else if (task1.getPriorityIndex() > task2.getPriorityIndex()) {
 				return -1;
-			} else {
-				return 0;
 			}
 		} else if(task1PriorityIndex == -1) {
 			return 1;
-		} else if (task2PriorityIndex == -1) {
-			return -1;
-		} else {
-			return 0;
 		}
+		
+		return -1;
 	}
 }
 
