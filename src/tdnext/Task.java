@@ -35,7 +35,7 @@ public class Task {
 		calculatePriorityIndex();
 		determineColourType();
 		
-		Logic._logger.log(Level.INFO, "Task created");
+		Logic._logger.log(Level.INFO, this.toString() + " is created");
 	}
 	
 	public Task() throws MissingInformationException {
