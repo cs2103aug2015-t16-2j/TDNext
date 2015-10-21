@@ -174,7 +174,7 @@ public class Logic {
 		_listTask.clear();
 		StorageAPI.clearFile();
 		
-		_lastCommand = "ADD ALL";
+		_lastCommand = "ADD_ALL";
 		_logger.log(Level.INFO, "All tasks cleared");
 	}
 
@@ -186,7 +186,7 @@ public class Logic {
 		String newDesc = currTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
 		
-		_lastCommand = "UNDONE";
+		_lastCommand = "UNDONE" + index;
 		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
 
