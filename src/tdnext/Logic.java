@@ -71,6 +71,18 @@ public class Logic {
 				exitProgram();
 				return _listTask;
 			
+			case UNDONE :
+				markAsUndone();
+				return _listTask;
+				
+			case ADD_ALL : 
+				addAllTask();
+				return _listTask;
+				
+			case EDIT_DATE :
+				editDate();
+				return _listTask;
+			
 			default :
 				throw new CommandException("Invalid Command");
 		}
@@ -101,7 +113,7 @@ public class Logic {
 		}
 	}
 
-	private void undoMarkAsDone() throws IOException {
+	private void markAsUndone() throws IOException {
 		int index = ParserAPI.parseIndex(_lastCommand);
 		Task currTask = _listTask.get(index);
 		String oldDesc = currTask.getDescription();
