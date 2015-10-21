@@ -164,7 +164,7 @@ public class Logic {
 		sortDefault();
 		_lastCommand = new String();
 		int newIndex = _listTask.indexOf(newTask) + 1;
-		_lastCommand = _lastCommand + "EDIT " + newIndex +
+		_lastCommand =  "EDIT " + newIndex +
 						" " + oldTask.toString();
 		_logger.log(Level.INFO, newTask.toString() + " is editted");
 	}
@@ -201,7 +201,7 @@ public class Logic {
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
 		sortDefault();
-		int index = _listTask.indexOf(newTask);
+		int index = _listTask.indexOf(newTask) + 1;
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "DELETE " + index;
 		_logger.log(Level.INFO, newTask.toString() + " added");
@@ -238,7 +238,7 @@ public class Logic {
 		}
 		
 		_lastCommand = "Search";
-		_logger.log(Level.INFO, "Search" + name + "is done.");
+		_logger.log(Level.INFO, "Search " + name + " is done.");
 		return _searchList;
 	}
 	
