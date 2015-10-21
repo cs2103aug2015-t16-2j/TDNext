@@ -78,6 +78,7 @@ public class Logic {
 	
 	public ArrayList<Task> startProgram() throws IOException {
 		ArrayList<String> allFileInfo = new ArrayList<String>();
+		_listTask = new ArrayList<Task>();
 		allFileInfo = StorageAPI.getFromFile();
 		for(int i = 0; i < allFileInfo.size(); i++) {
 			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
