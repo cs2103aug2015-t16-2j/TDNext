@@ -32,6 +32,7 @@ public class ParserAPI {
 	public static Boolean isDelete = false;
 	public static Boolean isUndo = false;
 	public static Boolean isClear = false;
+	public static Boolean isDone = false;
 	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
@@ -88,7 +89,6 @@ public class ParserAPI {
 		
 		origin = input; //origin = add/edit_2 <task>
 		
-		System.out.println("Origin be4 checkImportance = " + origin + " " + importance);
 		checkImportance(origin); //If origin contains IMPORTANT, remove IMPORTANT
 		
 
@@ -113,8 +113,10 @@ public class ParserAPI {
 		date = "";
 		isAdd = false;
 		isEdit = false;
+		isSearch = false;
 		isDelete = false;
 		isUndo = false;
+		isDone = false;
 		isClear = false;
 		task = new ArrayList<String> (5);
 		specificTime = "";
@@ -144,6 +146,8 @@ public class ParserAPI {
 			isUndo = true;
 		else if (firstWord.equals("clear"))
 			isClear = true;
+		else if (firstWord.equals("(x)"))
+			isDone = true;
 		
 		return formNew(breakDown);
 	}
@@ -151,7 +155,7 @@ public class ParserAPI {
 	private static String formNew(String[] array) {
 		String toReturn = new String();
 		
-		if (isAdd) {
+		if (isAdd || isDone || isSearch) {
 			for (int index=1; index<array.length; index++) {
 				toReturn += (array[index] + " ");
 			}
@@ -184,7 +188,11 @@ public class ParserAPI {
 		else
 			task.add(date);
 		
-		task.add("");
+		if (isDone) {
+			task.add("DONE");
+		}
+		else
+		    task.add("");
 		
 		findSpecificTime();
 		if (specificTime != null)
@@ -300,7 +308,6 @@ public class ParserAPI {
 		
 		if (date.contains("important"))
 			date = date.replace("important", "").trim();
-		System.out.println("Date at setDate method: = " + date);
 		//date.replace("IMPORTANT", "").replace("\\s+", " ");
 		String[] temp = date.trim().split(" ");
 		int length = temp.length;
@@ -505,12 +512,10 @@ public class ParserAPI {
 		
 		if (importance) {
 			for (int i=0; i<temp.length; i++)
-				if (!temp[i].equals("IMPORTANT"))
+				//if (!temp[i].equals("IMPORTANT"))
 					tempString += (temp[i] + " ");
 			origin = tempString.trim();
 		}
-
-		System.out.println("Origin at checImportance = " + origin + " " + importance);
 	}
 	
 	private static int indexOf(String word, String[] sentence) {
