@@ -88,6 +88,15 @@ public class Logic {
 		}
 	}
 	
+	private void addAllTask() throws IOException {
+		for(int i = 0; i < _tempTask.size(); i++) {
+			Task currTask = _tempTask.get(i);
+			_listTask.add(currTask);
+			StorageAPI.writeToFile(currTask.toString());
+		}
+		_logger.log(Level.INFO, "All task added");
+	}
+
 	public ArrayList<Task> startProgram() throws IOException {
 		ArrayList<String> allFileInfo = new ArrayList<String>();
 		_listTask = new ArrayList<Task>();
