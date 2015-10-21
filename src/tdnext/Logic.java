@@ -117,6 +117,7 @@ public class Logic {
 				_listTask.add(currTask);
 			}
 		}
+		sortDefault();
 		
 		_logger.log(Level.INFO, "Program started");
 		return _listTask;
