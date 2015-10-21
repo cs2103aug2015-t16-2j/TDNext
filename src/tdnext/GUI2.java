@@ -293,7 +293,7 @@ public class GUI2 extends JFrame {
 		JButton btnTheme = new JButton("THEME");
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavander", "Gray-Scale", "Space", "Cancel"};
+				String[] options = {"Lavander", "Panda", "Saphire", "Forest"};
 				String theme = (String) JOptionPane.showInputDialog(null,
 						"Choose one", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
