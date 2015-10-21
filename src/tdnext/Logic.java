@@ -229,11 +229,11 @@ public class Logic {
 	private ArrayList<Task> searchTask(String input) {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		String name = information.get(0);
-		ArrayList<Task> _searchList = new ArrayList<Task>();
+		_searchList = new ArrayList<Task>();
 		
 		for(int i = 0; i < _listTask.size(); i++) {
 			Task currTask = _listTask.get(i);
-			if(currTask.getDescription().contains(name)) {
+			if(currTask.toString().contains(name)) {
 				_searchList.add(currTask);
 			}
 		}
