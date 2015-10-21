@@ -560,10 +560,10 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		while (true) {
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseInformation(input.nextLine()));
 		}
-	} */
+	}
 }
