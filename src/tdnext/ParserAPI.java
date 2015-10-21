@@ -72,6 +72,8 @@ public class ParserAPI {
 			return CommandType.EXIT;
 		//else if (command.contains("editdate"))
 			//return CommandType.EDITDATE;
+		else if (command.contains("undo"))
+			return CommandType.UNDO;
 		return CommandType.INVALID;
 	}
 	
