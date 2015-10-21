@@ -135,13 +135,14 @@ public class Logic {
 		int newIndex = _listTask.indexOf(newTask) + 1;
 		_lastCommand = _lastCommand + "EDIT " + newIndex +
 						" " + oldTask.toString();
+		_logger.log(Level.INFO, newTask.toString() + " is editted");
 	}
 
 	private void clearAll() throws IOException{
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		StorageAPI.clearFile();
-		_logger.log(Level.INFO, "All task cleared");
+		_logger.log(Level.INFO, "All tasks cleared");
 	}
 
 	private void markTaskAsDone(String input) throws IOException {
@@ -151,6 +152,8 @@ public class Logic {
 		currTask.markAsDone();
 		String newDesc = currTask.toString();
 		StorageAPI.editToFile(oldDesc, newDesc);
+		
+		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
 
 
@@ -159,7 +162,6 @@ public class Logic {
 	}
 
 	private void addTask(String input) throws IOException {
-		System.out.println("it reached here");
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
@@ -168,7 +170,7 @@ public class Logic {
 		int index = _listTask.indexOf(newTask);
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "DELETE " + index;
-		_logger.log(Level.INFO, "Task added");
+		_logger.log(Level.INFO, newTask.toString() + " added");
 		
 	}
 	
@@ -185,7 +187,7 @@ public class Logic {
 		StorageAPI.deleteFromFile(deletedTask.toString());
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
-		_logger.log(Level.INFO, "Task deleted");
+		_logger.log(Level.INFO, deletedTask.toString() + " deleted");
 		
 	}
 	
