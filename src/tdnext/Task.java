@@ -35,7 +35,7 @@ public class Task {
 		calculatePriorityIndex();
 		determineColourType();
 		
-		Logic._logger.log(Level.INFO, "Task created");
+		Logic._logger.log(Level.INFO, this.toString() + " is created");
 	}
 	
 	public Task() throws MissingInformationException {
@@ -85,14 +85,14 @@ public class Task {
 	}
 	
 	private void determineColourType() {
-		if(_priorityIndex == 0) {
+		if(_priorityIndex == -1) {
 			_colour = ColourType.WHITE;
-		} else if(_priorityIndex > 1){
-			 _colour = ColourType.RED;
-		} else if (_priorityIndex == 1) {
+		} else if(_priorityIndex == 1){
+			 _colour = ColourType.YELLOW;
+		} else if (_priorityIndex < 0 ) {
 			_colour = ColourType.GREEN;
 		} else {
-			_colour = ColourType.YELLOW;
+			_colour = ColourType.RED;
 		}
 	}
 	

@@ -78,6 +78,7 @@ public class Logic {
 	
 	public ArrayList<Task> startProgram() throws IOException {
 		ArrayList<String> allFileInfo = new ArrayList<String>();
+		_listTask = new ArrayList<Task>();
 		allFileInfo = StorageAPI.getFromFile();
 		for(int i = 0; i < allFileInfo.size(); i++) {
 			ArrayList<String> information = ParserAPI.parseInformation(allFileInfo.get(i));
@@ -86,6 +87,8 @@ public class Logic {
 				_listTask.add(currTask);
 			}
 		}
+		
+		_logger.log(Level.INFO, "Program started");
 		return _listTask;
 	}
 	
@@ -133,13 +136,14 @@ public class Logic {
 		int newIndex = _listTask.indexOf(newTask) + 1;
 		_lastCommand = _lastCommand + "EDIT " + newIndex +
 						" " + oldTask.toString();
+		_logger.log(Level.INFO, newTask.toString() + " is editted");
 	}
 
 	private void clearAll() throws IOException{
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		StorageAPI.clearFile();
-		_logger.log(Level.INFO, "All task cleared");
+		_logger.log(Level.INFO, "All tasks cleared");
 	}
 
 	private void markTaskAsDone(String input) throws IOException {
@@ -149,6 +153,8 @@ public class Logic {
 		currTask.markAsDone();
 		String newDesc = currTask.toString();
 		StorageAPI.editToFile(oldDesc, newDesc);
+		
+		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
 
 
@@ -165,7 +171,7 @@ public class Logic {
 		int index = _listTask.indexOf(newTask);
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "DELETE " + index;
-		_logger.log(Level.INFO, "Task added");
+		_logger.log(Level.INFO, newTask.toString() + " added");
 		
 	}
 	
@@ -182,7 +188,7 @@ public class Logic {
 		StorageAPI.deleteFromFile(deletedTask.toString());
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
-		_logger.log(Level.INFO, "Task deleted");
+		_logger.log(Level.INFO, deletedTask.toString() + " deleted");
 		
 	}
 	
@@ -199,6 +205,7 @@ public class Logic {
 		}
 		
 		_lastCommand = "Search";
+		_logger.log(Level.INFO, "Search" + name + "is done.");
 		return _searchList;
 	}
 	
