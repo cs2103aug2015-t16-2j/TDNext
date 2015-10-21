@@ -519,4 +519,32 @@ public class TestLogic {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testStartProgram() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(CLEAR);
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(ADD_TASK4_WITHDATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_testLogic.executeCommand(allInputs.get(i));
+			}
+			_output = _testLogic.startProgram();
+			String desiredOutput = "task3 BY 31/10/2015\n" +
+									"task4 BY 01/12/2015\n" +
+									"task1\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 }
