@@ -152,13 +152,13 @@ public class ParserAPI {
 			isEdit = true;
 		else if (firstWord.equalsIgnoreCase("editdate"))
 			isEditDate = true;
-		else if (firstWord.equals("search"))
+		else if (firstWord.equalsIgnoreCase("search"))
 			isSearch = true;
-		else if (firstWord.equals("delete"))
+		else if (firstWord.equalsIgnoreCase("delete"))
 			isDelete = true;
-		else if (firstWord.equals("undo"))
+		else if (firstWord.equalsIgnoreCase("undo"))
 			isUndo = true;
-		else if (firstWord.equals("clear"))
+		else if (firstWord.equalsIgnoreCase("clear"))
 			isClear = true;
 		else if (firstWord.equals("(x)"))
 			isDone = true;
@@ -175,7 +175,7 @@ public class ParserAPI {
 			}
 		}
 		
-		else if (isEdit || isDelete || isSearch || isEditDate)
+		else if (isEdit || isDelete || isEditDate)
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
@@ -241,9 +241,6 @@ public class ParserAPI {
 			}
 			else {
 			    date = "";
-			    
-			    if (sentence[0].equalsIgnoreCase("IMPORTANT"))
-			    	noCommand = "";
 			}
 		}
 		
