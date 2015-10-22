@@ -100,11 +100,11 @@ public class GUI2 extends JFrame {
 	private static String systemFont = new String("Comic Sans MS");
 	
 	//By Maple: Input and display related
-	private static String getInput(JTextField textInput){
+	static String getInput(JTextField textInput){
 		return textInput.getText();
 	}
 	
-	private static void passInput(String input){
+	static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
 			output = logic1.executeCommand(input);
@@ -115,11 +115,11 @@ public class GUI2 extends JFrame {
 		}
 	}
 	
-	private static void clearInput(JTextField textInput){
+	static void clearInput(JTextField textInput){
 		textInput.setText("");
 	}
 	
-	private static String getDisplay(ArrayList<Task> parsedInfo, int i){
+	static String getDisplay(ArrayList<Task> parsedInfo, int i){
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
@@ -127,7 +127,7 @@ public class GUI2 extends JFrame {
 		return output;
 	}
 	
-	private static JTextArea createLines(String s, int i){
+	static JTextArea createLines(String s, int i){
 		textArea = new JTextArea(s);
 	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
@@ -136,13 +136,13 @@ public class GUI2 extends JFrame {
 	
 	//By Maple: Color related
 
-	private static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
+	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
 	//	System.out.println("color is:" + cT);
 		return cT;
 	}
 	
-	private static Color decideColor(ColourType cT){
+	static Color decideColor(ColourType cT){
 		Color c = null;
 		switch(cT){
 		case RED:
@@ -161,7 +161,7 @@ public class GUI2 extends JFrame {
 		return c;
 	}
 	
-	private static void setStyle(int i){
+	static void setStyle(int i){
 	//	System.out.println("Style set");
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
@@ -293,7 +293,7 @@ public class GUI2 extends JFrame {
 		JButton btnTheme = new JButton("THEME");
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavander", "Panda", "Saphire", "Forest"};
+				String[] options = {"Lavander", "Panda", "Sapphire", "Forest"};
 				String theme = (String) JOptionPane.showInputDialog(null,
 						"Choose one", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
