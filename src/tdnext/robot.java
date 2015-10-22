@@ -1,9 +1,11 @@
 package tdnext;
 
 import java.awt.AWTException;
+import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
  
 /**
  * A Java Robot example class.
@@ -158,7 +160,17 @@ public class robot
     robot.delay(1000);
     enter();
     
+    //Try Screenshot
+    BufferedImage image = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
+    System.out.println("Try Sceenshot 1");
+    robot.delay(2000);
+    String screenShot = new String();
+    screenShot = image.toString();
+    System.out.println(screenShot);
+    robot.delay(4000);
+    
     System.out.println("Try scrolling 1");
+    robot.delay(2000);
     robot.mouseMove(545, 340);
     robot.delay(1000);
     robot.mouseWheel(500);//scroll up
@@ -168,19 +180,21 @@ public class robot
     
     type("sort deadline");
     System.out.println("Try SORT BY DEADLINE");
-    robot.delay(1000);
+    robot.delay(2000);
     enter();
     robot.delay(500);
     System.out.println("Try scrolling 2");
+    robot.delay(2000);
     robot.mouseWheel(500);//scroll to the top
     robot.delay(3000);
     
     type("sort default");
     System.out.println("Try SORT BY DEFAULT");
-    robot.delay(1000);
+    robot.delay(2000);
     enter();
     robot.delay(500);
     System.out.println("Try scrolling 3");
+    robot.delay(2000);
     robot.mouseWheel(500);//scroll to the top
     robot.delay(3000);
     
@@ -189,9 +203,9 @@ public class robot
     enter();
 
 //Exit GUI
-    System.out.println("End of robot");
-    robot.delay(1000);
+    robot.delay(2000);
     type("exit");//exit GUI2
+    System.out.println("End of robot");
     robot.delay(2000);
     enter();
     System.exit(0);//exit robot

@@ -43,9 +43,9 @@ import java.awt.Point;
 public class GUI2 extends JFrame {
 
 	private JPanel contentPane;
-	private static JTextField textInput;
-	private static JTextArea textArea;
-	private static ArrayList<Task> parsedInfo;	
+	static JTextField textInput;
+	static JTextArea textArea;
+	static ArrayList<Task> parsedInfo;	
 	private static TDNextLogicAPI logic1; 
 	private static Logger guiLog= Logger.getLogger("GUI");
 	
@@ -225,8 +225,8 @@ public class GUI2 extends JFrame {
 			panelDisplay.add(createLines(s, i), -1);
 			panelDisplay.revalidate();
 		}
-		if(parsedInfo.size() < 13){
-		for(int j=0; j<(13-parsedInfo.size()); j++){
+		if(parsedInfo.size() < 12){
+		for(int j=0; j<(12-parsedInfo.size()); j++){
 			textArea = new JTextArea("");
 			textArea.setEditable(false);
 			textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
@@ -259,8 +259,8 @@ public class GUI2 extends JFrame {
 					panelDisplay.add(createLines(s, i), -1);
 					panelDisplay.revalidate();
 				}
-				if(parsedInfo.size() < 13){
-				for(int j=0; j<(13-parsedInfo.size()); j++){
+				if(parsedInfo.size() < 12){
+				for(int j=0; j<(12-parsedInfo.size()); j++){
 					textArea = new JTextArea("");
 					textArea.setEditable(false);
 					textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
