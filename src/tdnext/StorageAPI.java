@@ -9,13 +9,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class StorageAPI {
-	public static String dir = System.getProperty("user.dir").concat("\\");//Getting the current directory of the user
+	public static String dir = System.getProperty("user.dir").concat(File.separator);//Getting the current directory of the user
 	public static String outputName = "TDNext.txt"; //Name of the output text file
 	public static ArrayList<String> tempClear= new ArrayList<String>(); //ArrayList to save data when user clears
 	public static ArrayList<String> tempAdd= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> tempDel= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
-	
+
 	//API method for the user to save the file with a different name
 	public static void setName(String newName){
 		outputName=newName;
