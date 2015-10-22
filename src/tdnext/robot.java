@@ -6,6 +6,8 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
  
 /**
  * A Java Robot example class.
@@ -58,6 +60,22 @@ public class robot
 	  
 //Enter events
 	System.out.println("Events start");
+	
+    ImageIcon test = new ImageIcon("emptytest.png");
+    String testImage = test.toString();
+    System.out.println("emptytest.png toString: " + testImage);
+    BufferedImage image = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
+    System.out.println("Try Sceenshot 1");
+    robot.delay(2000);
+    String screenShot = new String();
+    screenShot = image.toString();
+    System.out.println("scrrenShot toString: " + screenShot);
+    if(testImage == screenShot){
+    	System.out.println("Pass.");
+    }else{
+    	System.out.println("Fail.");
+    }
+    
 	robot.delay(2000);
     robot.mouseMove(138, 548);//to textInput
     robot.delay(500);
@@ -161,13 +179,14 @@ public class robot
     enter();
     
     //Try Screenshot
-    BufferedImage image = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
-    System.out.println("Try Sceenshot 1");
+    /*
+    BufferedImage image2 = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
+    System.out.println("Try Sceenshot 2");
     robot.delay(2000);
-    String screenShot = new String();
-    screenShot = image.toString();
-    System.out.println(screenShot);
+    String screenShot2 = new String();
+    screenShot2 = image2.toString() + "/n";
     robot.delay(4000);
+    */
     
     System.out.println("Try scrolling 1");
     robot.delay(2000);
