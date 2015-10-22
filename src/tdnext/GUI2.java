@@ -6,17 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import java.awt.Component;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
-
-import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,19 +19,16 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
 import tdnext.TDNextLogicAPI.ColourType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
+
+import java.awt.Robot;
+import java.awt.AWTException;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 public class GUI2 extends JFrame {
 
@@ -134,6 +124,7 @@ public class GUI2 extends JFrame {
 		return textArea;
 	}
 	
+	
 	//By Maple: Color related
 
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
@@ -175,6 +166,13 @@ public class GUI2 extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		try{
+			Robot rob = new Robot();
+		}catch(AWTException e){
+			e.printStackTrace();
+		}
+		
 		logic1 = new TDNextLogicAPI();
 		try {
 			parsedInfo = logic1.startProgram();
@@ -236,6 +234,7 @@ public class GUI2 extends JFrame {
 			panelDisplay.revalidate();
 		}
 		}
+		
 		
 		JPanel panelCmd = new JPanel();
 		panelCmd.setBackground(background);
