@@ -147,6 +147,7 @@ public class Logic {
 		Task newTask = null;
 	
 		if(_lastCommand.equals("Search")) {
+			assert(_searchList != null);
 			oldTask = _searchList.remove(index);
 			int originalIndex = _listTask.indexOf(oldTask);
 			_listTask.remove(originalIndex);
@@ -214,6 +215,7 @@ public class Logic {
 		Task deletedTask = null;
 		
 		if(_lastCommand.equals("Search")) {
+			assert(_searchList != null);
 			deletedTask = _searchList.remove(index);
 			_listTask.remove(deletedTask);
 		} else {
