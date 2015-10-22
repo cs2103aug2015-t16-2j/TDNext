@@ -22,6 +22,7 @@ public class Task {
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
 	public Task(ArrayList<String> information) {
+		assert(information.get(0) != "");
 		_description = information.get(0);
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
@@ -43,6 +44,7 @@ public class Task {
 	}
 
 	private void calculateDeadline(String dateString) throws DateTimeException {
+		assert(dateString.length() == 10);
 		String[] dateList = dateString.split("/");
 		int day = Integer.parseInt(dateList[0]);
 		int month = Integer.parseInt(dateList[1]);
