@@ -16,6 +16,7 @@ public class TestLogic {
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String CLEAR = "CLEAR";
+	private static String DELETE_INDEX0 = "DELETE 0";
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
@@ -145,6 +146,26 @@ public class TestLogic {
 			fail();
 		} catch (Exception e) {
 			String desiredOutput = "Index: 99, Size: 3";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testDeleteWithIndex0() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK3_WITHDATE);
+		allInputs.add(DELETE_INDEX0);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (Exception e) {
+			String desiredOutput = "-1";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
