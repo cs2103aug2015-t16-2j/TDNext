@@ -34,6 +34,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test that the add function can work.
 	public void testAddWithSimpleTask() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -55,6 +56,8 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test that adding the second task will not overwrite the first
+	// task
 	public void testAddWithTwoSimpleTasks() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -77,6 +80,8 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test that the task with date will retain the date
+	// as part of its description
 	public void testAddWithTaskWithDate() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -100,6 +105,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of the 'within size' partition
 	public void testDeleteWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -124,6 +130,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case for the 'greater than size' partition
 	public void testDeleteWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -144,6 +151,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'within size' partition
 	public void testEditWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -167,6 +175,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'greater than size' partition
 	public void testEditWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -186,6 +195,8 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'valid input' partition.
+	// This is to test that the search is returning the correct output.
 	public void testSearch() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -211,6 +222,9 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'valid input' partition.
+	// This is to test that if there are more than one task matching the input,
+	// all the tasks will be displayed.
 	public void testSearchWithMoreTasks() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -237,6 +251,9 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'valid index' partition
+	// This is to test that the task editted is within the list from the
+	// search function and not the entire list of task.
 	public void testEditAfterSearchWithIndex1 () {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -265,6 +282,9 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'valid index' partition.
+	// This is to test that the task deleted is within the list from the
+	// search function and not the entire list of task.
 	public void testDeleteAfterSearchWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -293,6 +313,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'invalid index' partition.
 	public void testEditAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -316,6 +337,7 @@ public class TestLogic {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'invalid index' partition.
 	public void testDeleteAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
