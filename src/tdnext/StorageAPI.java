@@ -55,8 +55,11 @@ public class StorageAPI {
 	public static ArrayList<String> getFromFile() throws IOException{
 		
 		if(fileExists(dir+outputName)){
+			if(data.size()>0)
+				data.clear();
 			fetchFromFile(dir+outputName);
 			return data;
+			
 		}
 		else {
 			return new ArrayList<String>();
