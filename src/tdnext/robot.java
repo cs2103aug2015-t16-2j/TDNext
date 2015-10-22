@@ -28,41 +28,44 @@ public class robot
 //Check btnHelp
     System.out.println("Try btnHelp");
     robot.delay(1000);
-	robot.mouseMove(531, 524);
+	robot.mouseMove(531, 524);//to btnHelp
 	robot.delay(500);
 	leftClick();
 	robot.delay(2000);
 	enter();
 	enter();
 	
-	/*
+	
 //Check btnTheme
     System.out.println("Try btnTheme");
     robot.delay(2000);
-    robot.mouseMove(532,559);
+    robot.mouseMove(532,559); //to btnTheme
     leftClick();
 	robot.delay(1000);
-	robot.mouseMove(829,456);
+	robot.mouseMove(829,456);//Choices
 	leftClick();
 	robot.delay(500);
-	robot.mouseMove(829,492);
-	robot.delay(500);
+	robot.mouseMove(829,492);//to "Sapphire"
+	robot.delay(1000);
 	leftClick();
-	robot.mouseMove(808, 515);
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
 	leftClick();
-	*/
+	enter();
+	
 	  
 //Enter events
 	System.out.println("Events start");
 	robot.delay(2000);
-    robot.mouseMove(138, 548);
+    robot.mouseMove(138, 548);//to textInput
     robot.delay(500);
     leftClick();
     robot.delay(500);
-    robot.mouseMove(300, 549);
+    robot.mouseMove(300, 700);//mouse does not block
+    robot.delay(500);
     
     type("add autoTask1");
-    robot.delay(3000);
+    robot.delay(1000);
     enter();
     
     type("add autoTask2");
@@ -106,7 +109,7 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("sort by name");
+    type("sort name");
     robot.delay(1000);
     enter();
     robot.delay(3000);
@@ -155,20 +158,30 @@ public class robot
     robot.delay(1000);
     enter();
     
-    System.out.println("Try scrolling");
+    System.out.println("Try scrolling 1");
     robot.mouseMove(545, 340);
     robot.delay(1000);
-    robot.mouseWheel(-400);
+    robot.mouseWheel(500);//scroll up
+    robot.delay(2000);
+    robot.mouseWheel(-500);//scroll down
     robot.delay(2000);
     
-    type("sort by deadline");
+    type("sort deadline");
+    System.out.println("Try SORT BY DEADLINE");
     robot.delay(1000);
     enter();
+    robot.delay(500);
+    System.out.println("Try scrolling 2");
+    robot.mouseWheel(500);//scroll to the top
     robot.delay(3000);
     
-    type("sort by default");
+    type("sort default");
+    System.out.println("Try SORT BY DEFAULT");
     robot.delay(1000);
     enter();
+    robot.delay(500);
+    System.out.println("Try scrolling 3");
+    robot.mouseWheel(500);//scroll to the top
     robot.delay(3000);
     
     type("clear");
@@ -178,10 +191,10 @@ public class robot
 //Exit GUI
     System.out.println("End of robot");
     robot.delay(1000);
-    type("exit");
+    type("exit");//exit GUI2
     robot.delay(2000);
     enter();
-    System.exit(0);
+    System.exit(0);//exit robot
   }
    
   private void leftClick()
@@ -195,7 +208,7 @@ public class robot
   private void enter(){
 	  robot.delay(50);
 	  robot.keyPress(KeyEvent.VK_ENTER);
-	  robot.keyRelease(KeyEvent.VK_V);
+	  robot.keyRelease(KeyEvent.VK_ENTER);
   }
   
   private void type(String s)
