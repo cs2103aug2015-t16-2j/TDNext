@@ -287,7 +287,7 @@ public class GUI2 extends JFrame {
 		});
 		btnHelp.setBackground(new Color(255, 250, 250));
 		btnHelp.setForeground(foreground);
-		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 15));
+		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
 		
 		JButton btnTheme = new JButton("THEME");
@@ -302,7 +302,7 @@ public class GUI2 extends JFrame {
 			}
 		});
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
-		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
 		btnTheme.setBackground(new Color(255, 250, 250));
 		btnTheme.setForeground(foreground);
