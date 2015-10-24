@@ -33,9 +33,10 @@ import java.awt.event.KeyEvent;
 public class GUI2 extends JFrame {
 
 	private JPanel contentPane;
-	static JTextField textInput;
-	static JTextArea textArea;
-	static ArrayList<Task> parsedInfo;	
+	private static JTextField textInput;
+	private static JTextArea textArea;
+	private static ArrayList<Task> parsedInfo;	
+	private static String theme;
 	private static TDNextLogicAPI logic1; 
 	private static Logger guiLog= Logger.getLogger("GUI");
 	
@@ -293,8 +294,8 @@ public class GUI2 extends JFrame {
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] options = {"Lavander", "Panda", "Sapphire", "Forest"};
-				String theme = (String) JOptionPane.showInputDialog(null,
-						"Choose one", "Input",
+				theme = (String) JOptionPane.showInputDialog(null,
+						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
 				System.out.println("theme chosen is " + theme);
