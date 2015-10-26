@@ -91,10 +91,10 @@ public class GUI2 extends JFrame {
 	private static ThemeAPI panda = new ThemeAPI("Panda");
 	
 	//Colors used in GUI display
-	private static Color red = null;
-	private static Color orange = null;
-	private static Color green = null;
-	private static Color white = null;
+	private static Color red = Color.red;
+	private static Color orange = Color.orange ;
+	private static Color green = Color.green;
+	private static Color white = Color.lightGray;
 	private static Color displayBackground= null;
 	private static Color displayFontColor = null;
 	private static Color inputFontColor = null;
@@ -236,6 +236,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
 		
+		
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
@@ -272,7 +273,19 @@ public class GUI2 extends JFrame {
 		panelCmd.revalidate();
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
-		panelDisplay.revalidate();
+		for(int i =0; i<parsedInfo.size(); i++){
+			String s = new String(getParsedInoString(parsedInfo, i));
+			panelDisplay.add(createTextAreas(s, i), -1);
+			panelDisplay.revalidate();
+		}
+		if(parsedInfo.size() < 12){
+		for(int j=0; j<(12-parsedInfo.size()); j++){
+			textArea = new JTextArea("");
+			setStyleExtra();
+			panelDisplay.add(textArea);
+			panelDisplay.revalidate();
+		}
+		}
 	}
 
 	
@@ -348,6 +361,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(new Color(255, 250, 250));
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
+		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
 		
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getParsedInoString(parsedInfo, i));
@@ -358,6 +372,7 @@ public class GUI2 extends JFrame {
 		for(int j=0; j<(12-parsedInfo.size()); j++){
 			textArea = new JTextArea("");
 			setStyleExtra();
+			panelDisplay.add(textArea);
 			panelDisplay.revalidate();
 		}
 		}
