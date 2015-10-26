@@ -84,15 +84,16 @@ public class GUI2 extends JFrame {
 	private static ThemeAPI panda = new ThemeAPI("Panda");
 	
 	//Colors used in GUI display
-	private static Color red = lavender.getColor("red");
-	private static Color orange = new Color(255, 207, 121);
-	private static Color green = new Color(142, 210, 201);
-	private static Color white = new Color(236, 236, 240);
+	private static Color red = null;
+	private static Color orange = null;
+	private static Color green = null;
+	private static Color white = null;
+	private static Color displayBackground= null;
 	private static Color displayFontColor = null;
 	private static Color inputFontColor = null;
-	private static Color foreground = new Color(70, 32, 102);
-	private static Color background = new Color(230, 230, 250);
-	private static String systemFont = new String("Comic Sans MS");
+	private static Color foreground = null;
+	private static Color background = null;
+	private static String systemFont = null;
 	
 	//By Maple: Input and display related
 	static String getInput(JTextField textInput){
@@ -163,6 +164,36 @@ public class GUI2 extends JFrame {
 		return c;
 	}
 	
+	void setTheme(String s){
+		if(s== "Panda"){
+			red = panda.getColor("red");
+			orange = panda.getColor("orange");
+			green = panda.getColor("green");
+			white = panda.getColor("white");
+			displayFontColor = panda.getColor("displayfont");
+			inputFontColor = panda.getColor("inputfont");
+			displayBackground = panda.getColor("displaybg");
+			foreground = panda.getColor("foreground");
+			background = panda.getColor("background");
+			systemFont = panda.getSystemFontType();
+			
+		}else if(s == "Lavender"){
+			red = lavender.getColor("red");
+			orange = lavender.getColor("orange");
+			green = lavender.getColor("green");
+			white = lavender.getColor("white");
+			displayFontColor = lavender.getColor("displayfont");
+			inputFontColor = lavender.getColor("inputfont");
+			displayBackground = lavender.getColor("displaybg");
+			foreground = lavender.getColor("foreground");
+			background = lavender.getColor("background");
+			systemFont = lavender.getSystemFontType();
+		}else{
+			
+		}
+	}
+	
+	//Interface-related
 	static void setStyle(int i){
 	//	System.out.println("Style set");
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
@@ -184,6 +215,8 @@ public class GUI2 extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		
 		try{
 			Robot rob = new Robot();
@@ -220,7 +253,7 @@ public class GUI2 extends JFrame {
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(background);
-		contentPane.setBorder(new LineBorder(new Color(153, 102, 204), 1, true));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
@@ -304,12 +337,13 @@ public class GUI2 extends JFrame {
 		JButton btnTheme = new JButton("THEME");
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavander", "Panda", "Sapphire", "Forest"};
+				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
 				System.out.println("Theme chosen is " + theme);
+				setTheme(theme);
 			}
 		});
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
