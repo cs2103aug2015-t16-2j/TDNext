@@ -33,11 +33,18 @@ import java.awt.event.KeyEvent;
 
 public class GUI2 extends JFrame {
 
-	private JPanel contentPane;
+	private static JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
-	private static ArrayList<Task> parsedInfo;	
+	private static JScrollPane scrollPane;
+	private static JButton btnHelp;
+	private static JButton btnTheme;
+	private static JPanel panelDisplay;
+	private static JPanel panelCmd;
 	private static String theme;
+	
+	private static ArrayList<Task> parsedInfo;	
+	
 	private static TDNextLogicAPI logic1; 
 	private static Logger guiLog= Logger.getLogger("GUI");
 	
@@ -165,7 +172,7 @@ public class GUI2 extends JFrame {
 	}
 	
 	void setTheme(String s){
-		if(s== "Panda"){
+		if(s == "Panda"){
 			red = panda.getColor("red");
 			orange = panda.getColor("orange");
 			green = panda.getColor("green");
@@ -176,6 +183,7 @@ public class GUI2 extends JFrame {
 			foreground = panda.getColor("foreground");
 			background = panda.getColor("background");
 			systemFont = panda.getSystemFontType();
+			System.out.println("set Panda Theme");
 			
 		}else if(s == "Lavender"){
 			red = lavender.getColor("red");
@@ -188,6 +196,7 @@ public class GUI2 extends JFrame {
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
 			systemFont = lavender.getSystemFontType();
+			System.out.println("set Lavender Theme");
 		}else{
 			
 		}
@@ -209,14 +218,50 @@ public class GUI2 extends JFrame {
 		textArea.setBackground(new Color(255,255,255));
 	}
 	
+	//Theme
+	void resetTheme(){
+		setBounds(100, 100, 500, 500);
+		contentPane.setBackground(background);
+		contentPane.setBorder(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
+		contentPane.validate();
+		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
+
+		scrollPane.setViewportView(panelDisplay);
+		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		panelDisplay.setBackground(displayBackground);
+		panelDisplay.setForeground(displayFontColor);
+		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
+		
+		panelCmd.setBackground(background);
+		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
+		panelCmd.setLayout(new BorderLayout(0, 0));
+		panelCmd.add(textInput);
+		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
+		textInput.setForeground(inputFontColor);
+		textInput.setColumns(10);
+		
+		btnHelp.setBackground(new Color(255, 250, 250));
+		btnHelp.setForeground(foreground);
+		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
+		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
+		
+		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
+		btnTheme.setBackground(new Color(255, 250, 250));
+		btnTheme.setForeground(foreground);
+		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
+	}
+
+	
 	//End of functions added by Maple
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
-		
 		
 		try{
 			Robot rob = new Robot();
@@ -244,31 +289,46 @@ public class GUI2 extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public GUI2() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
+		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
+		
+		scrollPane = new JScrollPane();
+		guiLog.log(Level.INFO, "GUI Initialised: 'scrollPane'.");
+		
+		panelDisplay = new JPanel();
+		guiLog.log(Level.INFO, "GUI Initialised: 'panelDisplay'.");
+		
+		panelCmd = new JPanel();
+		guiLog.log(Level.INFO, "GUI Initialised: 'panelCmd'.");
+		
+		textInput = new JTextField();
+		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
+		
+		btnHelp = new JButton("HELP");
+		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
+		
+		btnTheme = new JButton("THEME");
+		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
+		
+		setBounds(100, 100, 500, 500);
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
-		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
-		
-		final JScrollPane scrollPane = new JScrollPane();
+		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
-		guiLog.log(Level.INFO, "GUI Initialised: 'scrollPane'.");
-		
-		final JPanel panelDisplay = new JPanel();
+
 		scrollPane.setViewportView(panelDisplay);
-		guiLog.log(Level.INFO, "GUI Initialised: 'panelDisplay'.");
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(new Color(255, 250, 250));
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		guiLog.log(Level.INFO, "GUI: startProgram called. First parsedInfo recieved.");
+		
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getParsedInoString(parsedInfo, i));
 			panelDisplay.add(createLines(s, i), -1);
@@ -282,16 +342,11 @@ public class GUI2 extends JFrame {
 		}
 		}
 		
-		
-		JPanel panelCmd = new JPanel();
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
 		panelCmd.setLayout(new BorderLayout(0, 0));
-		guiLog.log(Level.INFO, "GUI Initialised: 'panelCmd'.");
 		
-		textInput = new JTextField();
-		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
@@ -321,8 +376,6 @@ public class GUI2 extends JFrame {
 		textInput.setForeground(foreground);
 		textInput.setColumns(10);
 		
-		JButton btnHelp = new JButton("HELP");
-		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, help);
@@ -334,7 +387,6 @@ public class GUI2 extends JFrame {
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
 		
-		JButton btnTheme = new JButton("THEME");
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
@@ -344,9 +396,22 @@ public class GUI2 extends JFrame {
 						options, options[0]);
 				System.out.println("Theme chosen is " + theme);
 				setTheme(theme);
+				resetTheme();
+				contentPane.repaint();
+				contentPane.revalidate();
+				textInput.repaint();
+				textInput.revalidate();
+				scrollPane.repaint();
+				scrollPane.revalidate();
+				btnTheme.repaint();
+				btnTheme.revalidate();
+				btnHelp.repaint();
+				btnHelp.revalidate();
+				panelCmd.repaint();
+				panelCmd.revalidate();
 			}
 		});
-		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
+		
 		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
 		btnTheme.setBackground(new Color(255, 250, 250));
