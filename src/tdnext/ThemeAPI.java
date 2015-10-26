@@ -101,16 +101,16 @@ public class ThemeAPI {
 				
 			}else{
 				System.out.println("Invalid theme selection");
-				_red = new Color(255, 195, 206);
-				_orange = new Color(255, 207, 121);
-				_green = new Color(142, 210, 201);
-				_white = new Color(236, 236, 240);
-				_displayBg = new Color(255, 255, 255);
-				_foreground = new Color(70, 32, 102);
+				_red = Color.red;
+				_orange = Color.orange;
+				_green = Color.green;
+				_white = Color.lightGray;
+				_displayBg = null;
+				_foreground = null;
 				_displayFontColor = _foreground;
 				_inputFontColor = _foreground;
-				_background = new Color(230, 230, 250);
-				_systemFontType = new String("Comic Sans MS");
+				_background = null;
+				_systemFontType = "Impact";
 			}
 	}
 	
