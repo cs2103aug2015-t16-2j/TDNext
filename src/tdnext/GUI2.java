@@ -210,13 +210,13 @@ public class GUI2 extends JFrame {
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
-		textArea.setBorder(new LineBorder(new Color(255,255,255)));
+		textArea.setBorder(new LineBorder(displayBackground));
 	}
 	
 	static void setStyleExtra(){
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
-		textArea.setBorder(new LineBorder(new Color(255,255,255)));
+		textArea.setBorder(new LineBorder(displayBackground));
 		textArea.setBackground(displayBackground);
 	}
 	
