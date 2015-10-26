@@ -1,6 +1,7 @@
 package tdnext;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -79,8 +80,11 @@ public class GUI2 extends JFrame {
 			+"To exit, use this command:\n"
 			+"	EXIT";
 	
+	private static ThemeAPI lavender = new ThemeAPI("Lavender");
+	private static ThemeAPI panda = new ThemeAPI("Panda");
+	
 	//Colors used in GUI display
-	private static Color red = new Color(255, 195, 206);
+	private static Color red = lavender.getColor("red");
 	private static Color orange = new Color(255, 207, 121);
 	private static Color green = new Color(142, 210, 201);
 	private static Color white = new Color(236, 236, 240);
