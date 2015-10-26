@@ -140,6 +140,7 @@ public class ParserAPI {
 	
 	private static ArrayList<String> searchFromStorage (String keyWord) {
 		ArrayList<String> found = new ArrayList<String> ();
+		ArrayList<String> possibleWords = new ArrayList<String> ();
 		
 		if (storage.size() == 0)
 			return null;
