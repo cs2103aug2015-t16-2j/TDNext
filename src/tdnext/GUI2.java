@@ -100,7 +100,7 @@ public class GUI2 extends JFrame {
 	private static Color inputFontColor = null;
 	private static Color foreground = null;
 	private static Color background = null;
-	private static String systemFont = null;
+	private static String systemFont = "Impact";
 	
 	//By Maple: Input and display related
 	static String getInput(JTextField textInput){
@@ -197,6 +197,7 @@ public class GUI2 extends JFrame {
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
 			systemFont = lavender.getSystemFontType();
+			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Lavender Theme");
 		}else{
 			
