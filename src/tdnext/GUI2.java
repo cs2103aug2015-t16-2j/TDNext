@@ -235,7 +235,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		
+		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
 		
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
@@ -424,7 +424,7 @@ public class GUI2 extends JFrame {
 		
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
+				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
