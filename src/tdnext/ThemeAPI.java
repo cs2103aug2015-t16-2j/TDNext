@@ -98,11 +98,11 @@ public class ThemeAPI {
 				_systemFontType = "Shellshock";
 				
 			}else if(s.equals("Forest")){
-				_red = new Color(184, 87, 80);
+				_red = new Color(169, 125, 93);
 				_orange = new Color(179, 165, 128);
 				_green = new Color(222, 210, 158);
 				_white = new Color(244, 240, 203);
-				_displayBg = new Color(104, 86, 66);
+				_displayBg = new Color(204, 204, 153);
 				_foreground = new Color(88, 112, 88);
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
