@@ -92,9 +92,10 @@ public class ThemeAPI {
 				_inputFontColor = _displayFontColor;
 				_background = new Color(79, 36, 18);
 				_systemFontType = "Arial Black";
-			}else if(s == "Sapphire"){
 				
-			}else if(s == "Forest"){
+			}else if(s.equals("Sapphire")){
+				
+			}else if(s.equals("Forest")){
 				
 			}else{
 				System.out.println("Invalid theme selection");
