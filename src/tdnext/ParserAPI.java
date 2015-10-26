@@ -582,13 +582,13 @@ public class ParserAPI {
 	private static void convertMonth(String word) {
 		word = word.toLowerCase();
 		
-		if (word.equals("january"))
+		if (word.equals("january") || word.equals("jan"))
 			month = 1;
-		else if (word.equals("february"))
+		else if (word.equals("february") || word.equals("feb"))
 			month = 2;
-		else if (word.equals("march"))
+		else if (word.equals("march") || word.equals("mar"))
 			month = 3;
-		else if (word.equals("april"))
+		else if (word.equals("april") || word.equals("apr"))
 			month = 4;
 		else if (word.equals("may"))
 			month = 5;
@@ -596,15 +596,15 @@ public class ParserAPI {
 			month = 6;
 		else if (word.equals("july"))
 			month = 7;
-		else if (word.equals("august"))
+		else if (word.equals("august") || word.equals("aug"))
 			month = 8;
-		else if (word.equals("september"))
+		else if (word.equals("september") || word.equals("sept"))
 			month = 9;
-		else if (word.equals("october"))
+		else if (word.equals("october") || word.equals("oct"))
 			month = 10;
-		else if (word.equals("november"))
+		else if (word.equals("november") || word.equals("nov"))
 			month = 11;
-		else if (word.equals("december"))
+		else if (word.equals("december") || word.equals("dec"))
 			month = 12;
 	}
 	
@@ -690,7 +690,10 @@ public class ParserAPI {
 		return (word.equalsIgnoreCase("january") || word.equalsIgnoreCase("feburary") || word.equalsIgnoreCase("march")
 				|| word.equalsIgnoreCase("april") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
 				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("august") || word.equalsIgnoreCase("september")
-				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december"));
+				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december")) || word.equalsIgnoreCase("jan") || word.equalsIgnoreCase("feb") || word.equalsIgnoreCase("mar")
+				|| word.equalsIgnoreCase("apr") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
+				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("aug") || word.equalsIgnoreCase("sept")
+				|| word.equalsIgnoreCase("oct") || word.equalsIgnoreCase("nov") || word.equalsIgnoreCase("dec");
 	}
 	
 	private static Boolean isDateWord(String word) {
