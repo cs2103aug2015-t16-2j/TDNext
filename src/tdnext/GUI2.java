@@ -81,7 +81,7 @@ public class GUI2 extends JFrame {
 	
 	//Colors used in GUI display
 	private static Color red = new Color(255, 195, 206);
-	private static Color yellow = new Color(255, 207, 121);
+	private static Color orange = new Color(255, 207, 121);
 	private static Color green = new Color(142, 210, 201);
 	private static Color white = new Color(236, 236, 240);
 	private static Color displayFontColor = null;
@@ -153,7 +153,7 @@ public class GUI2 extends JFrame {
 			c= green;
 			break;
 		case YELLOW:
-			c= yellow;
+			c= orange;
 			break;
 		}	
 		return c;
@@ -259,10 +259,6 @@ public class GUI2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
-				if(isHelp()){
-					textArea = new JTextArea(help);
-					panelDisplay.add(textArea);
-				}
 				passInput(getInput(textInput));
 				guiLog.log(Level.INFO, "Last input displayed.");
 				for(int i =0; i<parsedInfo.size(); i++){
@@ -317,6 +313,6 @@ public class GUI2 extends JFrame {
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
 		btnTheme.setBackground(new Color(255, 250, 250));
 		btnTheme.setForeground(foreground);
-		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 15));
+		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
 }
