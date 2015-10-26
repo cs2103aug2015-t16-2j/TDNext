@@ -22,8 +22,11 @@ public class StorageAPI {
 	}
 	
 	//API method for user to change directory of the output text file
-	public static void changeDir(String newDir){
+	public static void changeDir(String newDir) throws IOException{
+		File f = new File(dir+outputName);
+		Boolean result = f.delete();
 		dir = newDir;
+		syncFile(data);
 	}
 	
 	//API method to add new tasks into text file 
