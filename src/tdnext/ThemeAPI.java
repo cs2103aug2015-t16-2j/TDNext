@@ -95,6 +95,8 @@ public class ThemeAPI {
 				
 			}else if(s.equals("Sapphire")){
 				
+				_systemFontType = "Shellshock";
+				
 			}else if(s.equals("Forest")){
 				
 			}else{
