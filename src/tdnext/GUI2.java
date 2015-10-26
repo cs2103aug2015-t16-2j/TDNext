@@ -202,7 +202,7 @@ public class GUI2 extends JFrame {
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Lavender Theme");
 			
-		}else if(s.equals("Fores")){
+		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
 			orange = forest.getColor("orange");
 			green = forest.getColor("green");
