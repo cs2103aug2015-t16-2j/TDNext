@@ -34,6 +34,10 @@ public class ParserAPI {
 	public static Boolean isClear = false;
 	public static Boolean isDone = false;
 	public static Boolean isEditDate = false;
+	public static ArrayList<String> storage = new ArrayList<String> ();
+	public static ArrayList<String> possibleWords = new ArrayList<String> ();
+	//public static Boolean isTwoWords = false;
+	//public static Boolean onlyBy = false;
 	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
@@ -79,7 +83,16 @@ public class ParserAPI {
 			//return CommandType.EDITDATE;
 		else if (command.contains("undo"))
 			return CommandType.UNDO;
+		//else if (command.contains("cd"))
+			//return CommandType.
 		return CommandType.INVALID;
+	}
+	
+	public static ArrayList<String> parseSearch(String keyWordWithCommand) {
+		String keyWord = removeCommand(keyWordWithCommand).toLowerCase();
+		ArrayList<String> possibleWords = new ArrayList<String> ();
+		
+		return searchFromStorage(keyWord);
 	}
 	
 	//Returns index number of a task to edit
@@ -99,6 +112,7 @@ public class ParserAPI {
 	}*/
 	
 	public static ArrayList<String> parseInformation(String input) {
+		
         initializeAll(); //Reset all attribute values
 		
 		setCurrentTime(); //Set day, month and year attributes to today's date
@@ -110,6 +124,9 @@ public class ParserAPI {
 
 		origin = removeCommand(origin); //To check if it contains add/edit and remove accordingly
 		noCommand = origin;
+		
+		toStore(origin);
+		
 		origin = checkOn(origin); //To check if origin contains on and replace it with add
 		
 		origin.replace("\\s+", " "); //Removing duplicated spaces in string
@@ -119,6 +136,117 @@ public class ParserAPI {
 		checkInfo(sentence);
 
 		return setTask(task);
+	}
+	
+	private static ArrayList<String> searchFromStorage (String keyWord) {
+		ArrayList<String> found = new ArrayList<String> ();
+		
+		if (storage.size() == 0)
+			return null;
+		else
+			for (int index=0; index<storage.size(); index++)
+				if (thisContains(storage.get(index).trim(), keyWord))
+					found.add(storage.get(index));
+		
+		return removeRepeated(possibleWords);
+	}
+	
+	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
+		ArrayList<String> afterEdit = new ArrayList<String> ();
+		
+		afterEdit.add(beforeEdit.get(0));
+		
+		for (int index=0; index<beforeEdit.size(); index++)
+			if (!isInside(beforeEdit.get(index), afterEdit))
+				afterEdit.add(beforeEdit.get(index));
+		return afterEdit;
+	}
+	
+	private static Boolean isInside(String thisWord, ArrayList<String> thisSentence) {
+		for (int index=0; index<thisSentence.size(); index++)
+			if (thisWord.equalsIgnoreCase(thisSentence.get(index)))
+				return true;
+		return false;
+	}
+	
+	private static Boolean thisContains(String sentence, String keyWord) {
+		String[] breakUp = sentence.split(" ");
+		
+		for (int index=0; index<breakUp.length; index++)
+			if (similarEnough(breakUp[index], keyWord)) {
+				possibleWords.add(breakUp[index]);
+				return true;
+			}
+		
+		return false;
+	}
+	
+	private static Boolean similarEnough(String compareWord, String keyWord) {
+		Boolean equalLength = sameLength(keyWord, compareWord);
+		float pecASCII = percentageASCII(keyWord, compareWord);
+		float pecChar = percentageOfSimilarity(keyWord, compareWord);
+		
+		if (keyWord.toCharArray().length <= 3)
+			return ((pecASCII >= 0.50) && (pecChar >= 0.50));
+		
+		return ((pecASCII >= 0.75) && (pecChar >= 0.75));
+	}
+	
+	private static float percentageOfSimilarity(String wordOne, String wordTwo) {
+		return (float) (numCommonChar(wordOne, wordTwo) * 1.00 / wordOne.toCharArray().length);
+	}
+	
+	private static Boolean sameLength(String wordOne, String wordTwo) {
+		return (wordOne.toCharArray().length == wordTwo.toCharArray().length);
+	}
+	
+	private static float percentageASCII(String wordOne, String wordTwo) {
+		return (float) (getValueOfWord(wordOne) * 1.00 / getValueOfWord(wordTwo));
+	}
+	
+	private static int numCommonChar(String wordOne, String wordTwo) {
+		char[] charOne = wordOne.toCharArray();
+		char[] charTwo = wordTwo.toCharArray();
+		
+		int numCommon = 0;
+		
+		ArrayList<Character> compareOne = toArrayList(charOne);
+		ArrayList<Character> compareTwo = toArrayList(charTwo);
+		
+		for (int indexOne=0; indexOne<compareOne.size(); indexOne++) {
+			for (int indexTwo=0; indexTwo<compareTwo.size(); indexTwo++) {
+				if (compareOne.get(indexOne) == compareTwo.get(indexTwo)) {
+					numCommon++;
+					compareTwo.remove(indexTwo);
+					break;
+				}
+			}
+		}
+		
+		return numCommon;
+	}
+	
+	private static ArrayList<Character> toArrayList(char[] charArray) {
+		ArrayList<Character> toStore = new ArrayList<Character> ();
+		
+		for (int index=0; index<charArray.length; index++)
+			toStore.add(charArray[index]);
+		
+		return toStore;
+	}
+	
+	private static int getValueOfWord(String aWord) {
+		int value = 0;
+		char[] eachChar = aWord.toCharArray();
+		
+		for (int index=0; index<eachChar.length; index++)
+			value += getValueOfChar(eachChar[index]);
+		
+		return value;
+	}
+	
+	private static int getValueOfChar(char thisChar) {
+		return (int) thisChar;
 	}
 	
 	private static void initializeAll() {
@@ -165,6 +293,10 @@ public class ParserAPI {
 			isDone = true;
 		
 		return formNew(breakDown);
+	}
+	
+	private static void toStore(String string) {
+		storage.add(string.toLowerCase());
 	}
 	
 	private static String formNew(String[] array) {
@@ -601,10 +733,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
+		storage.add("add this is a proper task");
 		while (true) {
+		
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseInformation(input.nextLine()));
+		System.out.println(parseSearch(input.nextLine()));
 		}
-	}
+	} */
 }
