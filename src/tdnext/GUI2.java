@@ -87,8 +87,10 @@ public class GUI2 extends JFrame {
 			+"To exit, use this command:\n"
 			+"	EXIT";
 	
-	private static ThemeAPI lavender = new ThemeAPI("Lavender");
-	private static ThemeAPI panda = new ThemeAPI("Panda");
+	//Themes
+	private ThemeAPI lavender = new ThemeAPI("Lavender");
+	private ThemeAPI panda = new ThemeAPI("Panda");
+	private ThemeAPI forest = new ThemeAPI("Forest");
 	
 	//Colors used in GUI display
 	private static Color red = Color.red;
@@ -199,6 +201,21 @@ public class GUI2 extends JFrame {
 			systemFont = lavender.getSystemFontType();
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Lavender Theme");
+			
+		}else if(s.equals("Fores")){
+			red = forest.getColor("red");
+			orange = forest.getColor("orange");
+			green = forest.getColor("green");
+			white = forest.getColor("white");
+			displayFontColor = forest.getColor("displayfont");
+			inputFontColor = forest.getColor("inputfont");
+			displayBackground = forest.getColor("displaybg");
+			foreground = forest.getColor("foreground");
+			background = forest.getColor("background");
+			systemFont = forest.getSystemFontType();
+			System.out.println("system font set to: " + systemFont);
+			System.out.println("set Forest Theme");
+			
 		}else{
 			
 		}
