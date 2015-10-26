@@ -136,7 +136,7 @@ public class GUI2 extends JFrame {
 		return output;
 	}
 	
-	static JTextArea createLines(String s, int i){
+	static JTextArea createTextAreas(String s, int i){
 		textArea = new JTextArea(s);
 	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
@@ -270,6 +270,9 @@ public class GUI2 extends JFrame {
 		btnHelp.revalidate();
 		panelCmd.repaint();
 		panelCmd.revalidate();
+		panelDisplay.removeAll();
+		panelDisplay.repaint();
+		panelDisplay.revalidate();
 	}
 
 	
@@ -348,7 +351,7 @@ public class GUI2 extends JFrame {
 		
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getParsedInoString(parsedInfo, i));
-			panelDisplay.add(createLines(s, i), -1);
+			panelDisplay.add(createTextAreas(s, i), -1);
 			panelDisplay.revalidate();
 		}
 		if(parsedInfo.size() < 12){
@@ -373,7 +376,7 @@ public class GUI2 extends JFrame {
 				for(int i =0; i<parsedInfo.size(); i++){
 					String s = new String(getParsedInoString(parsedInfo, i));
 					System.out.println(s);
-					panelDisplay.add(createLines(s, i), -1);
+					panelDisplay.add(createTextAreas(s, i), -1);
 					panelDisplay.revalidate();
 				}
 				
