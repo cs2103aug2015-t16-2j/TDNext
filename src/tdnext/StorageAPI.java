@@ -16,14 +16,27 @@ public class StorageAPI {
 	public static ArrayList<String> tempDel= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
 
+	
+	public static void main(String [] args) throws IOException{
+		writeToFile("task 1");
+		writeToFile("task 2");
+		writeToFile("task 3");
+		changeDir(System.getProperty("user.dir").concat(File.separator+"bin"+File.separator));
+		writeToFile("task 4");
+		writeToFile("task 5");
+		changeDir(dir);
+	}
 	//API method for the user to save the file with a different name
 	public static void setName(String newName){
 		outputName=newName;
 	}
 	
 	//API method for user to change directory of the output text file
-	public static void changeDir(String newDir){
+	public static void changeDir(String newDir) throws IOException{
+		File f = new File(dir+outputName);
+		Boolean result = f.delete();
 		dir = newDir;
+		syncFile(data);
 	}
 	
 	//API method to add new tasks into text file 
