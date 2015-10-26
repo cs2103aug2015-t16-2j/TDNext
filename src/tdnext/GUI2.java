@@ -96,9 +96,8 @@ public class GUI2 extends JFrame {
 	}
 	
 	static boolean isHelp(){
-		if (getInput(textInput).toLowerCase() == "help"){
+		if (getInput(textInput).toLowerCase() == "help")
 			return true;
-		}
 		return false;
 	}
 	
