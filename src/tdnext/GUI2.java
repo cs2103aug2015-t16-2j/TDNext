@@ -117,7 +117,7 @@ public class GUI2 extends JFrame {
 		textInput.setText("");
 	}
 	
-	static String getDisplay(ArrayList<Task> parsedInfo, int i){
+	static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
@@ -234,7 +234,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
 		guiLog.log(Level.INFO, "GUI: startProgram called. First parsedInfo recieved.");
 		for(int i =0; i<parsedInfo.size(); i++){
-			String s = new String(getDisplay(parsedInfo, i));
+			String s = new String(getParsedInoString(parsedInfo, i));
 			panelDisplay.add(createLines(s, i), -1);
 			panelDisplay.revalidate();
 		}
@@ -267,7 +267,7 @@ public class GUI2 extends JFrame {
 				passInput(getInput(textInput));
 				guiLog.log(Level.INFO, "Last input displayed.");
 				for(int i =0; i<parsedInfo.size(); i++){
-					String s = new String(getDisplay(parsedInfo, i));
+					String s = new String(getParsedInoString(parsedInfo, i));
 					System.out.println(s);
 					panelDisplay.add(createLines(s, i), -1);
 					panelDisplay.revalidate();
