@@ -256,6 +256,21 @@ public class GUI2 extends JFrame {
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
+	
+	void refresh(){
+		contentPane.repaint();
+		contentPane.revalidate();
+		textInput.repaint();
+		textInput.revalidate();
+		scrollPane.repaint();
+		scrollPane.revalidate();
+		btnTheme.repaint();
+		btnTheme.revalidate();
+		btnHelp.repaint();
+		btnHelp.revalidate();
+		panelCmd.repaint();
+		panelCmd.revalidate();
+	}
 
 	
 	//End of functions added by Maple
@@ -399,18 +414,7 @@ public class GUI2 extends JFrame {
 				System.out.println("Theme chosen is " + theme);
 				setTheme(theme);
 				resetTheme();
-				contentPane.repaint();
-				contentPane.revalidate();
-				textInput.repaint();
-				textInput.revalidate();
-				scrollPane.repaint();
-				scrollPane.revalidate();
-				btnTheme.repaint();
-				btnTheme.revalidate();
-				btnHelp.repaint();
-				btnHelp.revalidate();
-				panelCmd.repaint();
-				panelCmd.revalidate();
+				refresh();
 			}
 		});
 		
