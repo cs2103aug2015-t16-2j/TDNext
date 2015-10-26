@@ -95,6 +95,13 @@ public class GUI2 extends JFrame {
 		return textInput.getText();
 	}
 	
+	static boolean isHelp(){
+		if (getInput(textInput).toLowerCase() == "help"){
+			return true;
+		}
+		return false;
+	}
+	
 	static void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
@@ -159,6 +166,13 @@ public class GUI2 extends JFrame {
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
 		textArea.setBorder(new LineBorder(new Color(255,255,255)));
+	}
+	
+	static void setStyleExtra(){
+		textArea.setEditable(false);
+		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
+		textArea.setBorder(new LineBorder(new Color(255,255,255)));
+		textArea.setBackground(new Color(255,255,255));
 	}
 	
 	//End of functions added by Maple
@@ -227,11 +241,7 @@ public class GUI2 extends JFrame {
 		if(parsedInfo.size() < 12){
 		for(int j=0; j<(12-parsedInfo.size()); j++){
 			textArea = new JTextArea("");
-			textArea.setEditable(false);
-			textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
-			textArea.setBorder(new LineBorder(new Color(255,255,255)));
-			textArea.setBackground(new Color(255,255,255));
-			panelDisplay.add(textArea);
+			setStyleExtra();
 			panelDisplay.revalidate();
 		}
 		}
@@ -250,8 +260,11 @@ public class GUI2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
+				if(isHelp()){
+					textArea = new JTextArea(help);
+					panelDisplay.add(textArea);
+				}
 				passInput(getInput(textInput));
-		//		System.out.println("passInput");
 				guiLog.log(Level.INFO, "Last input displayed.");
 				for(int i =0; i<parsedInfo.size(); i++){
 					String s = new String(getDisplay(parsedInfo, i));
@@ -259,13 +272,12 @@ public class GUI2 extends JFrame {
 					panelDisplay.add(createLines(s, i), -1);
 					panelDisplay.revalidate();
 				}
+				
+				//For display to have consistent sizes of textArea
 				if(parsedInfo.size() < 12){
 				for(int j=0; j<(12-parsedInfo.size()); j++){
 					textArea = new JTextArea("");
-					textArea.setEditable(false);
-					textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
-					textArea.setBorder(new LineBorder(new Color(255,255,255)));
-					textArea.setBackground(new Color(255,255,255));
+					setStyleExtra();
 					panelDisplay.add(textArea);
 					panelDisplay.revalidate();
 				}
@@ -298,7 +310,7 @@ public class GUI2 extends JFrame {
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
-				System.out.println("theme chosen is " + theme);
+				System.out.println("Theme chosen is " + theme);
 			}
 		});
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
