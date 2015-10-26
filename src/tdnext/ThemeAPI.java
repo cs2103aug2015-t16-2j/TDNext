@@ -26,6 +26,7 @@ public class ThemeAPI {
 	public ThemeAPI(String s){
 		_name = new String(s);
 		setDetails(_name);
+		System.out.println("ThemeAPI set as " + _name);
 	}
 	
 	public String getThemeName(){
@@ -67,7 +68,8 @@ public class ThemeAPI {
 	}
 	
 	public void setDetails(String s){
-		if(s == "Lavender"){
+		System.out.println("Detail name: "+s);
+		if(s.equals("Lavender") ){
 			_red = new Color(255, 195, 206);
 			_orange = new Color(255, 207, 121);
 			_green = new Color(142, 210, 201);
@@ -77,8 +79,9 @@ public class ThemeAPI {
 			_displayFontColor = _foreground;
 			_inputFontColor = _foreground;
 			_background = new Color(230, 230, 250);
-			_systemFontType = new String("Comic Sans MS");
-			}else if(s == "Panda"){
+			_systemFontType = "Comic Sans MS";
+			
+			}else if(s.equals("Panda")){
 				_red = new Color(184, 87, 80);
 				_orange = new Color(213, 162, 83);
 				_green = new Color(201, 167, 152);
@@ -88,7 +91,7 @@ public class ThemeAPI {
 				_displayFontColor = new Color(48, 31, 13);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(79, 36, 18);
-				_systemFontType = new String("Arial");
+				_systemFontType = "Arial Black";
 			}else if(s == "Sapphire"){
 				
 			}else if(s == "Forest"){
