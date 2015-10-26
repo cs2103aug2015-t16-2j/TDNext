@@ -217,7 +217,7 @@ public class GUI2 extends JFrame {
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
 		textArea.setBorder(new LineBorder(new Color(255,255,255)));
-		textArea.setBackground(new Color(255,255,255));
+		textArea.setBackground(displayBackground);
 	}
 	
 	//Theme
@@ -362,7 +362,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(new Color(255, 250, 250));
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
+		panelDisplay.setFont(new Font("Impact", Font.PLAIN, 16));
 		
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getParsedInoString(parsedInfo, i));
@@ -431,9 +431,11 @@ public class GUI2 extends JFrame {
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
 				System.out.println("Theme chosen is " + theme);
+				if(theme != null){
 				setTheme(theme);
 				resetTheme();
 				refresh();
+				}
 			}
 		});
 		
