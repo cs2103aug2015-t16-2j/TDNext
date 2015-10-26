@@ -86,7 +86,7 @@ public class ThemeAPI {
 				_orange = new Color(213, 162, 83);
 				_green = new Color(201, 167, 152);
 				_white = new Color(249, 246, 244);
-				_displayBg = new Color(255, 255, 255);
+				_displayBg = new Color(104, 86, 66);
 				_foreground = new Color(233, 224, 219);
 				_displayFontColor = new Color(48, 31, 13);
 				_inputFontColor = _displayFontColor;
@@ -98,6 +98,16 @@ public class ThemeAPI {
 				_systemFontType = "Shellshock";
 				
 			}else if(s.equals("Forest")){
+				_red = new Color(184, 87, 80);
+				_orange = new Color(179, 165, 128);
+				_green = new Color(222, 210, 158);
+				_white = new Color(244, 240, 203);
+				_displayBg = new Color(104, 86, 66);
+				_foreground = new Color(88, 112, 88);
+				_displayFontColor = new Color(104, 86, 66);
+				_inputFontColor = _displayFontColor;
+				_background = new Color(183, 198, 139);
+				_systemFontType = "Impact";
 				
 			}else{
 				System.out.println("Invalid theme selection");
