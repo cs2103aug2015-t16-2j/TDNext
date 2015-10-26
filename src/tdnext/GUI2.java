@@ -245,14 +245,14 @@ public class GUI2 extends JFrame {
 		textInput.setForeground(inputFontColor);
 		textInput.setColumns(10);
 		
-		btnHelp.setBackground(new Color(255, 250, 250));
+		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
 		
 		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
-		btnTheme.setBackground(new Color(255, 250, 250));
+		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
