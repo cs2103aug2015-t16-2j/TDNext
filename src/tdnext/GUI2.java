@@ -172,8 +172,9 @@ public class GUI2 extends JFrame {
 	}
 	
 	void setTheme(String s){
-		if(s == "Panda"){
+		if(s.equals("Panda")){
 			red = panda.getColor("red");
+			System.out.println(red);
 			orange = panda.getColor("orange");
 			green = panda.getColor("green");
 			white = panda.getColor("white");
@@ -185,7 +186,7 @@ public class GUI2 extends JFrame {
 			systemFont = panda.getSystemFontType();
 			System.out.println("set Panda Theme");
 			
-		}else if(s == "Lavender"){
+		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
 			orange = lavender.getColor("orange");
 			green = lavender.getColor("green");
@@ -227,6 +228,7 @@ public class GUI2 extends JFrame {
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
 		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
+		System.out.println(red.toString());
 
 		scrollPane.setViewportView(panelDisplay);
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
