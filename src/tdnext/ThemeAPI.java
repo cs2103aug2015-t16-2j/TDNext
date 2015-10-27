@@ -85,7 +85,7 @@ public class ThemeAPI {
 				_red = new Color(184, 87, 80);
 				_orange = new Color(213, 162, 83);
 				_green = new Color(201, 167, 152);
-				_white = new Color(249, 246, 244);
+				_white = new Color(239, 236, 234);
 				_displayBg = new Color(104, 86, 66);
 				_foreground = new Color(233, 224, 219);
 				_displayFontColor = new Color(48, 31, 13);
