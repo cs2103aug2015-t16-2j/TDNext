@@ -38,6 +38,7 @@ public class ParserAPI {
 	public static ArrayList<String> possibleWords = new ArrayList<String> ();
 	//public static Boolean isTwoWords = false;
 	//public static Boolean onlyBy = false;
+	public static int foundPrev = 0;
 	
 	//-------------------------Constants-----------------------------
 	private static final String ADD = "ADD";
@@ -49,11 +50,13 @@ public class ParserAPI {
 	//-------------------------Main methods---------------------------
 	
 	public static CommandType parseCommand(String input) {
-		String[] breakDown = input.split(" ", 2);
+		String[] breakDown = input.split(" ");
 		String command = breakDown[0].toLowerCase();
 		
 		
-		if (command.equals("add"))
+		if (breakDown.length == 1 && breakDown[0].equals("sort"))
+			return CommandType.SORT_DEFAULT;		
+		else if (command.equals("add"))
 			return CommandType.ADD;
 		else if (command.contains("add_all"))
 			return CommandType.ADD_ALL;
@@ -90,10 +93,21 @@ public class ParserAPI {
 	
 	public static ArrayList<String> parseSearch(String keyWordWithCommand) {
 		String keyWord = removeCommand(keyWordWithCommand).toLowerCase();
-		ArrayList<String> possibleWords = new ArrayList<String> ();
+		possibleWords = new ArrayList<String> ();
+		
+		ArrayList<String> temp = new ArrayList<String> ();
+		
+		
+		//temp = ;
+
+		System.out.println(possibleWords);
 		
 		return searchFromStorage(keyWord);
 	}
+	
+	//public static ArrayList<String> sortOut(ArrayList<String> takeIn) {
+		
+	//}
 	
 	//Returns index number of a task to edit
 	public static int parseIndex(String input) {
@@ -140,7 +154,7 @@ public class ParserAPI {
 	
 	private static ArrayList<String> searchFromStorage (String keyWord) {
 		ArrayList<String> found = new ArrayList<String> ();
-		ArrayList<String> possibleWords = new ArrayList<String> ();
+		//ArrayList<String> possibleWords = new ArrayList<String> ();
 		
 		if (storage.size() == 0)
 			return null;
@@ -154,6 +168,9 @@ public class ParserAPI {
 	
 	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
 		ArrayList<String> afterEdit = new ArrayList<String> ();
+		
+		if (beforeEdit.isEmpty())
+			return new ArrayList<String> ();
 		
 		afterEdit.add(beforeEdit.get(0));
 		
@@ -186,6 +203,8 @@ public class ParserAPI {
 		Boolean equalLength = sameLength(keyWord, compareWord);
 		float pecASCII = percentageASCII(keyWord, compareWord);
 		float pecChar = percentageOfSimilarity(keyWord, compareWord);
+		
+		//System.out.println(equalLength + " " + pecASCII + " " + pecChar);
 		
 		if (keyWord.toCharArray().length <= 3)
 			return ((pecASCII >= 0.50) && (pecChar >= 0.50));
@@ -737,12 +756,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-/*	public static void main(String[] args) {
+    public static void main(String[] args) {
 		storage.add("add this is a proper task");
 		while (true) {
-		
+
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseSearch(input.nextLine()));
 		}
-	} */
+	} 
 }
