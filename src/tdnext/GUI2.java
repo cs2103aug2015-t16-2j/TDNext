@@ -91,6 +91,8 @@ public class GUI2 extends JFrame {
 	private ThemeAPI lavender = new ThemeAPI("Lavender");
 	private ThemeAPI panda = new ThemeAPI("Panda");
 	private ThemeAPI forest = new ThemeAPI("Forest");
+	private ThemeAPI sapphire = new ThemeAPI("Sapphire");
+
 	
 	//Colors used in GUI display
 	private static Color red = Color.red;
@@ -215,6 +217,20 @@ public class GUI2 extends JFrame {
 			systemFont = forest.getSystemFontType();
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Forest Theme");
+			
+		}else if(s.equals("Sapphire")){
+			red = sapphire.getColor("red");
+			orange = sapphire.getColor("orange");
+			green = sapphire.getColor("green");
+			white = sapphire.getColor("white");
+			displayFontColor = sapphire.getColor("displayfont");
+			inputFontColor = sapphire.getColor("inputfont");
+			displayBackground = sapphire.getColor("displaybg");
+			foreground = sapphire.getColor("foreground");
+			background = sapphire.getColor("background");
+			systemFont = sapphire.getSystemFontType();
+			System.out.println("system font set to: " + systemFont);
+			System.out.println("set Sapphire Theme");
 			
 		}else{
 			
