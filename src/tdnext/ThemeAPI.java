@@ -98,7 +98,7 @@ public class ThemeAPI {
 				_orange = new Color(116, 194, 225);
 				_green = new Color(172, 209, 233);
 				_white = new Color(206, 235, 251);
-				_displayBg = new Color(240,240,240);
+				_displayBg = new Color(255,255,255);
 				_foreground = new Color(163, 214, 245);
 				_displayFontColor = new Color(0, 91, 154);
 				_inputFontColor = _displayFontColor;
