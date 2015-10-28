@@ -48,7 +48,7 @@ public class GUI2 extends JFrame {
 	private static TDNextLogicAPI logic1; 
 	private static Logger guiLog= Logger.getLogger("GUI");
 	
-	private static final String help = 
+	private final String help = 
 			"This is the help section. Please see below for more information:"
 			+"\n\n"
 			+ "Create-\n"
@@ -108,17 +108,11 @@ public class GUI2 extends JFrame {
 	private static String systemFont = "Impact";
 	
 	//By Maple: Input and display related
-	static String getInput(JTextField textInput){
+	private String getInput(JTextField textInput){
 		return textInput.getText();
 	}
 	
-	static boolean isHelp(){
-		if (getInput(textInput).toLowerCase() == "help")
-			return true;
-		return false;
-	}
-	
-	static void passInput(String input){
+	private void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
 			output = logic1.executeCommand(input);
@@ -129,11 +123,11 @@ public class GUI2 extends JFrame {
 		}
 	}
 	
-	static void clearInput(JTextField textInput){
+	private static void clearInput(JTextField textInput){
 		textInput.setText("");
 	}
 	
-	static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
+	private String getParsedInoString(ArrayList<Task> parsedInfo, int i){
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
@@ -141,12 +135,13 @@ public class GUI2 extends JFrame {
 		return output;
 	}
 	
-	static JTextArea createTextAreas(String s, int i){
+	private JTextArea createTextAreas(String s, int i){
 		textArea = new JTextArea(s);
 	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
 		return textArea;
 	}
+	
 	
 	
 	//By Maple: Color related
