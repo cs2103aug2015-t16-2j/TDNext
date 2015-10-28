@@ -17,22 +17,15 @@ public class ThemeAPI {
 		private Color _inputFontColor; //Font Color for textInput
 		private Color _foreground; //Font Color for system
 		private Color _background ; //Background Color for system
-		
-		private final int _n = 2; //Total number of themes supported currently
-		
-	//Lavender Default
+
 	public ThemeAPI(String s){
-		_name = new String(s);
+		_name = s;
 		setDetails(_name);
 		System.out.println("ThemeAPI set as " + _name);
 	}
 	
 	public String getThemeName(){
 		return _name;
-	}
-	
-	public int getNumber(){
-		return _n;
 	}
 	
 	public Color getColor(String c){
@@ -108,7 +101,6 @@ public class ThemeAPI {
 				_background = new Color(183, 198, 139);
 				
 			}else{
-				System.out.println("Invalid theme selection");
 				_red = Color.red;
 				_orange = Color.orange;
 				_green = Color.green;
