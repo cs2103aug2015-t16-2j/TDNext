@@ -94,11 +94,11 @@ public class ThemeAPI {
 				_systemFontType = "Arial";
 				
 			}else if(s.equals("Sapphire")){
-				_red = new Color(200, 87, 80);
-				_orange = new Color(102, 167, 197);
+				_red = new Color(102, 167, 197);
+				_orange = new Color(116, 194, 225);
 				_green = new Color(172, 209, 233);
 				_white = new Color(206, 235, 251);
-				_displayBg = new Color(116, 194, 225);
+				_displayBg = new Color(240,240,240);
 				_foreground = new Color(233, 224, 219);
 				_displayFontColor = new Color(0, 91, 154);
 				_inputFontColor = _displayFontColor;
