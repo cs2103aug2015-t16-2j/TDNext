@@ -18,8 +18,6 @@ public class ThemeAPI {
 		private Color _foreground; //Font Color for system
 		private Color _background ; //Background Color for system
 		
-		private static String _systemFontType;
-		
 		private final int _n = 2; //Total number of themes supported currently
 		
 	//Lavender Default
@@ -35,10 +33,6 @@ public class ThemeAPI {
 	
 	public int getNumber(){
 		return _n;
-	}
-	
-	public String getSystemFontType(){
-		return _systemFontType;
 	}
 	
 	public Color getColor(String c){
@@ -79,7 +73,6 @@ public class ThemeAPI {
 			_displayFontColor = _foreground;
 			_inputFontColor = _foreground;
 			_background = new Color(230, 230, 250);
-			_systemFontType = "Arial";
 			
 			}else if(s.equals("Panda")){
 				_red = new Color(200, 87, 80);
@@ -91,7 +84,6 @@ public class ThemeAPI {
 				_displayFontColor = new Color(48, 31, 13);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(79, 36, 18);
-				_systemFontType = "Arial";
 				
 			}else if(s.equals("Sapphire")){
 				_red = new Color(102, 167, 197);
@@ -103,7 +95,6 @@ public class ThemeAPI {
 				_displayFontColor = new Color(0, 91, 154);
 				_inputFontColor = _displayFontColor;
 				_background = _displayFontColor;
-				_systemFontType = "Arial";
 				
 			}else if(s.equals("Forest")){
 				_red = new Color(169, 125, 93);
@@ -115,7 +106,6 @@ public class ThemeAPI {
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(183, 198, 139);
-				_systemFontType = "Arial";
 				
 			}else{
 				System.out.println("Invalid theme selection");
@@ -128,7 +118,7 @@ public class ThemeAPI {
 				_displayFontColor = _foreground;
 				_inputFontColor = _foreground;
 				_background = null;
-				_systemFontType = "Arial";
+				
 			}
 	}
 	
