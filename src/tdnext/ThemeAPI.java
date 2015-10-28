@@ -99,7 +99,7 @@ public class ThemeAPI {
 				_green = new Color(172, 209, 233);
 				_white = new Color(206, 235, 251);
 				_displayBg = new Color(240,240,240);
-				_foreground = new Color(233, 224, 219);
+				_foreground = new Color(163, 214, 245);
 				_displayFontColor = new Color(0, 91, 154);
 				_inputFontColor = _displayFontColor;
 				_background = _displayFontColor;
