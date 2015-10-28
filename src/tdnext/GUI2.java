@@ -176,6 +176,7 @@ public class GUI2 extends JFrame {
 		return c;
 	}
 	
+	//Theme
 	void setTheme(String s){
 		if(s.equals("Panda")){
 			red = panda.getColor("red");
@@ -188,7 +189,7 @@ public class GUI2 extends JFrame {
 			displayBackground = panda.getColor("displaybg");
 			foreground = panda.getColor("foreground");
 			background = panda.getColor("background");
-			systemFont = panda.getSystemFontType();
+			
 			System.out.println("set Panda Theme");
 			
 		}else if(s.equals("Lavender")){
@@ -201,7 +202,7 @@ public class GUI2 extends JFrame {
 			displayBackground = lavender.getColor("displaybg");
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
-			systemFont = lavender.getSystemFontType();
+			
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Lavender Theme");
 			
@@ -215,7 +216,7 @@ public class GUI2 extends JFrame {
 			displayBackground = forest.getColor("displaybg");
 			foreground = forest.getColor("foreground");
 			background = forest.getColor("background");
-			systemFont = forest.getSystemFontType();
+			
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Forest Theme");
 			
@@ -229,7 +230,7 @@ public class GUI2 extends JFrame {
 			displayBackground = sapphire.getColor("displaybg");
 			foreground = sapphire.getColor("foreground");
 			background = sapphire.getColor("background");
-			systemFont = sapphire.getSystemFontType();
+			
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Sapphire Theme");
 			
@@ -243,7 +244,7 @@ public class GUI2 extends JFrame {
 			displayBackground = original.getColor("displaybg");
 			foreground = original.getColor("foreground");
 			background = original.getColor("background");
-			systemFont = original.getSystemFontType();
+			
 			System.out.println("system font set to: " + systemFont);
 			System.out.println("set Sapphire Theme");
 			
@@ -266,7 +267,6 @@ public class GUI2 extends JFrame {
 		textArea.setBackground(displayBackground);
 	}
 	
-	//Theme
 	private void setContentPane(){
 		setBounds(100, 100, 500, 500);
 		contentPane.setBackground(background);
