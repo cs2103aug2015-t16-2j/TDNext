@@ -79,7 +79,7 @@ public class ThemeAPI {
 			_displayFontColor = _foreground;
 			_inputFontColor = _foreground;
 			_background = new Color(230, 230, 250);
-			_systemFontType = "Comic Sans MS";
+			_systemFontType = "Arial";
 			
 			}else if(s.equals("Panda")){
 				_red = new Color(200, 87, 80);
@@ -91,7 +91,7 @@ public class ThemeAPI {
 				_displayFontColor = new Color(48, 31, 13);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(79, 36, 18);
-				_systemFontType = "Arial Black";
+				_systemFontType = "Arial";
 				
 			}else if(s.equals("Sapphire")){
 				
@@ -107,7 +107,7 @@ public class ThemeAPI {
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(183, 198, 139);
-				_systemFontType = "Impact";
+				_systemFontType = "Arial";
 				
 			}else{
 				System.out.println("Invalid theme selection");
@@ -120,7 +120,7 @@ public class ThemeAPI {
 				_displayFontColor = _foreground;
 				_inputFontColor = _foreground;
 				_background = null;
-				_systemFontType = "Impact";
+				_systemFontType = "Arial";
 			}
 	}
 	
