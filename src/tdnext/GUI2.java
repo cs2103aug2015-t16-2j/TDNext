@@ -92,6 +92,7 @@ public class GUI2 extends JFrame {
 	private ThemeAPI panda = new ThemeAPI("Panda");
 	private ThemeAPI forest = new ThemeAPI("Forest");
 	private ThemeAPI sapphire = new ThemeAPI("Sapphire");
+	private ThemeAPI original = new ThemeAPI("");
 
 	
 	//Colors used in GUI display
@@ -233,6 +234,18 @@ public class GUI2 extends JFrame {
 			System.out.println("set Sapphire Theme");
 			
 		}else{
+			red = original.getColor("red");
+			orange = original.getColor("orange");
+			green = original.getColor("green");
+			white = original.getColor("white");
+			displayFontColor = original.getColor("displayfont");
+			inputFontColor = original.getColor("inputfont");
+			displayBackground = original.getColor("displaybg");
+			foreground = original.getColor("foreground");
+			background = original.getColor("background");
+			systemFont = original.getSystemFontType();
+			System.out.println("system font set to: " + systemFont);
+			System.out.println("set Sapphire Theme");
 			
 		}
 	}
@@ -254,7 +267,7 @@ public class GUI2 extends JFrame {
 	}
 	
 	//Theme
-	void resetTheme(){
+	private void setContentPane(){
 		setBounds(100, 100, 500, 500);
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
@@ -263,14 +276,18 @@ public class GUI2 extends JFrame {
 		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
 		System.out.println(red.toString());
-
+	}
+	
+	private void setPanelDisplay(){
 		scrollPane.setViewportView(panelDisplay);
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
 		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
-		
+	}
+	
+	private void setPanelCmd(){
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
@@ -279,12 +296,16 @@ public class GUI2 extends JFrame {
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
 		textInput.setForeground(inputFontColor);
 		textInput.setColumns(10);
-		
+	}
+	
+	private void setBtnHelp(){
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
-		
+	}
+	
+	private void setBtnTheme(){
 		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
 		btnTheme.setBackground(background);
@@ -292,7 +313,15 @@ public class GUI2 extends JFrame {
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
 	
-	void refresh(){
+	private void setAll(){
+		setContentPane();
+		setPanelDisplay();
+		setPanelCmd();
+		setBtnHelp();
+		setBtnTheme();
+	}
+	
+	private void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
 		textInput.repaint();
@@ -466,7 +495,7 @@ public class GUI2 extends JFrame {
 				System.out.println("Theme chosen is " + theme);
 				if(theme != null){
 				setTheme(theme);
-				resetTheme();
+				setAll();
 				refresh();
 				}
 			}
