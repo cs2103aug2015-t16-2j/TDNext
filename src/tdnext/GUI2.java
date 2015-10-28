@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -19,7 +20,11 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+
 import tdnext.TDNextLogicAPI.ColourType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -42,7 +47,7 @@ public class GUI2 extends JFrame {
 	private static JPanel panelDisplay;
 	private static JPanel panelCmd;
 	private static String theme;
-	
+		
 	private static ArrayList<Task> parsedInfo;	
 	
 	private static TDNextLogicAPI logic1; 
@@ -150,6 +155,16 @@ public class GUI2 extends JFrame {
 			panelDisplay.revalidate();
 		}	
 	}
+	
+	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+	InputMap v = verticalBar.getInputMap();
+	InputMap h = horizontalBar.getInputMap();
+	KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
+	KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
+	KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
+	KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
+	
 	
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
@@ -285,7 +300,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		panelDisplay.setFont(new Font(systemFont, Font.BOLD, 16));
+		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
 	}
 	
 	private void setPanelCmd(){
@@ -364,12 +379,6 @@ public class GUI2 extends JFrame {
 	 */
 	public static void main(String[] args) {
 		
-		try{
-			Robot rob = new Robot();
-		}catch(AWTException e){
-			e.printStackTrace();
-		}
-		
 		logic1 = new TDNextLogicAPI();
 		try {
 			parsedInfo = logic1.startProgram();
@@ -430,6 +439,13 @@ public class GUI2 extends JFrame {
 				guiLog.log(Level.INFO, "Last input displayed.");
 				addTextArea();	
 				setTextAreaSize();
+				Robot rob;
+				try {
+					rob = new Robot();
+					rob.mouseWheel(500);
+				} catch (AWTException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
