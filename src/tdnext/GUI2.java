@@ -142,10 +142,16 @@ public class GUI2 extends JFrame {
 		return textArea;
 	}
 	
-	
+	private void addTextArea(){
+		for(int i =0; i<parsedInfo.size(); i++){
+			String s = new String(getParsedInoString(parsedInfo, i));
+			System.out.println(s);
+			panelDisplay.add(createTextAreas(s, i), -1);
+			panelDisplay.revalidate();
+		}	
+	}
 	
 	//By Maple: Color related
-
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
 	//	System.out.println("color is:" + cT);
@@ -251,7 +257,7 @@ public class GUI2 extends JFrame {
 	//	System.out.println("Style set");
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
-		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
+		textArea.setFont(new Font(systemFont, Font.BOLD, 16));
 		textArea.setBorder(new LineBorder(displayBackground));
 	}
 	
@@ -275,11 +281,11 @@ public class GUI2 extends JFrame {
 	
 	private void setPanelDisplay(){
 		scrollPane.setViewportView(panelDisplay);
-		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
+		panelDisplay.setFont(new Font(systemFont, Font.BOLD, 16));
 	}
 	
 	private void setPanelCmd(){
@@ -411,34 +417,22 @@ public class GUI2 extends JFrame {
 		btnTheme = new JButton("THEME");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 		
-		setContentPane();
-		
-		setPanelDisplay();
-		for(int i =0; i<parsedInfo.size(); i++){
-			String s = new String(getParsedInoString(parsedInfo, i));
-			panelDisplay.add(createTextAreas(s, i), -1);
-			panelDisplay.revalidate();
-		}
+		setAll();
+
+		addTextArea();
 		setTextAreaSize();
 		
-		setPanelCmd();
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
 				passInput(getInput(textInput));
 				guiLog.log(Level.INFO, "Last input displayed.");
-				for(int i =0; i<parsedInfo.size(); i++){
-					String s = new String(getParsedInoString(parsedInfo, i));
-					System.out.println(s);
-					panelDisplay.add(createTextAreas(s, i), -1);
-					panelDisplay.revalidate();
-				}	
+				addTextArea();	
 				setTextAreaSize();
 			}
 		});
 		
-		setBtnHelp();
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, help);
@@ -446,7 +440,6 @@ public class GUI2 extends JFrame {
 			}
 		});
 		
-		setBtnTheme();
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
