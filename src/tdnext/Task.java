@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import tdnext.TDNextLogicAPI.ColourType;
 
 public class Task {
+	private static final int URGENT_DAY = 14;
 	
 	// Instance attributes
 	private String _description = new String();
@@ -75,10 +76,16 @@ public class Task {
 	private void calculatePriorityIndex() {		
 		if((!_done) && (_deadline != null)) {
 			int difference = dateDifference();
-			if(_importance) {
-				_priorityIndex = (14 - difference + 1) * 2 + 1;
+			if(difference <= 14){
+				if(_importance) {
+					_priorityIndex = (URGENT_DAY - difference + 1) * 2 + 1;
+				} else {
+					_priorityIndex = (URGENT_DAY - difference + 1) * 2;
+				}
+			} else if(_importance) {
+				_priorityIndex = (URGENT_DAY - difference - 1) * 2 - 1;
 			} else {
-				_priorityIndex = (14 - difference + 1) * 2;
+				_priorityIndex = (URGENT_DAY - difference - 1) * 2;
 			}
 		} else if(_importance) {
 			_priorityIndex = 1;
@@ -170,6 +177,7 @@ class DateComparator implements Comparator<Task> {
 	public int compare(Task task1, Task task2) {
 		int task1PriorityIndex = task1.getPriorityIndex();
 		int task2PriorityIndex = task2.getPriorityIndex();
+		
 		if(task1PriorityIndex % 2 == 0) {
 			if(task2PriorityIndex % 2 == 0) {
 				if(task2PriorityIndex > task1PriorityIndex) {
@@ -184,6 +192,10 @@ class DateComparator implements Comparator<Task> {
 			}
 		} else if(task2PriorityIndex % 2 == 0){
 			return 1;
+		} else if (task2PriorityIndex > task1PriorityIndex){
+			return 1;
+		} else if (task1PriorityIndex > task2PriorityIndex) {
+			return -1;
 		} else {
 			return 0;
 		}

@@ -78,6 +78,10 @@ public class Logic {
 			case ADD_ALL : 
 				addAllTask();
 				return _listTask;
+			
+			case CHANGE_DIRECTORY : 
+				changeDirectory(input);
+				return _listTask;
 				
 			/*case EDIT_DATE :
 				editDate(input);
@@ -229,19 +233,21 @@ public class Logic {
 	}
 	
 	private ArrayList<Task> searchTask(String input) {
-		ArrayList<String> information = ParserAPI.parseInformation(input);
-		String name = information.get(0);
+		ArrayList<String> keywords = ParserAPI.parseSearch(input);
 		_searchList = new ArrayList<Task>();
 		
-		for(int i = 0; i < _listTask.size(); i++) {
-			Task currTask = _listTask.get(i);
-			if(currTask.toString().contains(name)) {
-				_searchList.add(currTask);
+		for(int j = 0; j < keywords.size(); j++) {
+			String name = keywords.get(j);
+			for(int i = 0; i < _listTask.size(); i++) {
+				Task currTask = _listTask.get(i);
+				if(currTask.toString().contains(name)) {
+					_searchList.add(currTask);
+				}
 			}
 		}
 		
 		_lastCommand = "Search";
-		_logger.log(Level.INFO, "Search " + name + " is done.");
+		_logger.log(Level.INFO, "Search is done.");
 		return _searchList;
 	}
 	
@@ -259,5 +265,10 @@ public class Logic {
 		Collections.sort(_listTask, new DateComparator());
 		_logger.log(Level.INFO, "Sorted by deadline");
 		
+	}
+	
+	private void changeDirectory(String input) {
+		String newDir = ParserAPI.parseDirectory(input);
+		StorageAPI.changeDir(newDir);
 	}
 }
