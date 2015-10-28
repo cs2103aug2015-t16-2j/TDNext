@@ -321,6 +321,17 @@ public class GUI2 extends JFrame {
 		setBtnTheme();
 	}
 	
+	private void setTextAreaSize(){
+		if(parsedInfo.size() < 12){
+			for(int j=0; j<(12-parsedInfo.size()); j++){
+				textArea = new JTextArea("");
+				setStyleExtra();
+				panelDisplay.add(textArea);
+				panelDisplay.revalidate();
+			}
+			}
+	}
+	
 	private void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
@@ -341,14 +352,7 @@ public class GUI2 extends JFrame {
 			panelDisplay.add(createTextAreas(s, i), -1);
 			panelDisplay.revalidate();
 		}
-		if(parsedInfo.size() < 12){
-		for(int j=0; j<(12-parsedInfo.size()); j++){
-			textArea = new JTextArea("");
-			setStyleExtra();
-			panelDisplay.add(textArea);
-			panelDisplay.revalidate();
-		}
-		}
+		setTextAreaSize();
 	}
 
 	
