@@ -412,20 +412,9 @@ public class GUI2 extends JFrame {
 		btnTheme = new JButton("THEME");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 		
-		setBounds(100, 100, 500, 500);
-		contentPane.setBackground(background);
-		contentPane.setBorder(null);
-		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
-		contentPane.validate();
-		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
-
-		scrollPane.setViewportView(panelDisplay);
-		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.CENTER, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		panelDisplay.setBackground(new Color(255, 250, 250));
-		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));	
-		panelDisplay.setFont(new Font("Impact", Font.PLAIN, 16));
+		setContentPane();
 		
+		setPanelDisplay();
 		for(int i =0; i<parsedInfo.size(); i++){
 			String s = new String(getParsedInoString(parsedInfo, i));
 			panelDisplay.add(createTextAreas(s, i), -1);
@@ -440,11 +429,7 @@ public class GUI2 extends JFrame {
 		}
 		}
 		
-		panelCmd.setBackground(background);
-		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
-		panelCmd.setLayout(new BorderLayout(0, 0));
-		
+		setPanelCmd();
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelDisplay.removeAll();
@@ -469,22 +454,16 @@ public class GUI2 extends JFrame {
 				}
 			}
 		});
-		panelCmd.add(textInput);
-		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
-		textInput.setForeground(foreground);
-		textInput.setColumns(10);
 		
+		setBtnHelp();
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, help);
 				guiLog.log(Level.INFO, "Help button pressed.");
 			}
 		});
-		btnHelp.setBackground(background);
-		btnHelp.setForeground(foreground);
-		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
-		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
 		
+		setBtnTheme();
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
@@ -500,11 +479,5 @@ public class GUI2 extends JFrame {
 				}
 			}
 		});
-		
-		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
-		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
-		btnTheme.setBackground(background);
-		btnTheme.setForeground(foreground);
-		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
 }
