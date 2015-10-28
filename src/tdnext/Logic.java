@@ -233,19 +233,21 @@ public class Logic {
 	}
 	
 	private ArrayList<Task> searchTask(String input) {
-		ArrayList<String> information = ParserAPI.parseInformation(input);
-		String name = information.get(0);
+		ArrayList<String> keywords = ParserAPI.parseSearch(input);
 		_searchList = new ArrayList<Task>();
 		
-		for(int i = 0; i < _listTask.size(); i++) {
-			Task currTask = _listTask.get(i);
-			if(currTask.toString().contains(name)) {
-				_searchList.add(currTask);
+		for(int j = 0; j < keywords.size(); j++) {
+			String name = keywords.get(j);
+			for(int i = 0; i < _listTask.size(); i++) {
+				Task currTask = _listTask.get(i);
+				if(currTask.toString().contains(name)) {
+					_searchList.add(currTask);
+				}
 			}
 		}
 		
 		_lastCommand = "Search";
-		_logger.log(Level.INFO, "Search " + name + " is done.");
+		_logger.log(Level.INFO, "Search is done.");
 		return _searchList;
 	}
 	
