@@ -78,6 +78,10 @@ public class Logic {
 			case ADD_ALL : 
 				addAllTask();
 				return _listTask;
+			
+			case CHANGE_DIRECTORY : 
+				changeDirectory(input);
+				return _listTask;
 				
 			/*case EDIT_DATE :
 				editDate(input);
@@ -259,5 +263,10 @@ public class Logic {
 		Collections.sort(_listTask, new DateComparator());
 		_logger.log(Level.INFO, "Sorted by deadline");
 		
+	}
+	
+	private void changeDirectory(String input) {
+		String newDir = ParserAPI.parseDirectory(input);
+		StorageAPI.changeDir(newDir);
 	}
 }
