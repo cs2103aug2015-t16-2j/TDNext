@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import tdnext.TDNextLogicAPI.ColourType;
 
 public class Task {
+	private static final int URGENT_DAY = 14;
 	
 	// Instance attributes
 	private String _description = new String();
@@ -75,10 +76,16 @@ public class Task {
 	private void calculatePriorityIndex() {		
 		if((!_done) && (_deadline != null)) {
 			int difference = dateDifference();
-			if(_importance) {
-				_priorityIndex = (14 - difference + 1) * 2 + 1;
+			if(difference <= 14){
+				if(_importance) {
+					_priorityIndex = (URGENT_DAY - difference + 1) * 2 + 1;
+				} else {
+					_priorityIndex = (URGENT_DAY - difference + 1) * 2;
+				}
+			} else if(_importance) {
+				_priorityIndex = (URGENT_DAY - difference - 1) * 2 - 1;
 			} else {
-				_priorityIndex = (14 - difference + 1) * 2;
+				_priorityIndex = (URGENT_DAY - difference - 1) * 2;
 			}
 		} else if(_importance) {
 			_priorityIndex = 1;
