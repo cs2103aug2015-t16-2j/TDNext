@@ -170,6 +170,7 @@ class DateComparator implements Comparator<Task> {
 	public int compare(Task task1, Task task2) {
 		int task1PriorityIndex = task1.getPriorityIndex();
 		int task2PriorityIndex = task2.getPriorityIndex();
+		
 		if(task1PriorityIndex % 2 == 0) {
 			if(task2PriorityIndex % 2 == 0) {
 				if(task2PriorityIndex > task1PriorityIndex) {
@@ -184,6 +185,10 @@ class DateComparator implements Comparator<Task> {
 			}
 		} else if(task2PriorityIndex % 2 == 0){
 			return 1;
+		} else if (task2PriorityIndex > task1PriorityIndex){
+			return 1;
+		} else if (task1PriorityIndex > task2PriorityIndex) {
+			return -1;
 		} else {
 			return 0;
 		}
