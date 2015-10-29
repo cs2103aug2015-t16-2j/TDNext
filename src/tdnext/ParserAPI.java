@@ -100,7 +100,7 @@ public class ParserAPI {
 		
 		//temp = ;
 
-		System.out.println(possibleWords);
+		//System.out.println(possibleWords);
 		
 		return searchFromStorage(keyWord);
 	}
@@ -201,15 +201,16 @@ public class ParserAPI {
 	
 	private static Boolean similarEnough(String compareWord, String keyWord) {
 		Boolean equalLength = sameLength(keyWord, compareWord);
+		Boolean contained = compareWord.contains(keyWord);
 		float pecASCII = percentageASCII(keyWord, compareWord);
 		float pecChar = percentageOfSimilarity(keyWord, compareWord);
 		
 		//System.out.println(equalLength + " " + pecASCII + " " + pecChar);
 		
 		if (keyWord.toCharArray().length <= 3)
-			return ((pecASCII >= 0.50) && (pecChar >= 0.50));
+			return ((pecASCII >= 0.50) && (pecChar >= 0.50)) || contained;
 		
-		return ((pecASCII >= 0.75) && (pecChar >= 0.75));
+		return ((pecASCII >= 0.75) && (pecChar >= 0.75)) || contained;
 	}
 	
 	private static float percentageOfSimilarity(String wordOne, String wordTwo) {
@@ -756,12 +757,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseSearch(input.nextLine()));
 		}
-	} */
+	}
 }
