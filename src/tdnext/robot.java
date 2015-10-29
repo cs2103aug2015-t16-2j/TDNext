@@ -57,6 +57,7 @@ public class robot
 	robot.mouseMove(810, 515);//o OK
 	leftClick();
 	enter();
+	robot.delay(1000);
 	
 	robot.mouseMove(532,559); //to btnTheme
     leftClick();
@@ -64,7 +65,7 @@ public class robot
 	robot.mouseMove(829,456);//Choices
 	leftClick();
 	robot.delay(500);
-	robot.mouseMove(829,492);//to "Panda"
+	robot.mouseMove(829,472);//to "Panda"
 	System.out.println("Panda Theme selected");
 	robot.delay(1000);
 	leftClick();
@@ -72,22 +73,87 @@ public class robot
 	robot.mouseMove(810, 515);//o OK
 	leftClick();
 	enter();
+	robot.delay(1000);
 	
-	 	robot.mouseMove(532,559); //to btnTheme
+	robot.mouseMove(532,559); //to btnTheme
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,492);//to "Sapphire"
+	System.out.println("Sapphire Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+
+    robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,512);//to "Forest"
+	System.out.println("Lavender Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+	
+    robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,532);//to "Default"
+	System.out.println("Default Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 535);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+	
+	    robot.mouseMove(532,559); //to btnTheme
 	    leftClick();
 		robot.delay(1000);
 		robot.mouseMove(829,456);//Choices
 		leftClick();
 		robot.delay(500);
-		robot.mouseMove(829,492);//to "Sapphire"
-		System.out.println("Sapphire Theme selected");
+		robot.mouseMove(829,452);//to "Lavender"
+		System.out.println("Lavender Theme selected");
 		robot.delay(1000);
 		leftClick();
 		robot.delay(1000);
 		robot.mouseMove(810, 515);//o OK
 		leftClick();
 		enter();
-	
+		robot.delay(1000);
+		
+	    robot.mouseMove(532,559); //to btnTheme
+	    leftClick();
+		robot.delay(1000);
+		robot.mouseMove(710, 510);//Cancel
+		leftClick();
+		System.out.println("Cancel");
+		robot.delay(1000);
+		
+		leftClick();
+		robot.delay(1000);
+		robot.mouseMove(810, 515);//o OK
+		leftClick();
+		
+		System.out.println("End of Theme demo");
+		robot.delay(5000);
 	  
 //Enter events
 	System.out.println("Events start");
