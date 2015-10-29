@@ -20,34 +20,6 @@ public class StorageAPI {
 	public static ArrayList<String> settings = new ArrayList<String>();
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
 	
-	public static void initialise() throws IOException{
-		if(fileExists("settings.txt")){
-			//Fetching properties
-			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
-			dir = settings.get(0);
-			outputName = settings.get(1);
-		}
-		else {
-			//First time running program, no properties set
-			dir = System.getProperty("user.dir").concat(File.separator);//Getting root directory
-			outputName = "TDNext.txt";//Default name
-			settings.add(dir);
-			settings.add(outputName);
-			saveSettings();
-		}
-		
-	}
-	
-	private static void saveSettings() throws IOException{
-		File f = new File(System.getProperty("user.dir").concat(File.separator)+"settings.txt");	
-		FileWriter writer = new FileWriter(f,false);
-		for(int i =0;i<settings.size();i++){
-			writer.write(settings.get(i) + System.getProperty( "line.separator" ));
-		}
-		writer.close();
-	}
-	
-	
 	//API method for the user to save the file with a different name
 	public static void setName(String newName) throws IOException{
 		File f = new File(dir+outputName);
@@ -66,6 +38,16 @@ public class StorageAPI {
 		syncFile(data);
 		settings.set(0, newDir);
 		saveSettings();
+	}
+	
+	//Private method to update values in settings.txt
+	private static void saveSettings() throws IOException{
+		File f = new File(System.getProperty("user.dir").concat(File.separator)+"settings.txt");	
+		FileWriter writer = new FileWriter(f,false);
+		for(int i =0;i<settings.size();i++){
+			writer.write(settings.get(i) + System.getProperty( "line.separator" ));
+		}
+		writer.close();
 	}
 	
 	//API method to add new tasks into text file 
@@ -91,9 +73,10 @@ public class StorageAPI {
 		tempAdd.remove(tempAdd.size()-1);
 		syncFile(data);
 	}
+	
 	//API method to fetch all data from text file into "data" arrayList
 	public static ArrayList<String> getFromFile() throws IOException{
-		
+		initialise();
 		if(fileExists(dir+outputName)){
 			if(data.size()>0)
 				data.clear();
@@ -105,7 +88,26 @@ public class StorageAPI {
 			return new ArrayList<String>();
 		}
 	}
-			
+	
+	//Private method to retrieve dir and outputName from settings.txt and create a new settings.txt if it does not exist
+	private static void initialise() throws IOException{
+		if(fileExists("settings.txt")){
+			//Fetching properties
+			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
+			dir = settings.get(0);
+			outputName = settings.get(1);
+		}
+		else {
+			//First time running program, no properties set
+			dir = System.getProperty("user.dir").concat(File.separator);//Getting root directory
+			outputName = "TDNext.txt";//Default name
+			settings.add(dir);
+			settings.add(outputName);
+			saveSettings();
+		}
+		
+	}
+	
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
 	private static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws IOException{
 			
