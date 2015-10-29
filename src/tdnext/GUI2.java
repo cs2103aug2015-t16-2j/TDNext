@@ -155,7 +155,7 @@ public class GUI2 extends JFrame {
 			panelDisplay.revalidate();
 		}	
 	}
-	
+	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
 	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
 	InputMap v = verticalBar.getInputMap();
@@ -164,7 +164,7 @@ public class GUI2 extends JFrame {
 	KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
 	KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
 	KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
-	
+	*/
 	
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
