@@ -24,7 +24,7 @@ public class robot
 	System.out.println("Start of robot");
 	robot.delay(4000);
 
-
+/*
 //Check btnHelp
     System.out.println("Try btnHelp");
     robot.delay(1000);
@@ -145,7 +145,8 @@ public class robot
 		
 		System.out.println("End of Theme demo");
 		robot.delay(5000);
-	  
+	  */
+		
 //Enter events
 	System.out.println("Events start");
 	
@@ -258,7 +259,7 @@ public class robot
     robot.delay(1000);
     enter();
     
-    type("add Call Wei and check on her, important");
+    type("add Call Wei and check-on her, important");
     robot.delay(1000);
     enter();
     
@@ -299,6 +300,18 @@ public class robot
     robot.mouseWheel(500);//scroll up
     robot.delay(2000);
     robot.mouseWheel(-500);//scroll down
+    robot.delay(2000);
+    
+    type("search cs2103t");
+    robot.delay(1000);
+    enter();
+    System.out.println("Search for CS2103T- related tasks");
+    robot.delay(2000);
+    
+    type("sort default");
+    System.out.println("Try SORT BY DEFAULT");
+    robot.delay(2000);
+    enter();
     robot.delay(2000);
     
     type("sort name");
