@@ -2,31 +2,70 @@ package tdnext;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class StorageAPI {
-	public static String dir = System.getProperty("user.dir").concat(File.separator);//Getting the current directory of the user
-	public static String outputName = "TDNext.txt"; //Name of the output text file
+	public static String dir;
+	public static String outputName;
 	public static ArrayList<String> tempClear= new ArrayList<String>(); //ArrayList to save data when user clears
 	public static ArrayList<String> tempAdd= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> tempDel= new ArrayList<String>(); //ArrayList to save data when user deletes
+	public static ArrayList<String> settings = new ArrayList<String>();
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
-
+	
+	public static void initialise() throws IOException{
+		if(fileExists("settings.txt")){
+			//Fetching properties
+			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
+			dir = settings.get(0);
+			outputName = settings.get(1);
+		}
+		else {
+			//First time running program, no properties set
+			dir = System.getProperty("user.dir").concat(File.separator);//Getting root directory
+			outputName = "TDNext.txt";//Default name
+			settings.add(dir);
+			settings.add(outputName);
+			saveSettings();
+		}
+		
+	}
+	
+	private static void saveSettings() throws IOException{
+		File f = new File(System.getProperty("user.dir").concat(File.separator)+"settings.txt");	
+		FileWriter writer = new FileWriter(f,false);
+		for(int i =0;i<settings.size();i++){
+			writer.write(settings.get(i) + System.getProperty( "line.separator" ));
+		}
+		writer.close();
+	}
+	
+	
 	//API method for the user to save the file with a different name
-	public static void setName(String newName){
+	public static void setName(String newName) throws IOException{
+		File f = new File(dir+outputName);
+		f.renameTo(new File(dir+newName));
 		outputName=newName;
+		settings.set(1, newName);
+		saveSettings();
 	}
 	
 	//API method for user to change directory of the output text file
 	public static void changeDir(String newDir) throws IOException{
+		
 		File f = new File(dir+outputName);
-		Boolean result = f.delete();
+		f.delete();
 		dir = newDir;
 		syncFile(data);
+		settings.set(0, newDir);
+		saveSettings();
 	}
 	
 	//API method to add new tasks into text file 
@@ -35,8 +74,6 @@ public class StorageAPI {
 		data.add(Task);
 		tempAdd.add(Task);
 		addToFile(Task);
-		System.out.println("Current dir is : "+dir);
-		System.out.println("Current file name is :"+outputName);
 	}
 	
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
@@ -60,7 +97,7 @@ public class StorageAPI {
 		if(fileExists(dir+outputName)){
 			if(data.size()>0)
 				data.clear();
-			fetchFromFile(dir+outputName);
+			fetchFromFile(dir+outputName,data);
 			return data;
 			
 		}
@@ -70,7 +107,7 @@ public class StorageAPI {
 	}
 			
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
-	private static ArrayList<String> fetchFromFile(String filePath) throws IOException{
+	private static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws IOException{
 			
 		File f = new File(filePath); 
 		FileReader reader = new FileReader(f);
@@ -78,10 +115,10 @@ public class StorageAPI {
 		String line;
 		//Scanning all lines from the text file into arrayList
 		while ((line = bufferedReader.readLine()) != null) {
-			data.add(line);
+			list.add(line);
 		}
 		reader.close();
-		return data;
+		return list;
 	}
 	
 	//API method to update tasks, either change value or mark as done
@@ -159,23 +196,16 @@ public class StorageAPI {
 	//Internal method to check if file already exists, and create a new one if it doesn't exist yet
 	private static boolean fileExists(String filePath){
 		
-		try  
-		{
-			File f = new File(filePath);
-			FileWriter fileCreate = new FileWriter(f,true);
-			if(f.exists()){
-				fileCreate.close();
-				return true;
-			}
-			else {
-				fileCreate.close();
-				return false;
-			}
-	}catch(IOException e)
-		{
-	    System.err.println("Error: " + e.getMessage());
-	};
-	return false;
+		File f = new File(filePath);
+		
+		if(f.exists()){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+	
+	
 }	
 
