@@ -1,13 +1,9 @@
 package tdnext;
 
 import java.awt.AWTException;
-import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
  
 /**
  * A Java Robot example class.
@@ -28,7 +24,7 @@ public class robot
 	System.out.println("Start of robot");
 	robot.delay(4000);
 
-
+/*
 //Check btnHelp
     System.out.println("Try btnHelp");
     robot.delay(1000);
@@ -49,23 +45,118 @@ public class robot
 	robot.mouseMove(829,456);//Choices
 	leftClick();
 	robot.delay(500);
-	robot.mouseMove(829,492);//to "Sapphire"
+	robot.mouseMove(829,452);//to "Lavender"
+	System.out.println("Lavender Theme selected");
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
 	robot.mouseMove(810, 515);//o OK
 	leftClick();
 	enter();
+	robot.delay(1000);
 	
-	  
+	robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,472);//to "Panda"
+	System.out.println("Panda Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+	
+	robot.mouseMove(532,559); //to btnTheme
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,492);//to "Sapphire"
+	System.out.println("Sapphire Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+
+    robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,512);//to "Forest"
+	System.out.println("Lavender Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+	
+    robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,532);//to "Default"
+	System.out.println("Default Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 535);//o OK
+	leftClick();
+	enter();
+	robot.delay(1000);
+	
+	    robot.mouseMove(532,559); //to btnTheme
+	    leftClick();
+		robot.delay(1000);
+		robot.mouseMove(829,456);//Choices
+		leftClick();
+		robot.delay(500);
+		robot.mouseMove(829,452);//to "Lavender"
+		System.out.println("Lavender Theme selected");
+		robot.delay(1000);
+		leftClick();
+		robot.delay(1000);
+		robot.mouseMove(810, 515);//o OK
+		leftClick();
+		enter();
+		robot.delay(1000);
+		
+	    robot.mouseMove(532,559); //to btnTheme
+	    leftClick();
+		robot.delay(1000);
+		robot.mouseMove(710, 510);//Cancel
+		leftClick();
+		System.out.println("Cancel");
+		robot.delay(1000);
+		
+		System.out.println("End of Theme demo");
+		robot.delay(5000);
+	  */
+		
 //Enter events
 	System.out.println("Events start");
 	
-    ImageIcon test = new ImageIcon("emptytest.png");
+    /*
+     * Image comparison not working yet
+	ImageIcon test = new ImageIcon("emptytest.png");
     String testImage = test.toString();
     System.out.println("emptytest.png toString: " + testImage);
     BufferedImage image = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
-    System.out.println("Try Sceenshot 1");
+    System.out.println("Try Screenshot 1");
     robot.delay(2000);
     String screenShot = new String();
     screenShot = image.toString();
@@ -75,6 +166,7 @@ public class robot
     }else{
     	System.out.println("Fail.");
     }
+    */
     
 	robot.delay(2000);
     robot.mouseMove(138, 548);//to textInput
@@ -84,23 +176,25 @@ public class robot
     robot.mouseMove(300, 700);//mouse does not block
     robot.delay(500);
     
-    type("add autoTask1");
+    System.out.println("Realistic tasks as ME");
+    
+    type("add Watch Running Man latest episode");
     robot.delay(1000);
     enter();
     
-    type("add autoTask2");
+    type("add Watch The Walking Dead S6 Ep3");
     robot.delay(1000);
     enter();
     
-    type("add autoTask3 important");
+    type("add Make appointment for BabeQui's grooming");
     robot.delay(1000);
     enter();
     
-    type("add autoTask4 by 22/10/2015");
+    type("add Resolve CS2103T V0.3 bugs by 26th Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask5 by 30/11/2015");
+    type("add collect pocket money on 1st Dec");
     robot.delay(1000);
     enter();
     
@@ -114,7 +208,7 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("edit 5 autoTask edited ver");
+    type("edit 5 Make appointment for Lya's grooming");
     robot.delay(1000);
     enter();
     robot.delay(3000);
@@ -129,52 +223,63 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("sort name");
-    robot.delay(1000);
-    enter();
-    robot.delay(3000);
-    
-    type("add autoTask6 on 23/10/2015");
+    type("add complete EG2401 slides by 30th Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask7 on 24/10/2015");
+    type("add complete CS2101 OP2 slides by 1st Nov");
     robot.delay(1000);
     enter();
     
-    type("add autoTask8 on 23/11/2015");
+    type("add do CS2103T online assessment by 31st Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask9 on 15/12/2015");
+    type("add CS2103T V0.5 deadline on 9th Nov ");
     robot.delay(1000);
     enter();
     
-    type("add autoTask10 on 23/11/2016");
+    type("add plan for dec trip by 2nd Dec");
     robot.delay(1000);
     enter();
     
-    type("add autoTask11 important");
+    type("add Book appointment for Lya's important checkup");
     robot.delay(1000);
     enter();
     
-    type("add autoTask12 important");
+    type("add Fix i6's screen, important");
     robot.delay(1000);
     enter();
     
-    type("add autoTask13");
+    type("add Buy milk");
     robot.delay(1000);
     enter();
     
-    type("add autoTask14");
+    type("add Buy ice cream");
     robot.delay(1000);
     enter();
     
-    type("add autoTask15");
+    type("add Call Wei and check-on her, important");
     robot.delay(1000);
     enter();
     
-    type("add autoTask16");
+    type("add clean timberland boots");
+    robot.delay(1000);
+    enter();
+    
+    type("add CG3207 Final Exam on 21st Nov 9am");
+    robot.delay(1000);
+    enter();
+    
+    type("add EG2401 Final Exam on 24th Nov 1pm");
+    robot.delay(1000);
+    enter();
+    
+    type("add CS2103T Final Exam on 26th Nov 1pm");
+    robot.delay(1000);
+    enter();
+    
+    type("add EE2021 Final Exam on 28th Nov 1pm");
     robot.delay(1000);
     enter();
     
@@ -196,6 +301,28 @@ public class robot
     robot.delay(2000);
     robot.mouseWheel(-500);//scroll down
     robot.delay(2000);
+    
+    type("search cs2103t");
+    robot.delay(1000);
+    enter();
+    System.out.println("Search for CS2103T- related tasks");
+    robot.delay(2000);
+    
+    type("sort default");
+    System.out.println("Try SORT BY DEFAULT");
+    robot.delay(2000);
+    enter();
+    robot.delay(2000);
+    
+    type("sort name");
+    System.out.println("Try SORT BY NAME");
+    robot.delay(2000);
+    enter();
+    robot.delay(500);
+    System.out.println("Try scrolling 2");
+    robot.delay(2000);
+    robot.mouseWheel(500);//scroll to the top
+    robot.delay(3000);
     
     type("sort deadline");
     System.out.println("Try SORT BY DEADLINE");
