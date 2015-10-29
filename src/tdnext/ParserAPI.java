@@ -575,6 +575,20 @@ public class ParserAPI {
 				else
 					setNewDate(toAdd * 30);
 			}
+			else if (temp[2].contains("20")) {
+				//Case: 1st September
+				if (isDate(temp[0])) {
+					convertDate(temp[0]);
+					convertMonth(temp[1]);
+				}
+				
+				//Case: September 1st
+				else {
+					convertDate(temp[1]);
+					convertMonth(temp[0]);
+				}
+			}
+			
 			String stringDay = Integer.toString(day);
 			if (stringDay.toCharArray().length == 1)
 				stringDay = "0" + stringDay;
