@@ -1,13 +1,9 @@
 package tdnext;
 
 import java.awt.AWTException;
-import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
  
 /**
  * A Java Robot example class.
@@ -147,11 +143,6 @@ public class robot
 		System.out.println("Cancel");
 		robot.delay(1000);
 		
-		leftClick();
-		robot.delay(1000);
-		robot.mouseMove(810, 515);//o OK
-		leftClick();
-		
 		System.out.println("End of Theme demo");
 		robot.delay(5000);
 	  
@@ -186,11 +177,11 @@ public class robot
     
     System.out.println("Realistic tasks as ME");
     
-    type("add watch Running Man latest episode");
+    type("add Watch Running Man latest episode");
     robot.delay(1000);
     enter();
     
-    type("add watch The Walking Dead S6 Ep3");
+    type("add Watch The Walking Dead S6 Ep3");
     robot.delay(1000);
     enter();
     
@@ -216,7 +207,7 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("edit 5 collect pocket money on 1st Nov");
+    type("edit 5 Make appointment for Lya's grooming");
     robot.delay(1000);
     enter();
     robot.delay(3000);
@@ -227,11 +218,6 @@ public class robot
     robot.delay(3000);
     
     type("done 1");
-    robot.delay(1000);
-    enter();
-    robot.delay(3000);
-    
-    type("sort name");
     robot.delay(1000);
     enter();
     robot.delay(3000);
@@ -314,6 +300,16 @@ public class robot
     robot.delay(2000);
     robot.mouseWheel(-500);//scroll down
     robot.delay(2000);
+    
+    type("sort name");
+    System.out.println("Try SORT BY NAME");
+    robot.delay(2000);
+    enter();
+    robot.delay(500);
+    System.out.println("Try scrolling 2");
+    robot.delay(2000);
+    robot.mouseWheel(500);//scroll to the top
+    robot.delay(3000);
     
     type("sort deadline");
     System.out.println("Try SORT BY DEADLINE");
