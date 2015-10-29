@@ -107,7 +107,7 @@ public class ParserAPI {
 	
 	//public static ArrayList<String> sortOut(ArrayList<String> takeIn) {
 		
-	//}
+	//} 
 	
 	//Returns index number of a task to edit
 	public static int parseIndex(String input) {
