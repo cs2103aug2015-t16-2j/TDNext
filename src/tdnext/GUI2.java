@@ -110,7 +110,7 @@ public class GUI2 extends JFrame {
 	private static Color inputFontColor = null;
 	private static Color foreground = null;
 	private static Color background = null;
-	private static String systemFont = "Impact";
+	private static String systemFont = "Aria";
 	
 	//By Maple: Input and display related
 	private String getInput(JTextField textInput){
