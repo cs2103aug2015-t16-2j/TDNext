@@ -757,12 +757,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseSearch(input.nextLine()));
 		}
-	}
+	} */
 }
