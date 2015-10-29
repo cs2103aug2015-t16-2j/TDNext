@@ -158,11 +158,13 @@ public class robot
 //Enter events
 	System.out.println("Events start");
 	
-    ImageIcon test = new ImageIcon("emptytest.png");
+    /*
+     * Image comparison not working yet
+	ImageIcon test = new ImageIcon("emptytest.png");
     String testImage = test.toString();
     System.out.println("emptytest.png toString: " + testImage);
     BufferedImage image = robot.createScreenCapture(new Rectangle(440, 210, 124,154));
-    System.out.println("Try Sceenshot 1");
+    System.out.println("Try Screenshot 1");
     robot.delay(2000);
     String screenShot = new String();
     screenShot = image.toString();
@@ -172,6 +174,7 @@ public class robot
     }else{
     	System.out.println("Fail.");
     }
+    */
     
 	robot.delay(2000);
     robot.mouseMove(138, 548);//to textInput
@@ -181,23 +184,25 @@ public class robot
     robot.mouseMove(300, 700);//mouse does not block
     robot.delay(500);
     
-    type("add autoTask1");
+    System.out.println("Realistic tasks as ME");
+    
+    type("add watch Running Man latest episode");
     robot.delay(1000);
     enter();
     
-    type("add autoTask2");
+    type("add watch The Walking Dead S6 Ep3");
     robot.delay(1000);
     enter();
     
-    type("add autoTask3 important");
+    type("add Make appointment for BabeQui's grooming");
     robot.delay(1000);
     enter();
     
-    type("add autoTask4 by 22/10/2015");
+    type("add Resolve CS2103T V0.3 bugs by 26th Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask5 by 30/11/2015");
+    type("add collect pocket money on 1st Dec");
     robot.delay(1000);
     enter();
     
@@ -211,7 +216,7 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("edit 5 autoTask edited ver");
+    type("edit 5 collect pocket money on 1st Nov");
     robot.delay(1000);
     enter();
     robot.delay(3000);
@@ -231,47 +236,63 @@ public class robot
     enter();
     robot.delay(3000);
     
-    type("add autoTask6 on 23/10/2015");
+    type("add complete EG2401 slides by 30th Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask7 on 24/10/2015");
+    type("add complete CS2101 OP2 slides by 1st Nov");
     robot.delay(1000);
     enter();
     
-    type("add autoTask8 on 23/11/2015");
+    type("add do CS2103T online assessment by 31st Oct");
     robot.delay(1000);
     enter();
     
-    type("add autoTask9 on 15/12/2015");
+    type("add CS2103T V0.5 deadline on 9th Nov ");
     robot.delay(1000);
     enter();
     
-    type("add autoTask10 on 23/11/2016");
+    type("add plan for dec trip by 2nd Dec");
     robot.delay(1000);
     enter();
     
-    type("add autoTask11 important");
+    type("add Book appointment for Lya's important checkup");
     robot.delay(1000);
     enter();
     
-    type("add autoTask12 important");
+    type("add Fix i6's screen, important");
     robot.delay(1000);
     enter();
     
-    type("add autoTask13");
+    type("add Buy milk");
     robot.delay(1000);
     enter();
     
-    type("add autoTask14");
+    type("add Buy ice cream");
     robot.delay(1000);
     enter();
     
-    type("add autoTask15");
+    type("add Call Wei and check on her, important");
     robot.delay(1000);
     enter();
     
-    type("add autoTask16");
+    type("add clean timberland boots");
+    robot.delay(1000);
+    enter();
+    
+    type("add CG3207 Final Exam on 21st Nov 9am");
+    robot.delay(1000);
+    enter();
+    
+    type("add EG2401 Final Exam on 24th Nov 1pm");
+    robot.delay(1000);
+    enter();
+    
+    type("add CS2103T Final Exam on 26th Nov 1pm");
+    robot.delay(1000);
+    enter();
+    
+    type("add EE2021 Final Exam on 28th Nov 1pm");
     robot.delay(1000);
     enter();
     
