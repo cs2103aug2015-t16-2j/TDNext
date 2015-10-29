@@ -151,7 +151,7 @@ public class Logic {
 		Task newTask = null;
 	
 		if(_lastCommand.equals("Search")) {
-			assert(_searchList != null);
+			assert((_searchList != null) && (_searchList.size() > 0));
 			oldTask = _searchList.remove(index);
 			int originalIndex = _listTask.indexOf(oldTask);
 			_listTask.remove(originalIndex);
@@ -267,8 +267,8 @@ public class Logic {
 		
 	}
 	
-	private void changeDirectory(String input) {
-		String newDir = ParserAPI.parseDirectory(input);
+	private void changeDirectory(String input) throws IOException {
+		String newDir = input.split(" ", 2)[1];
 		StorageAPI.changeDir(newDir);
 	}
 }
