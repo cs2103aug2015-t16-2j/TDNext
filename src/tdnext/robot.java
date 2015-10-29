@@ -49,13 +49,44 @@ public class robot
 	robot.mouseMove(829,456);//Choices
 	leftClick();
 	robot.delay(500);
-	robot.mouseMove(829,492);//to "Sapphire"
+	robot.mouseMove(829,452);//to "Lavender"
+	System.out.println("Lavender Theme selected");
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
 	robot.mouseMove(810, 515);//o OK
 	leftClick();
 	enter();
+	
+	robot.mouseMove(532,559); //to btnTheme
+    leftClick();
+	robot.delay(1000);
+	robot.mouseMove(829,456);//Choices
+	leftClick();
+	robot.delay(500);
+	robot.mouseMove(829,492);//to "Panda"
+	System.out.println("Panda Theme selected");
+	robot.delay(1000);
+	leftClick();
+	robot.delay(1000);
+	robot.mouseMove(810, 515);//o OK
+	leftClick();
+	enter();
+	
+	 	robot.mouseMove(532,559); //to btnTheme
+	    leftClick();
+		robot.delay(1000);
+		robot.mouseMove(829,456);//Choices
+		leftClick();
+		robot.delay(500);
+		robot.mouseMove(829,492);//to "Sapphire"
+		System.out.println("Sapphire Theme selected");
+		robot.delay(1000);
+		leftClick();
+		robot.delay(1000);
+		robot.mouseMove(810, 515);//o OK
+		leftClick();
+		enter();
 	
 	  
 //Enter events
