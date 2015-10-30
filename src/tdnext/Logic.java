@@ -72,7 +72,7 @@ public class Logic {
 				return _listTask;
 			
 			case UNDONE :
-				markAsUndone();
+				markAsUndone(input);
 				return _listTask;
 				
 			case ADD_ALL : 
@@ -136,9 +136,9 @@ public class Logic {
 		}
 	}
 
-	private void markAsUndone() throws IOException {
-		int index = ParserAPI.parseIndex(_lastCommand);
-		Task currTask = _listTask.get(index);
+	private void markAsUndone(String input) throws IOException {
+		ArrayList<String> information = ParserAPI.parseInformation(input);
+		Task currTask = new Task(information);
 		String oldDesc = currTask.getDescription();
 		currTask.markAsUndone();
 		String newDesc = currTask.getDescription();
@@ -192,7 +192,7 @@ public class Logic {
 		String newDesc = currTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
 		
-		_lastCommand = "UNDONE" + index;
+		_lastCommand = "UNDONE " + oldDesc;
 		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
 	}
 
@@ -240,7 +240,7 @@ public class Logic {
 			String name = keywords.get(j);
 			for(int i = 0; i < _listTask.size(); i++) {
 				Task currTask = _listTask.get(i);
-				if(currTask.toString().contains(name)) {
+				if(currTask.toString().toLowerCase().contains(name)) {
 					_searchList.add(currTask);
 				}
 			}
