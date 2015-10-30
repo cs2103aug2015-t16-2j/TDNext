@@ -163,10 +163,7 @@ public class ParserAPI {
 				if (thisContains(storage.get(index).trim(), keyWord))
 					found.add(storage.get(index));
 		
-		ArrayList<String> temp = removeRepeated(possibleWords);
-		temp.add(keyWord);
-		
-		return temp;
+		return removeRepeated(possibleWords);
 	}
 	
 	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
