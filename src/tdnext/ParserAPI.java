@@ -724,7 +724,8 @@ public class ParserAPI {
 		return (word.equalsIgnoreCase("january") || word.equalsIgnoreCase("feburary") || word.equalsIgnoreCase("march")
 				|| word.equalsIgnoreCase("april") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
 				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("august") || word.equalsIgnoreCase("september")
-				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december")) || word.equalsIgnoreCase("jan") || word.equalsIgnoreCase("feb") || word.equalsIgnoreCase("mar")
+				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december")) 
+				|| word.equalsIgnoreCase("jan") || word.equalsIgnoreCase("feb") || word.equalsIgnoreCase("mar")
 				|| word.equalsIgnoreCase("apr") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
 				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("aug") || word.equalsIgnoreCase("sept")
 				|| word.equalsIgnoreCase("oct") || word.equalsIgnoreCase("nov") || word.equalsIgnoreCase("dec");
