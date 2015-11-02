@@ -131,12 +131,14 @@ public class Logic {
 	}
 
 	private ArrayList<Task> markAsUndone(String input) throws Exception {
+		input = input.split(" ", 2)[1];
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task currTask = new Task(information);
-		String oldDesc = currTask.getDescription();
+		String oldDesc = currTask.toString();
 		currTask.markAsUndone();
-		String newDesc = currTask.getDescription();
+		String newDesc = currTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
+		_listTask.add(currTask);
 		
 		if(_searchMode) {
 			return executeCommand(_lastSearchCommand);
@@ -194,14 +196,25 @@ public class Logic {
 
 	private ArrayList<Task> markTaskAsDone(String input) throws Exception {
 		int index = ParserAPI.parseIndex(input);
-		Task currTask = _listTask.remove(index);
-		String oldDesc = currTask.toString();
-		currTask.markAsDone();
-		String newDesc = currTask.toString();
+		Task oldTask = null;
+		
+		if(_searchMode) {
+			assert((_searchList != null) && (_searchList.size() > 0));
+			oldTask = _searchList.remove(index);
+			int originalIndex = _listTask.indexOf(oldTask);
+			_listTask.remove(originalIndex);
+		} else {
+			oldTask = _listTask.get(index);
+			_listTask.remove(index);
+		}
+		
+		String oldDesc = oldTask.toString();
+		oldTask.markAsDone();
+		String newDesc = oldTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
 		
-		_lastCommand = "UNDONE " + oldDesc;
-		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
+		_lastCommand = "UNDONE " + newDesc;
+		_logger.log(Level.INFO, oldDesc + " is marked as done");
 		
 		if(_searchMode) {
 			return executeCommand(_lastSearchCommand);
