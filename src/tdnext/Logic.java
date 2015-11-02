@@ -18,6 +18,8 @@ public class Logic {
 	private ArrayList<Task> _tempTask;
 	private ArrayList<Task> _searchList;
 	public static Logger _logger = Logger.getLogger("Logic");
+	private boolean _searchMode = false;
+	private String _lastSearchCommand = new String();
 
 	public Logic(){
 	}
@@ -28,60 +30,47 @@ public class Logic {
 		
 		switch (command) {
 			case ADD :  
-				addTask(input);
-				return _listTask;
+				return addTask(input);
+				
 				
 			case DELETE : 
-				deleteTask(input);
-				return _listTask;
+				return deleteTask(input);
 			
 			case SEARCH :
-				ArrayList<Task> output = searchTask(input);
-				return output;
+				return searchTask(input);
 			
 			case EDIT :
-				editTask(input);
-				return _listTask;
+				return editTask(input);
 				
 			case CLEAR :
-				clearAll();
-				return _listTask;
+				return clearAll();
 			
 			case DONE :
-				markTaskAsDone(input);
-				return _listTask;
+				return markTaskAsDone(input);
 				
 			case SORT_DEFAULT :
-				sortDefault();
-				return _listTask;
+				return sortDefault();
 			
 			case SORT_BY_NAME :
-				sortName();
-				return _listTask;
+				return sortName();
 				
 			case SORT_BY_DEADLINE :
-				sortDeadline();
-				return _listTask;
+				return sortDeadline();
 				
 			case UNDO:
-				undo();
-				return _listTask;
-				
+				return undo();
+			
 			case EXIT :
 				exitProgram();
-				return _listTask;
 			
 			case UNDONE :
-				markAsUndone(input);
-				return _listTask;
+				return markAsUndone(input);
 				
 			case ADD_ALL : 
-				addAllTask();
-				return _listTask;
-			
+				return addAllTask();
+				
 			case CHANGE_DIRECTORY : 
-				changeDirectory(input);
-				return _listTask;
+				return changeDirectory(input);
 				
 			/*case EDIT_DATE :
 				editDate(input);
@@ -101,13 +90,15 @@ public class Logic {
 		_logger.log(Level.INFO, "Date changed for " + currTask.toString());
 	}*/
 
-	private void addAllTask() throws IOException {
+	private ArrayList<Task> addAllTask() throws IOException {
 		for(int i = 0; i < _tempTask.size(); i++) {
 			Task currTask = _tempTask.get(i);
 			_listTask.add(currTask);
 			StorageAPI.writeToFile(currTask.toString());
 		}
 		_logger.log(Level.INFO, "All task added");
+		
+		return _listTask;
 	}
 
 	public ArrayList<Task> startProgram() throws IOException {
@@ -127,30 +118,39 @@ public class Logic {
 		return _listTask;
 	}
 	
-	private void undo() throws Exception{ 
+	private ArrayList<Task> undo() throws Exception{ 
+		ArrayList<Task> output = new ArrayList<Task>();
 		if(!_lastCommand.isEmpty()) {
-			executeCommand(_lastCommand);
+			output = executeCommand(_lastCommand);
 			_lastCommand = new String();
 		} else {
 			throw new CommandException("There is no command before this.");
 		}
+		
+		return output;
 	}
 
-	private void markAsUndone(String input) throws IOException {
+	private ArrayList<Task> markAsUndone(String input) throws Exception {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task currTask = new Task(information);
 		String oldDesc = currTask.getDescription();
 		currTask.markAsUndone();
 		String newDesc = currTask.getDescription();
 		StorageAPI.editToFile(newDesc, oldDesc);
+		
+		if(_searchMode) {
+			return executeCommand(_lastSearchCommand);
+		} else {
+			return _listTask;
+		}
 	}
 
-	private void editTask(String input) throws IOException {
+	private ArrayList<Task> editTask(String input) throws Exception {
 		int index = ParserAPI.parseIndex(input);
 		Task oldTask = null;
 		Task newTask = null;
 	
-		if(_lastCommand.equals("Search")) {
+		if(_searchMode) {
 			assert((_searchList != null) && (_searchList.size() > 0));
 			oldTask = _searchList.remove(index);
 			int originalIndex = _listTask.indexOf(oldTask);
@@ -158,6 +158,7 @@ public class Logic {
 			ArrayList<String> information = ParserAPI.parseInformation(input);
 			newTask = new Task(information);
 			_listTask.add(originalIndex, newTask);
+			_searchList.add(index, newTask);
 		} else {
 			oldTask = _listTask.get(index);
 			_listTask.remove(index);
@@ -165,26 +166,33 @@ public class Logic {
 			newTask = new Task(information);
 			_listTask.add(index, newTask);
 		}
-		
 		StorageAPI.editToFile(newTask.toString(), oldTask.toString());
-		sortDefault();
 		_lastCommand = new String();
 		int newIndex = _listTask.indexOf(newTask) + 1;
 		_lastCommand =  "EDIT " + newIndex +
 						" " + oldTask.toString();
 		_logger.log(Level.INFO, newTask.toString() + " is editted");
+		
+		if(_searchMode) {
+			return executeCommand(_lastSearchCommand);
+		} else {
+			sortDefault();
+			return _listTask;
+		}
 	}
 
-	private void clearAll() throws IOException{
+	private ArrayList<Task> clearAll() throws IOException{
 		_tempTask = new ArrayList<Task>(_listTask);
 		_listTask.clear();
 		StorageAPI.clearFile();
 		
 		_lastCommand = "ADD_ALL";
 		_logger.log(Level.INFO, "All tasks cleared");
+		
+		return _listTask;
 	}
 
-	private void markTaskAsDone(String input) throws IOException {
+	private ArrayList<Task> markTaskAsDone(String input) throws Exception {
 		int index = ParserAPI.parseIndex(input);
 		Task currTask = _listTask.remove(index);
 		String oldDesc = currTask.toString();
@@ -194,6 +202,12 @@ public class Logic {
 		
 		_lastCommand = "UNDONE " + oldDesc;
 		_logger.log(Level.INFO, currTask.toString() + " is marked as done");
+		
+		if(_searchMode) {
+			return executeCommand(_lastSearchCommand);
+		} else {
+			return _listTask;
+		}
 	}
 
 
@@ -201,24 +215,30 @@ public class Logic {
 		System.exit(0);
 	}
 
-	private void addTask(String input) throws IOException {
+	private ArrayList<Task> addTask(String input) throws Exception {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
-		sortDefault();
 		int index = _listTask.indexOf(newTask) + 1;
 		_lastCommand = new String();
 		_lastCommand = _lastCommand + "DELETE " + index;
 		_logger.log(Level.INFO, newTask.toString() + " added");
 		
+		if(_searchMode) {
+			return executeCommand(_lastSearchCommand);
+		} else {
+			sortDefault();
+			return _listTask;
+		}
+		
 	}
 	
-	private void deleteTask(String input) throws IOException{
+	private ArrayList<Task> deleteTask(String input) throws Exception{
 		int index = ParserAPI.parseIndex(input);
 		Task deletedTask = null;
 		
-		if(_lastCommand.equals("Search")) {
+		if(_searchMode) {
 			assert(_searchList != null);
 			deletedTask = _searchList.remove(index);
 			_listTask.remove(deletedTask);
@@ -230,6 +250,11 @@ public class Logic {
 		_lastCommand = _lastCommand + "ADD " + deletedTask.toString();
 		_logger.log(Level.INFO, deletedTask.toString() + " deleted");
 		
+		if(_searchMode) {
+			return executeCommand(_lastSearchCommand);
+		} else {
+			return _listTask;
+		}
 	}
 	
 	private ArrayList<Task> searchTask(String input) {
@@ -246,29 +271,41 @@ public class Logic {
 			}
 		}
 		
-		_lastCommand = "Search";
+		_lastSearchCommand = input;
+		_searchMode = true;
 		_logger.log(Level.INFO, "Search is done.");
+		
 		return _searchList;
 	}
 	
-	private void sortDefault() {
+	private ArrayList<Task> sortDefault() {
 		Collections.sort(_listTask, new PriorityComparator());
 		_logger.log(Level.INFO, "Default sorted");
+		_searchMode = false;
+		
+		return _listTask;
 	}
 	
-	private void sortName() {
+	private ArrayList<Task> sortName() {
 		Collections.sort(_listTask, new NameComparator());
 		_logger.log(Level.INFO, "Sorted by name");
+		_searchMode = false;
+		
+		return _listTask;
 	}
 
-	private void sortDeadline() {
+	private ArrayList<Task> sortDeadline() {
 		Collections.sort(_listTask, new DateComparator());
 		_logger.log(Level.INFO, "Sorted by deadline");
+		_searchMode = false;
 		
+		return _listTask;		
 	}
 	
-	private void changeDirectory(String input) throws IOException {
+	private ArrayList<Task> changeDirectory(String input) throws IOException {
 		String newDir = input.split(" ", 2)[1];
 		StorageAPI.changeDir(newDir);
+
+		return _listTask;
 	}
 }
