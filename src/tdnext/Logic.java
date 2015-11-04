@@ -310,6 +310,13 @@ public class Logic {
 			}
 		}
 
+		if(_undoMode) {
+			_undoMode = false;
+		} else if (!_searchMode){
+			String lastCommand = "sort";
+			_lastCommandList.push(lastCommand);
+		}
+
 		_lastSearchCommand = input;
 		_searchMode = true;
 		_logger.log(Level.INFO, "Search is done.");
@@ -330,6 +337,13 @@ public class Logic {
 		_logger.log(Level.INFO, "Sorted by name");
 		_searchMode = false;
 
+		if(_undoMode) {
+			_undoMode = false;
+		} else {
+			String lastCommand = "sort";
+			_lastCommandList.push(lastCommand);
+		}
+
 		return _listTask;
 	}
 
@@ -337,6 +351,13 @@ public class Logic {
 		Collections.sort(_listTask, new DateComparator());
 		_logger.log(Level.INFO, "Sorted by deadline");
 		_searchMode = false;
+
+		if(_undoMode) {
+			_undoMode = false;
+		} else {
+			String lastCommand = "sort";
+			_lastCommandList.push(lastCommand);
+		}
 
 		return _listTask;
 	}
