@@ -24,7 +24,7 @@ public class StorageAPI {
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
 	
 	//API method for the user to save the file with a different name
-	public static void setName(String newName) throws TDNextException, IOException{
+	public static void setName(String newName) throws TDNextException{
 		File f = new File(dir+outputName);
 		f.renameTo(new File(dir+newName));
 		outputName=newName;
@@ -34,7 +34,7 @@ public class StorageAPI {
 	}
 	
 	//API method for user to change directory of the output text file
-	public static void changeDir(String newDir) throws TDNextException, IOException{
+	public static void changeDir(String newDir) throws TDNextException{
 		
 		File f = new File(dir+outputName);
 		f.delete();
@@ -46,7 +46,7 @@ public class StorageAPI {
 	}
 	
 	//Private method to update values in settings.txt
-	private static void saveSettings() throws TDNextException, IOException{
+	private static void saveSettings() throws TDNextException{
 		try{
 			File f = new File(System.getProperty("user.dir").concat(File.separator)+"settings.txt");	
 			FileWriter writer = new FileWriter(f,false);
@@ -62,7 +62,7 @@ public class StorageAPI {
 	}
 	
 	//API method to add new tasks into text file 
-	public static void writeToFile(String Task) throws TDNextException, IOException{
+	public static void writeToFile(String Task) throws TDNextException{
 		
 		data.add(Task);
 		tempAdd.add(Task);
@@ -71,7 +71,7 @@ public class StorageAPI {
 	}
 	
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
-	private static void addToFile(String newTask) throws TDNextException, IOException{
+	private static void addToFile(String newTask) throws TDNextException{
 		try{
 			File f = new File(dir+outputName); 
 			FileWriter writer = new FileWriter(f,true);	
@@ -84,14 +84,14 @@ public class StorageAPI {
 	}
 	
 	//API method to undo add command
-	public static void undoAdd() throws TDNextException, IOException{
+	public static void undoAdd() throws TDNextException{
 		data.remove(tempAdd.get(tempAdd.size()-1));
 		tempAdd.remove(tempAdd.size()-1);
 		syncFile(data);
 	}
 	
 	//API method to fetch all data from text file into "data" arrayList
-	public static ArrayList<String> getFromFile() throws TDNextException, IOException{
+	public static ArrayList<String> getFromFile() throws TDNextException{
 		initialise();
 		if(fileExists(dir+outputName)){
 			if(data.size()>0)
@@ -110,7 +110,7 @@ public class StorageAPI {
 	}
 	
 	//Private method to retrieve dir and outputName from settings.txt and create a new settings.txt if it does not exist
-	private static void initialise() throws TDNextException, IOException{
+	private static void initialise() throws TDNextException{
 		if(fileExists("settings.txt")){
 			//Fetching properties
 			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
@@ -131,7 +131,7 @@ public class StorageAPI {
 	}
 	
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
-	private static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws TDNextException, IOException{
+	private static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws TDNextException{
 		try{
 			File f = new File(filePath); 
 			FileReader reader = new FileReader(f);
@@ -152,14 +152,14 @@ public class StorageAPI {
 	}
 	
 	//API method to update tasks, either change value or mark as done
-	public static void editToFile(String newVal, String orig) throws TDNextException, IOException{
+	public static void editToFile(String newVal, String orig) throws TDNextException{
 		int index = findIndex(data,orig);
 		updateTextFile(data,index,newVal);
 		storageLog.log(Level.INFO,orig + " updated to : " + newVal);
 	}
 	
 	//Internal method to modify the String corresponding to the task
-	private static void updateTextFile(ArrayList<String> list, int index, String newVal) throws TDNextException, IOException{
+	private static void updateTextFile(ArrayList<String> list, int index, String newVal) throws TDNextException{
 		
 		//Clears the text file and re-populates the text file according to the updated data 
 		list.set(index, newVal);
@@ -177,7 +177,7 @@ public class StorageAPI {
 	}
 	
 	//API method to clear text file. "data" arrayList is saved into "temp" arrayList and then cleared
-	public static void clearFile() throws TDNextException, IOException{
+	public static void clearFile() throws TDNextException{
 		
 		//Transferring tasks from data to temp
 		for(int i=0;i<data.size();i++){
@@ -197,7 +197,7 @@ public class StorageAPI {
 	}
 	
 	//API method to undo a clear command. data arrayList is re-populated and temp is cleared
-	public static void undoClear() throws TDNextException, IOException{
+	public static void undoClear() throws TDNextException{
 		syncFile(tempClear);
 		for(int i=0;i<tempClear.size();i++){
 			data.add(tempClear.get(i));
@@ -206,7 +206,7 @@ public class StorageAPI {
 	}
 
 	//API method to delete a task from text file
-	public static void deleteFromFile(String task) throws TDNextException, IOException{
+	public static void deleteFromFile(String task) throws TDNextException{
 		data.remove(task);
 		tempDel.add(task);
 		syncFile(data);
@@ -214,13 +214,13 @@ public class StorageAPI {
 	}
 	
 	//API method to undo delete command
-	public static void undoDelete() throws TDNextException, IOException{
+	public static void undoDelete() throws TDNextException{
 		data.add(tempDel.get(tempDel.size()-1));
 		tempDel.remove(tempDel.size()-1);
 		syncFile(data);
 	}
 	//Internal method to replace the entire text file according to the "data" arrayList
-	private static void syncFile(ArrayList<String> list) throws TDNextException, IOException{
+	private static void syncFile(ArrayList<String> list) throws TDNextException{
 		File f = new File(dir+outputName);
 		try{
 			FileWriter writer = new FileWriter(f,false);
