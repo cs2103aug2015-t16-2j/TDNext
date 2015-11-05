@@ -1,8 +1,12 @@
 package tdnext;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ThemeAPI {
+	private static Logger themeLog= Logger.getLogger("Theme");
+	
 		private String _name;
 	
 		//Color-coding
@@ -21,6 +25,7 @@ public class ThemeAPI {
 	public ThemeAPI(String s){
 		_name = s;
 		setDetails(_name);
+		themeLog.log(Level.INFO, "Theme created is: " + s + ".");
 	}
 	
 	public String getThemeName(){
