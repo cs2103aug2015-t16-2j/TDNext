@@ -23,7 +23,7 @@ public class Task {
 
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
-	public Task(ArrayList<String> information) {
+	public Task(ArrayList<String> information) throws TDNextException {
 		assert(information.get(0) != "");
 		_description = information.get(0);
 		if(information.get(1) == "IMPORTANT") {
@@ -45,22 +45,31 @@ public class Task {
 		throw new TDNextException("All information are missing");
 	}
 
-	private void calculateDeadline(String dateString) throws DateTimeException {
+	private void calculateDeadline(String dateString) throws TDNextException {
 		assert(dateString.length() == 10);
 		String[] dateList = dateString.split("/");
+		assert(dateList[0].length() == 2);
 		int day = Integer.parseInt(dateList[0]);
+		assert(dateList[1].length() == 2);
 		int month = Integer.parseInt(dateList[1]);
+		assert(dateList[2].length() == 4);
 		int year = Integer.parseInt(dateList[2]);
-		_deadline = LocalDate.of(year,  month,  day);
+		try {
+		    _deadline = LocalDate.of(year,  month,  day);
+		} catch (DateTimeException e) {
+			throw new TDNextException("Date is invalid");
+		}
 	}
 
 	public void markAsDone() {
+		assert(!_done);
 		_done = true;
 		_priorityIndex = 0;
 		Logic._logger.log(Level.INFO, this.toString() + " is marked as done");
 	}
 
 	public void markAsUndone() {
+		assert(_done);
 		_done = false;
 		calculatePriorityIndex();
 	}
@@ -136,7 +145,7 @@ public class Task {
 		return _done;
 	}
 
-	public void setDate(String date) {
+	public void setDate(String date) throws TDNextException{
 		calculateDeadline(date);
 		calculatePriorityIndex();
 		determineColourType();
