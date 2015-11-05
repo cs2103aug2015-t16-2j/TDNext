@@ -83,7 +83,7 @@ public class Task {
 					_priorityIndex = (URGENT_DAY - difference + 1) * 2;
 				}
 			} else if(_importance) {
-				_priorityIndex = (URGENT_DAY - difference - 1) * 2 - 1;
+				_priorityIndex = (URGENT_DAY - difference - 1) * 2 + 1;
 			} else {
 				_priorityIndex = (URGENT_DAY - difference - 1) * 2;
 			}

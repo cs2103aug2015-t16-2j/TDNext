@@ -38,6 +38,7 @@ public class TestLogic {
 	// This is to test that the add function can work.
 	public void testAddWithSimpleTask() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		
 		try {
@@ -61,6 +62,7 @@ public class TestLogic {
 	// task
 	public void testAddWithTwoSimpleTasks() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		
@@ -85,6 +87,7 @@ public class TestLogic {
 	// as part of its description
 	public void testAddWithTaskWithDate() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -109,6 +112,7 @@ public class TestLogic {
 	// This is to test the boundary case of the 'within size' partition
 	public void testDeleteWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -134,6 +138,7 @@ public class TestLogic {
 	// This is to test the boundary case for the 'greater than size' partition
 	public void testDeleteWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -154,6 +159,7 @@ public class TestLogic {
 	@Test
 	public void testDeleteWithIndex0() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -175,6 +181,7 @@ public class TestLogic {
 	// This is to test the boundary case of 'within size' partition
 	public void testEditWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(EDIT_INDEX1);
@@ -199,6 +206,7 @@ public class TestLogic {
 	// This is to test the boundary case of 'greater than size' partition
 	public void testEditWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(EDIT_INDEXOUTOFBOUND);
@@ -220,6 +228,7 @@ public class TestLogic {
 	// This is to test that the search is returning the correct output.
 	public void testSearch() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -248,6 +257,7 @@ public class TestLogic {
 	// all the tasks will be displayed.
 	public void testSearchWithMoreTasks() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -277,6 +287,7 @@ public class TestLogic {
 	// search function and not the entire list of task.
 	public void testEditAfterSearchWithIndex1 () {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -308,6 +319,7 @@ public class TestLogic {
 	// search function and not the entire list of task.
 	public void testDeleteAfterSearchWithIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -337,6 +349,7 @@ public class TestLogic {
 	// This is to test the boundary case of 'invalid index' partition.
 	public void testEditAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -361,6 +374,7 @@ public class TestLogic {
 	// This is to test the boundary case of 'invalid index' partition.
 	public void testDeleteAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -384,6 +398,7 @@ public class TestLogic {
 	@Test
 	public void testUndoAfterAdd() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(UNDO);
 		
@@ -406,6 +421,7 @@ public class TestLogic {
 	@Test
 	public void testUndoAfterDelete() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(DELETE_INDEX1);
 		allInputs.add(UNDO);
@@ -429,6 +445,7 @@ public class TestLogic {
 	@Test
 	public void testUndoAfterEdit() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(EDIT_INDEX1);
 		allInputs.add(UNDO);
@@ -452,6 +469,7 @@ public class TestLogic {
 	@Test
 	public void testSortDefault() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -483,6 +501,7 @@ public class TestLogic {
 	@Test
 	public void testSortByName() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -511,6 +530,7 @@ public class TestLogic {
 	@Test
 	public void testSortByDeadline() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -543,6 +563,7 @@ public class TestLogic {
 	@Test
 	public void testClear() {
 		ArrayList<String> allInputs = new ArrayList<String>();
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(CLEAR);
@@ -566,7 +587,7 @@ public class TestLogic {
 	@Test
 	public void testStartProgram() {
 		ArrayList<String> allInputs = new ArrayList<String>();
-		allInputs.add(CLEAR);
+		//allInputs.add(CLEAR);
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
 		allInputs.add(ADD_TASK3_WITHDATE);
@@ -574,6 +595,7 @@ public class TestLogic {
 		
 		try {
 			for(int i = 0; i < allInputs.size(); i++){
+				System.out.println(allInputs.get(i));
 				_testLogic.executeCommand(allInputs.get(i));
 			}
 			_output = _testLogic.startProgram();

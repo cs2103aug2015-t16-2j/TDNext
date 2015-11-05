@@ -92,17 +92,14 @@ public class ParserAPI {
 	}
 	
 	public static ArrayList<String> parseSearch(String keyWordWithCommand) {
-		String keyWord = removeCommand(keyWordWithCommand).toLowerCase();
+		String keyWords = removeCommand(keyWordWithCommand).toLowerCase();
 		possibleWords = new ArrayList<String> ();
 		
 		ArrayList<String> temp = new ArrayList<String> ();
-		
-		
-		//temp = ;
 
 		//System.out.println(possibleWords);
 		
-		return searchFromStorage(keyWord);
+		return searchFromStorage(keyWords);
 	}
 	
 	//public static ArrayList<String> sortOut(ArrayList<String> takeIn) {
@@ -134,10 +131,26 @@ public class ParserAPI {
 		origin = input; //origin = add/edit_2 <task>
 		
 		checkImportance(origin); //If origin contains IMPORTANT, remove IMPORTANT
-		
 
 		origin = removeCommand(origin); //To check if it contains add/edit and remove accordingly
 		noCommand = origin;
+		
+		if (specialCase(noCommand)) {
+			storage.add(noCommand);
+			
+			ArrayList<String> temp = new ArrayList<String> ();
+			
+			temp.add(noCommand);
+			if (noCommand.equalsIgnoreCase("important"))
+			    temp.add("important");
+			else
+				temp.add("");
+			temp.add("");
+			temp.add("");
+			temp.add("");
+			
+			return temp;
+		}
 		
 		toStore(origin);
 		
@@ -152,18 +165,38 @@ public class ParserAPI {
 		return setTask(task);
 	}
 	
+	private static Boolean specialCase(String thisCase) {
+		String[] find = thisCase.split(" ");
+		
+		return find.length == 1;
+	}
+	
 	private static ArrayList<String> searchFromStorage (String keyWord) {
 		ArrayList<String> found = new ArrayList<String> ();
 		//ArrayList<String> possibleWords = new ArrayList<String> ();
 		
 		if (storage.size() == 0)
 			return null;
+		/*else if (moreThanOne(keyWord)) {
+			for (int index=0; index<storage.size(); index++)
+				if (storage.get(index).contains(keyWord))
+					possibleWords.add(keyWord);
+			return possibleWords;
+		}*/
 		else
 			for (int index=0; index<storage.size(); index++)
 				if (thisContains(storage.get(index).trim(), keyWord))
 					found.add(storage.get(index));
 		
+		possibleWords.add(keyWord);
+		
 		return removeRepeated(possibleWords);
+	}
+	
+	private static Boolean moreThanOne(String keyWords) {
+		String[] temp = keyWords.split(" ");
+		
+		return temp.length == 1;
 	}
 	
 	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
@@ -698,9 +731,26 @@ public class ParserAPI {
 	}
 	
 	private static int indexOf(String word, String[] sentence) {
+		ArrayList<Integer> position = new ArrayList<Integer> ();
+		
 		for (int index=0; index<sentence.length; index++)
 			if (sentence[index].equalsIgnoreCase(word))
-				return index;
+				position.add(index);
+		//System.out.println(position);
+		return findRightIndex(sentence, position);
+	}
+	
+	private static int findRightIndex(String[] sentence, ArrayList<Integer> position) {
+		int length = sentence.length;
+		//System.out.println(length);
+        int numberOfPositions = position.size();
+	    while (numberOfPositions != 0) {
+	    	if (position.get(numberOfPositions-1) != length-1)
+	    		if (isDateWord(sentence[position.get(numberOfPositions-1) + 1]))
+	    			return position.get(numberOfPositions-1);
+	    	numberOfPositions--;
+		}
+		
 		return -1;
 	}
 	
@@ -724,7 +774,8 @@ public class ParserAPI {
 		return (word.equalsIgnoreCase("january") || word.equalsIgnoreCase("feburary") || word.equalsIgnoreCase("march")
 				|| word.equalsIgnoreCase("april") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
 				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("august") || word.equalsIgnoreCase("september")
-				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december")) || word.equalsIgnoreCase("jan") || word.equalsIgnoreCase("feb") || word.equalsIgnoreCase("mar")
+				|| word.equalsIgnoreCase("october") || word.equalsIgnoreCase("november") || word.equalsIgnoreCase("december")) 
+				|| word.equalsIgnoreCase("jan") || word.equalsIgnoreCase("feb") || word.equalsIgnoreCase("mar")
 				|| word.equalsIgnoreCase("apr") || word.equalsIgnoreCase("may") || word.equalsIgnoreCase("june")
 				|| word.equalsIgnoreCase("july") || word.equalsIgnoreCase("aug") || word.equalsIgnoreCase("sept")
 				|| word.equalsIgnoreCase("oct") || word.equalsIgnoreCase("nov") || word.equalsIgnoreCase("dec");
@@ -778,5 +829,5 @@ public class ParserAPI {
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseSearch(input.nextLine()));
 		}
-	} */
+	}*/
 } 
