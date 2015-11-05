@@ -24,7 +24,6 @@ public class robot
 	System.out.println("Start of robot");
 	robot.delay(4000);
 
-/*
 //Check btnHelp
     System.out.println("Try btnHelp");
     robot.delay(1000);
@@ -145,7 +144,6 @@ public class robot
 		
 		System.out.println("End of Theme demo");
 		robot.delay(5000);
-	  */
 		
 //Enter events
 	System.out.println("Events start");

@@ -2,14 +2,11 @@ package tdnext;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,9 +14,6 @@ public class StorageAPI {
 	public static String dir;
 	public static String outputName;
 	private static Logger storageLog = Logger.getLogger("Storage");
-	public static ArrayList<String> tempClear= new ArrayList<String>(); //ArrayList to save data when user clears
-	public static ArrayList<String> tempAdd= new ArrayList<String>(); //ArrayList to save data when user deletes
-	public static ArrayList<String> tempDel= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> settings = new ArrayList<String>();
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
 	
@@ -65,7 +59,6 @@ public class StorageAPI {
 	public static void writeToFile(String Task) throws TDNextException{
 		
 		data.add(Task);
-		tempAdd.add(Task);
 		addToFile(Task);
 		storageLog.log(Level.INFO,Task + " is added.");
 	}
@@ -81,13 +74,6 @@ public class StorageAPI {
 			throw new TDNextException("File directory is wrong.", e);
 		}
 		
-	}
-	
-	//API method to undo add command
-	public static void undoAdd() throws TDNextException{
-		data.remove(tempAdd.get(tempAdd.size()-1));
-		tempAdd.remove(tempAdd.size()-1);
-		syncFile(data);
 	}
 	
 	//API method to fetch all data from text file into "data" arrayList
@@ -178,11 +164,7 @@ public class StorageAPI {
 	
 	//API method to clear text file. "data" arrayList is saved into "temp" arrayList and then cleared
 	public static void clearFile() throws TDNextException{
-		
-		//Transferring tasks from data to temp
-		for(int i=0;i<data.size();i++){
-			tempClear.add(data.get(i));
-		}
+
 		data.clear();
 		try{
 			File f =  new File(dir+outputName);
@@ -195,30 +177,14 @@ public class StorageAPI {
 		}
 		
 	}
-	
-	//API method to undo a clear command. data arrayList is re-populated and temp is cleared
-	public static void undoClear() throws TDNextException{
-		syncFile(tempClear);
-		for(int i=0;i<tempClear.size();i++){
-			data.add(tempClear.get(i));
-		}
-		tempClear.clear();
-	}
 
 	//API method to delete a task from text file
 	public static void deleteFromFile(String task) throws TDNextException{
 		data.remove(task);
-		tempDel.add(task);
 		syncFile(data);
 		storageLog.log(Level.INFO,task + " deleted.");
 	}
-	
-	//API method to undo delete command
-	public static void undoDelete() throws TDNextException{
-		data.add(tempDel.get(tempDel.size()-1));
-		tempDel.remove(tempDel.size()-1);
-		syncFile(data);
-	}
+
 	//Internal method to replace the entire text file according to the "data" arrayList
 	private static void syncFile(ArrayList<String> list) throws TDNextException{
 		File f = new File(dir+outputName);

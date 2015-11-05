@@ -20,10 +20,13 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import tdnext.TDNextLogicAPI.ColourType;
 import java.awt.event.ActionListener;
@@ -150,10 +153,19 @@ public class GUI2 extends JFrame {
 	private void addTextArea(){
 		for(int i = parsedInfo.size() - 1; i >= 0; i--){
 			String s = new String(getParsedInoString(parsedInfo, i));
-			System.out.println(s);
+		//	System.out.println(s);
 			panelDisplay.add(createTextAreas(s, i), 0);
 			panelDisplay.revalidate();
+
+			JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+			Runnable run1 = new Runnable() {
+				public void run() {
+					verticalScrollBar.setValue(0);
+				}
+			};
+			SwingUtilities.invokeLater(run1);
 		}
+
 	}
 	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
@@ -206,8 +218,6 @@ public class GUI2 extends JFrame {
 			foreground = panda.getColor("foreground");
 			background = panda.getColor("background");
 
-			System.out.println("set Panda Theme");
-
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
 			orange = lavender.getColor("orange");
@@ -218,9 +228,6 @@ public class GUI2 extends JFrame {
 			displayBackground = lavender.getColor("displaybg");
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
-
-			System.out.println("system font set to: " + systemFont);
-			System.out.println("set Lavender Theme");
 
 		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
@@ -233,9 +240,6 @@ public class GUI2 extends JFrame {
 			foreground = forest.getColor("foreground");
 			background = forest.getColor("background");
 
-			System.out.println("system font set to: " + systemFont);
-			System.out.println("set Forest Theme");
-
 		}else if(s.equals("Sapphire")){
 			red = sapphire.getColor("red");
 			orange = sapphire.getColor("orange");
@@ -247,9 +251,6 @@ public class GUI2 extends JFrame {
 			foreground = sapphire.getColor("foreground");
 			background = sapphire.getColor("background");
 
-			System.out.println("system font set to: " + systemFont);
-			System.out.println("set Sapphire Theme");
-
 		}else{
 			red = original.getColor("red");
 			orange = original.getColor("orange");
@@ -260,9 +261,6 @@ public class GUI2 extends JFrame {
 			displayBackground = original.getColor("displaybg");
 			foreground = original.getColor("foreground");
 			background = original.getColor("background");
-
-			System.out.println("system font set to: " + systemFont);
-			System.out.println("set Sapphire Theme");
 
 		}
 	}
@@ -439,13 +437,14 @@ public class GUI2 extends JFrame {
 				guiLog.log(Level.INFO, "Last input displayed.");
 				addTextArea();
 				setTextAreaSize();
-				Robot rob;
+
+			/*	Robot rob;
 				try {
 					rob = new Robot();
 					rob.mouseWheel(500);
 				} catch (AWTException e1) {
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 
@@ -463,7 +462,7 @@ public class GUI2 extends JFrame {
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
-				System.out.println("Theme chosen is " + theme);
+				
 				if(theme != null){
 				setTheme(theme);
 				setAll();
@@ -471,5 +470,6 @@ public class GUI2 extends JFrame {
 				}
 			}
 		});
+
 	}
 }

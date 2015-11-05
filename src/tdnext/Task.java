@@ -11,7 +11,7 @@ import tdnext.TDNextLogicAPI.ColourType;
 
 public class Task {
 	private static final int URGENT_DAY = 14;
-	
+
 	// Instance attributes
 	private String _description = new String();
 	private LocalDate _deadline;
@@ -19,7 +19,7 @@ public class Task {
 	private int _priorityIndex = 0;
 	private boolean _done = false;
 	private ColourType _colour = ColourType.WHITE;
-	
+
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
 	public Task(ArrayList<String> information) {
@@ -27,7 +27,7 @@ public class Task {
 		_description = information.get(0);
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
-		}	
+		}
 		if(information.get(2) != "") {
 			calculateDeadline(information.get(2));
 		}
@@ -36,12 +36,12 @@ public class Task {
 		}
 		calculatePriorityIndex();
 		determineColourType();
-		
+
 		Logic._logger.log(Level.INFO, this.toString() + " is created");
 	}
-	
-	public Task() throws MissingInformationException {
-		throw new MissingInformationException("All information are missing");
+
+	public Task() throws TDNextException {
+		throw new TDNextException("All information are missing");
 	}
 
 	private void calculateDeadline(String dateString) throws DateTimeException {
@@ -52,18 +52,18 @@ public class Task {
 		int year = Integer.parseInt(dateList[2]);
 		_deadline = LocalDate.of(year,  month,  day);
 	}
-				
+
 	public void markAsDone() {
 		_done = true;
 		_priorityIndex = 0;
 		Logic._logger.log(Level.INFO, this.toString() + " is marked as done");
 	}
-	
+
 	public void markAsUndone() {
 		_done = false;
 		calculatePriorityIndex();
 	}
-	
+
 	@Override
 	public String toString() {
 		if(!_done) {
@@ -72,8 +72,8 @@ public class Task {
 			return "(x) " + _description;
 		}
 	}
-	
-	private void calculatePriorityIndex() {		
+
+	private void calculatePriorityIndex() {
 		if((!_done) && (_deadline != null)) {
 			int difference = dateDifference();
 			if(difference <= 14){
@@ -93,7 +93,7 @@ public class Task {
 			_priorityIndex = -1;
 		}
 	}
-	
+
 	private void determineColourType() {
 		if(_priorityIndex == -1) {
 			_colour = ColourType.WHITE;
@@ -105,42 +105,42 @@ public class Task {
 			_colour = ColourType.RED;
 		}
 	}
-	
+
 	private int dateDifference() {
 		assert(_deadline != null);
-		
+
 		LocalDate day1 = LocalDate.now();
 		LocalDate day2 = _deadline;
-		
+
 		return (int) ChronoUnit.DAYS.between(day1, day2);
 	}
-	
+
 	public String getDescription() {
 		return _description;
 	}
-	
+
 	public LocalDate getDeadline() {
 		return _deadline;
 	}
-	
+
 	public ColourType getColour() {
 		return _colour;
 	}
-	
+
 	public int getPriorityIndex() {
 		return _priorityIndex;
 	}
-	
+
 	public boolean isDone() {
 		return _done;
 	}
-	
+
 	public void setDate(String date) {
 		calculateDeadline(date);
 		calculatePriorityIndex();
 		determineColourType();
 	}
-	
+
 }
 
 class NameComparator implements Comparator<Task> {
@@ -155,7 +155,7 @@ class PriorityComparator implements Comparator<Task> {
 	public int compare(Task task1, Task task2) {
 		int task1PriorityIndex = task1.getPriorityIndex();
 		int task2PriorityIndex = task2.getPriorityIndex();
-		
+
 		if(task1PriorityIndex == task2PriorityIndex) {
 			return 0;
 		} else if((task1PriorityIndex != -1) && (task2PriorityIndex != -1)){
@@ -167,7 +167,7 @@ class PriorityComparator implements Comparator<Task> {
 		} else if(task1PriorityIndex == -1) {
 			return 1;
 		}
-		
+
 		return -1;
 	}
 }
@@ -177,7 +177,7 @@ class DateComparator implements Comparator<Task> {
 	public int compare(Task task1, Task task2) {
 		int task1PriorityIndex = task1.getPriorityIndex();
 		int task2PriorityIndex = task2.getPriorityIndex();
-		
+
 		if(task1PriorityIndex % 2 == 0) {
 			if(task2PriorityIndex % 2 == 0) {
 				if(task2PriorityIndex > task1PriorityIndex) {
