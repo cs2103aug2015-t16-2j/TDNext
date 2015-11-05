@@ -395,9 +395,18 @@ public class GUI2 extends JFrame {
 					frame.setResizable(false);
 
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
-					InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-					im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
-					im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
+					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
+					vertical.setUnitIncrement(vertical.getMaximum()/10);
+					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
+					
+					InputMap imV = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+					InputMap imH = horizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+					
+					imV.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+					imV.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
+					imH.put(KeyStroke.getKeyStroke("LEFT"), "positiveUnitIncrement");
+					imH.put(KeyStroke.getKeyStroke("RIGHT"), "negativeUnitIncrement");
+					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
 					e.printStackTrace();
