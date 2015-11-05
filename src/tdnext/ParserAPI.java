@@ -146,7 +146,7 @@ public class ParserAPI {
 			else
 				temp.add("");
 			temp.add("");
-			temp.add("");
+			temp.add("UNDONE");
 			temp.add("");
 			
 			return temp;
@@ -393,7 +393,7 @@ public class ParserAPI {
 			task.add("DONE");
 		}
 		else
-		    task.add("");
+		    task.add("UNDONE");
 		
 		findSpecificTime();
 		if (specificTime != null)
