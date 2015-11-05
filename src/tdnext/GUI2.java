@@ -21,6 +21,7 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
@@ -56,7 +57,7 @@ public class GUI2 extends JFrame {
 	private static TDNextLogicAPI logic1;
 	private static Logger guiLog= Logger.getLogger("GUI");
 
-	private final String help =
+	private final static String help =
 			"This is the help section. Please see below for more information:"
 			+"\n\n"
 			+ "Create-\n"
@@ -394,18 +395,40 @@ public class GUI2 extends JFrame {
 					frame.setVisible(true);
 					frame.setResizable(false);
 
+					//Scrolling with Keyboard
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
 					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
+					
+					
+					KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
+					KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
+					KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
+					KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
+					
 					vertical.setUnitIncrement(vertical.getMaximum()/10);
 					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
 					
 					InputMap imV = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					InputMap imH = horizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					
-					imV.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
-					imV.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
-					imH.put(KeyStroke.getKeyStroke("LEFT"), "positiveUnitIncrement");
-					imH.put(KeyStroke.getKeyStroke("RIGHT"), "negativeUnitIncrement");
+					imV.put(down, "positiveUnitIncrement");
+					imV.put(up, "negativeUnitIncrement");
+					imH.put(left, "positiveUnitIncrement");
+					imH.put(right, "negativeUnitIncrement");
+					
+					//Keyboard Help
+					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+					ActionMap amHelp = btnHelp.getActionMap();
+					
+					Action showMsg = new AbstractAction() {
+						public void actionPerformed(ActionEvent e) {
+							JOptionPane.showMessageDialog(null, help);
+							guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
+						}
+					};
+					
+					imHelp.put(KeyStroke.getKeyStroke("F1"), "showMsg");
+					amHelp.put("showMsg", showMsg);
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
@@ -435,10 +458,10 @@ public class GUI2 extends JFrame {
 		textInput = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 
-		btnHelp = new JButton("HELP");
+		btnHelp = new JButton("HELP (F1)");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
 
-		btnTheme = new JButton("THEME");
+		btnTheme = new JButton("THEME (F2)");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 
 		setAll();
