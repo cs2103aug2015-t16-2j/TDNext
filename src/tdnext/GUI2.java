@@ -37,6 +37,7 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 
 import java.awt.event.KeyEvent;
+import javax.swing.SwingConstants;
 
 public class GUI2 extends JFrame {
 
@@ -113,6 +114,7 @@ public class GUI2 extends JFrame {
 	private static Color foreground = null;
 	private static Color background = null;
 	private static String systemFont = "Aria";
+	private static JTextField txtStatus;
 
 	//By Maple: Input and display related
 	private String getInput(JTextField textInput){
@@ -125,7 +127,9 @@ public class GUI2 extends JFrame {
 			output = logic1.executeCommand(input);
 			parsedInfo = output;
 			clearInput(textInput);
+			updateStatus("Last command '" + input + "' was valid and is processed.");
 		} catch (Exception e) {
+			updateStatus("Last command '" + input + "' was invalid. Pls edit your input.");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -138,13 +142,11 @@ public class GUI2 extends JFrame {
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
-	//		System.out.println("getDisplay: " + output);
 		return output;
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
 		textArea = new JTextArea(s);
-	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
 		return textArea;
 	}
@@ -152,12 +154,14 @@ public class GUI2 extends JFrame {
 	private static void addTextArea(){
 		for(int i = parsedInfo.size() - 1; i >= 0; i--){
 			String s = new String(getParsedInoString(parsedInfo, i));
-		//	System.out.println(s);
 			panelDisplay.add(createTextAreas(s, i), 0);
 			panelDisplay.revalidate();
 			setDefaultScroll();
 		}
-
+	}
+	
+	private static void updateStatus(String status){
+		txtStatus.setText(status);
 	}
 
 	private static void setDefaultScroll(){
@@ -169,17 +173,6 @@ public class GUI2 extends JFrame {
 		};
 		SwingUtilities.invokeLater(run1);
 	}
-
-	/*
-	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
-	InputMap v = verticalBar.getInputMap();
-	InputMap h = horizontalBar.getInputMap();
-	KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
-	KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
-	KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
-	KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
-	*/
 
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
@@ -272,6 +265,9 @@ public class GUI2 extends JFrame {
 	}
 
 	//Interface-related
+	final static ImageIcon helpIcon = new ImageIcon("/Users/Maple/git/main/Images/Help Icon S.png");
+	final static ImageIcon themeIcon = new ImageIcon("/Users/Maple/git/main/Images/theme Icon S.png");
+	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
@@ -289,9 +285,12 @@ public class GUI2 extends JFrame {
 	private static void setContentPane(){
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
-		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[377.00px][44.00px][41.00px]"));
+		contentPane.setLayout(new MigLayout("", "[377px][6px][88px,grow]", "[][377.00px][44.00px][41.00px]"));
 		contentPane.validate();
-		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
+		
+		contentPane.add(txtStatus, "cell 0 0 3 1,growx,aligny center");
+		
+		contentPane.add(scrollPane, "cell 0 1 3 1,grow");
 	}
 
 	private static void setPanelDisplay(){
@@ -306,7 +305,7 @@ public class GUI2 extends JFrame {
 	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny center");
+		contentPane.add(panelCmd, "cell 0 2 1 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
@@ -318,15 +317,25 @@ public class GUI2 extends JFrame {
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
-		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
+		contentPane.add(btnHelp, "cell 2 2,growx,aligny center");
 	}
 
 	private static void setBtnTheme(){
 		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
+		contentPane.add(btnTheme, "cell 2 3,growx,aligny center");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
+	}
+	
+	private static void setStatusBar(){
+		txtStatus.setHorizontalAlignment(SwingConstants.TRAILING);
+		txtStatus.setColumns(5);
+		txtStatus.setBackground(background);
+		txtStatus.setFont(new Font(systemFont, Font.PLAIN, 11));
+		txtStatus.setForeground(foreground);
+		txtStatus.setEditable(false);
+		updateStatus("This is the status bar ......");
 	}
 
 	private static void setAll(){
@@ -335,6 +344,7 @@ public class GUI2 extends JFrame {
 		setPanelCmd();
 		setBtnHelp();
 		setBtnTheme();
+		setStatusBar();
 	}
 
 	private static void setTextAreaSize(){
@@ -363,6 +373,8 @@ public class GUI2 extends JFrame {
 		panelCmd.revalidate();
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
+		txtStatus.repaint();
+		txtStatus.revalidate();
 		addTextArea();
 		setTextAreaSize();
 		setDefaultScroll();
@@ -371,27 +383,61 @@ public class GUI2 extends JFrame {
 	private static void refreshUI(String name){
 		setTheme(name);
 		setAll();
+		updateStatus("The theme chosen is: " + name + " ......");
 		refresh();
 	}
 
+	//Keyboard-related
+	
+	static Action showTheme = new AbstractAction(){
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
+			String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+			theme = (String) JOptionPane.showInputDialog(null,
+					"Choose your theme", "Themes",
+					JOptionPane.INFORMATION_MESSAGE, themeIcon,
+					options, options[0]);
+			guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
+			updateStatus("You pressed 'F2' for THEME ......");
+			
+			if(theme != null)
+				refreshUI(theme);
+		}
+		};
+		
+
+	static Action showMsg = new AbstractAction() {
+			/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
+				updateStatus("You pressed 'F1' for HELP ......");
+			}
+		};
+		
+	
 
 	//End of functions added by Maple
 
 	/**
 	 * Launch the application.
+	 * @throws Throwable 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 
 		logic1 = new TDNextLogicAPI();
-		try {
 			parsedInfo = logic1.startProgram();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, e1);
-		}
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
 					GUI2 frame = new GUI2();
 					frame.setVisible(true);
 					frame.setResizable(false);
@@ -420,44 +466,15 @@ public class GUI2 extends JFrame {
 					//Keyboard Help
 					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amHelp = btnHelp.getActionMap();
-					
-					Action showMsg = new AbstractAction() {
-						private static final long serialVersionUID = 1L;
-
-						public void actionPerformed(ActionEvent e) {
-							JOptionPane.showMessageDialog(null, help);
-							guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
-						}
-					};
-					
 					imHelp.put(KeyStroke.getKeyStroke("F1"), "showMsg");
 					amHelp.put("showMsg", showMsg);
 					
 					//Keyboard Theme
 					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amTheme = btnTheme.getActionMap();
-					
-					Action showTheme = new AbstractAction(){
-					public void actionPerformed(ActionEvent e) {
-						String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
-						theme = (String) JOptionPane.showInputDialog(null,
-								"Choose your theme", "Input",
-								JOptionPane.INFORMATION_MESSAGE, null,
-								options, options[0]);
-						guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
-						
-						if(theme != null)
-							refreshUI(theme);
-					}
-					};
-					
 					imTheme.put(KeyStroke.getKeyStroke("F2"), "showTheme");
 					amTheme.put("showTheme", showTheme);
 					
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
-					e.printStackTrace();
-				}
 			}
 		});
 	}
@@ -483,11 +500,14 @@ public class GUI2 extends JFrame {
 		textInput = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 
-		btnHelp = new JButton("HELP (F1)");
+		btnHelp = new JButton("HELP  (F1)");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
 
-		btnTheme = new JButton("THEME (F2)");
+		btnTheme = new JButton("THEME  (F2)");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
+		
+		txtStatus = new JTextField();
+		guiLog.log(Level.INFO, "GUI Initialised: 'txtStatus'.");
 
 		setBounds(100, 100, 500, 500);
 		setContentPane(contentPane);
@@ -502,7 +522,7 @@ public class GUI2 extends JFrame {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
 				passInput(getInput(textInput));
-				guiLog.log(Level.INFO, "Last input displayed.");
+				guiLog.log(Level.INFO, "Latest command: " + getInput(textInput) + " is passed.");
 				addTextArea();
 				setTextAreaSize();
 			}
@@ -510,20 +530,21 @@ public class GUI2 extends JFrame {
 
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				final ImageIcon helpIcon = new ImageIcon("/Users/Maple/git/main/Images/Help Icon S.png");
 				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
+				updateStatus("You clicked HELP ......");
 			}
 		});
 
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				final ImageIcon themeIcon = new ImageIcon("/Users/Maple/git/main/Images/theme Icon S.png");
 				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Themes",
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,
 						options, options[0]);
+				guiLog.log(Level.INFO, "THEME button pressed.");
+				updateStatus("You clicked THEME ......");
 				if(theme != null)
 					refreshUI(theme);
 			}
