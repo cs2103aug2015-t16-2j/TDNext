@@ -288,7 +288,7 @@ public class GUI2 extends JFrame {
 	private static void setContentPane(){
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
-		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
+		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[377.00px][44.00px][41.00px]"));
 		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
 	}
@@ -305,7 +305,7 @@ public class GUI2 extends JFrame {
 	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
+		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
