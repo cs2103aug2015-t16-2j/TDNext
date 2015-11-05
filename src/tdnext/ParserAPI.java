@@ -92,17 +92,14 @@ public class ParserAPI {
 	}
 	
 	public static ArrayList<String> parseSearch(String keyWordWithCommand) {
-		String keyWord = removeCommand(keyWordWithCommand).toLowerCase();
+		String keyWords = removeCommand(keyWordWithCommand).toLowerCase();
 		possibleWords = new ArrayList<String> ();
 		
 		ArrayList<String> temp = new ArrayList<String> ();
-		
-		
-		//temp = ;
 
 		//System.out.println(possibleWords);
 		
-		return searchFromStorage(keyWord);
+		return searchFromStorage(keyWords);
 	}
 	
 	//public static ArrayList<String> sortOut(ArrayList<String> takeIn) {
@@ -180,12 +177,26 @@ public class ParserAPI {
 		
 		if (storage.size() == 0)
 			return null;
+		/*else if (moreThanOne(keyWord)) {
+			for (int index=0; index<storage.size(); index++)
+				if (storage.get(index).contains(keyWord))
+					possibleWords.add(keyWord);
+			return possibleWords;
+		}*/
 		else
 			for (int index=0; index<storage.size(); index++)
 				if (thisContains(storage.get(index).trim(), keyWord))
 					found.add(storage.get(index));
 		
+		possibleWords.add(keyWord);
+		
 		return removeRepeated(possibleWords);
+	}
+	
+	private static Boolean moreThanOne(String keyWords) {
+		String[] temp = keyWords.split(" ");
+		
+		return temp.length == 1;
 	}
 	
 	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
@@ -816,7 +827,7 @@ public class ParserAPI {
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseInformation(input.nextLine()));
+		System.out.println(parseSearch(input.nextLine()));
 		}
 	}
 } 
