@@ -134,10 +134,26 @@ public class ParserAPI {
 		origin = input; //origin = add/edit_2 <task>
 		
 		checkImportance(origin); //If origin contains IMPORTANT, remove IMPORTANT
-		
 
 		origin = removeCommand(origin); //To check if it contains add/edit and remove accordingly
 		noCommand = origin;
+		
+		if (specialCase(noCommand)) {
+			storage.add(noCommand);
+			
+			ArrayList<String> temp = new ArrayList<String> ();
+			
+			temp.add(noCommand);
+			if (noCommand.equalsIgnoreCase("important"))
+			    temp.add("important");
+			else
+				temp.add("");
+			temp.add("");
+			temp.add("");
+			temp.add("");
+			
+			return temp;
+		}
 		
 		toStore(origin);
 		
@@ -150,6 +166,12 @@ public class ParserAPI {
 		checkInfo(sentence);
 
 		return setTask(task);
+	}
+	
+	private static Boolean specialCase(String thisCase) {
+		String[] find = thisCase.split(" ");
+		
+		return find.length == 1;
 	}
 	
 	private static ArrayList<String> searchFromStorage (String keyWord) {
@@ -698,9 +720,26 @@ public class ParserAPI {
 	}
 	
 	private static int indexOf(String word, String[] sentence) {
+		ArrayList<Integer> position = new ArrayList<Integer> ();
+		
 		for (int index=0; index<sentence.length; index++)
 			if (sentence[index].equalsIgnoreCase(word))
-				return index;
+				position.add(index);
+		//System.out.println(position);
+		return findRightIndex(sentence, position);
+	}
+	
+	private static int findRightIndex(String[] sentence, ArrayList<Integer> position) {
+		int length = sentence.length;
+		//System.out.println(length);
+        int numberOfPositions = position.size();
+	    while (numberOfPositions != 0) {
+	    	if (position.get(numberOfPositions-1) != length-1)
+	    		if (isDateWord(sentence[position.get(numberOfPositions-1) + 1]))
+	    			return position.get(numberOfPositions-1);
+	    	numberOfPositions--;
+		}
+		
 		return -1;
 	}
 	
@@ -772,12 +811,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseSearch(input.nextLine()));
+		System.out.println(parseInformation(input.nextLine()));
 		}
-	} */
+	}
 } 
