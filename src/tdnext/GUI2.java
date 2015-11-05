@@ -156,17 +156,21 @@ public class GUI2 extends JFrame {
 		//	System.out.println(s);
 			panelDisplay.add(createTextAreas(s, i), 0);
 			panelDisplay.revalidate();
-
-			JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-			Runnable run1 = new Runnable() {
-				public void run() {
-					verticalScrollBar.setValue(0);
-				}
-			};
-			SwingUtilities.invokeLater(run1);
+			setDefaultScroll();
 		}
 
 	}
+	
+	private void setDefaultScroll(){
+		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+		Runnable run1 = new Runnable() {
+			public void run() {
+				verticalScrollBar.setValue(0);
+			}
+		};
+		SwingUtilities.invokeLater(run1); 
+	}
+	
 	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
 	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
@@ -208,7 +212,6 @@ public class GUI2 extends JFrame {
 	void setTheme(String s){
 		if(s.equals("Panda")){
 			red = panda.getColor("red");
-			System.out.println(red);
 			orange = panda.getColor("orange");
 			green = panda.getColor("green");
 			white = panda.getColor("white");
@@ -267,7 +270,6 @@ public class GUI2 extends JFrame {
 
 	//Interface-related
 	static void setStyle(int i){
-	//	System.out.println("Style set");
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.BOLD, 16));
@@ -367,6 +369,7 @@ public class GUI2 extends JFrame {
 			panelDisplay.revalidate();
 		}
 		setTextAreaSize();
+		setDefaultScroll();
 	}
 
 

@@ -21,7 +21,6 @@ public class ThemeAPI {
 	public ThemeAPI(String s){
 		_name = s;
 		setDetails(_name);
-	//	System.out.println("ThemeAPI set as " + _name);
 	}
 	
 	public String getThemeName(){
@@ -49,13 +48,12 @@ public class ThemeAPI {
 		case "inputfont":
 			return _inputFontColor;
 		default:
-//			System.out.println("Invalid color");
 			return null;
 		}
 	}
 	
 	public void setDetails(String s){
-		System.out.println("Detail name: "+s);
+	
 		if(s.equals("Lavender") ){
 			_red = new Color(255, 195, 206);
 			_orange = new Color(255, 207, 121);
