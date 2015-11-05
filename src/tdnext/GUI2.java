@@ -510,7 +510,6 @@ public class GUI2 extends JFrame {
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final ImageIcon helpIcon = new ImageIcon("/Users/Maple/git/main/Images/Help Icon S.png");
-				
 				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
 			}
@@ -518,10 +517,11 @@ public class GUI2 extends JFrame {
 
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				final ImageIcon themeIcon = new ImageIcon("/Users/Maple/git/main/Images/theme Icon S.png");
 				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
 				theme = (String) JOptionPane.showInputDialog(null,
-						"Choose your theme", "Input",
-						JOptionPane.INFORMATION_MESSAGE, null,
+						"Choose your theme", "Themes",
+						JOptionPane.INFORMATION_MESSAGE, themeIcon,
 						options, options[0]);
 				if(theme != null)
 					refreshUI(theme);
