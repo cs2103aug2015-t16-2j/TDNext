@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StorageAPI {
 	public static String dir;
 	public static String outputName;
+	private static Logger storageLog = Logger.getLogger("Storage");
 	public static ArrayList<String> tempClear= new ArrayList<String>(); //ArrayList to save data when user clears
 	public static ArrayList<String> tempAdd= new ArrayList<String>(); //ArrayList to save data when user deletes
 	public static ArrayList<String> tempDel= new ArrayList<String>(); //ArrayList to save data when user deletes
@@ -27,6 +30,7 @@ public class StorageAPI {
 		outputName=newName;
 		settings.set(1, newName);
 		saveSettings();
+		storageLog.log(Level.INFO,"File output name set to : "+outputName);
 	}
 	
 	//API method for user to change directory of the output text file
@@ -38,6 +42,7 @@ public class StorageAPI {
 		syncFile(data);
 		settings.set(0, newDir);
 		saveSettings();
+		storageLog.log(Level.INFO, "File directory set to : " +dir);
 	}
 	
 	//Private method to update values in settings.txt
@@ -48,6 +53,7 @@ public class StorageAPI {
 			writer.write(settings.get(i) + System.getProperty( "line.separator" ));
 		}
 		writer.close();
+		storageLog.log(Level.INFO,"Settings saved.");
 	}
 	
 	//API method to add new tasks into text file 
@@ -56,6 +62,7 @@ public class StorageAPI {
 		data.add(Task);
 		tempAdd.add(Task);
 		addToFile(Task);
+		storageLog.log(Level.INFO,Task + " is added.");
 	}
 	
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
@@ -81,11 +88,15 @@ public class StorageAPI {
 			if(data.size()>0)
 				data.clear();
 			fetchFromFile(dir+outputName,data);
+			storageLog.log(Level.INFO,"Data fetched");
 			return data;
+			
 			
 		}
 		else {
+			storageLog.log(Level.INFO,"No data available.");
 			return new ArrayList<String>();
+			
 		}
 	}
 	
@@ -96,6 +107,7 @@ public class StorageAPI {
 			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
 			dir = settings.get(0);
 			outputName = settings.get(1);
+			storageLog.log(Level.INFO,"Settings.txt loaded");
 		}
 		else {
 			//First time running program, no properties set
@@ -104,6 +116,7 @@ public class StorageAPI {
 			settings.add(dir);
 			settings.add(outputName);
 			saveSettings();
+			storageLog.log(Level.INFO,"Settings.txt created");
 		}
 		
 	}
@@ -127,6 +140,7 @@ public class StorageAPI {
 	public static void editToFile(String newVal, String orig) throws IOException{
 		int index = findIndex(data,orig);
 		updateTextFile(data,index,newVal);
+		storageLog.log(Level.INFO,orig + " updated to : " + newVal);
 	}
 	
 	//Internal method to modify the String corresponding to the task
@@ -159,6 +173,7 @@ public class StorageAPI {
 		PrintWriter writer = new PrintWriter(f);
 		writer.print("");
 		writer.close();
+		storageLog.log(Level.INFO,"All data cleared");
 	}
 	
 	//API method to undo a clear command. data arrayList is re-populated and temp is cleared
@@ -175,6 +190,7 @@ public class StorageAPI {
 		data.remove(task);
 		tempDel.add(task);
 		syncFile(data);
+		storageLog.log(Level.INFO,task + " deleted.");
 	}
 	
 	//API method to undo delete command
@@ -201,9 +217,11 @@ public class StorageAPI {
 		File f = new File(filePath);
 		
 		if(f.exists()){
+			storageLog.log(Level.INFO,filePath + " exists.");
 			return true;
 		}
 		else {
+			storageLog.log(Level.INFO,filePath + " does not exist.");
 			return false;
 		}
 	}
