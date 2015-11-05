@@ -160,7 +160,7 @@ public class GUI2 extends JFrame {
 		}
 
 	}
-	
+
 	private void setDefaultScroll(){
 		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
@@ -168,9 +168,9 @@ public class GUI2 extends JFrame {
 				verticalScrollBar.setValue(0);
 			}
 		};
-		SwingUtilities.invokeLater(run1); 
+		SwingUtilities.invokeLater(run1);
 	}
-	
+
 	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
 	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
@@ -393,6 +393,11 @@ public class GUI2 extends JFrame {
 					GUI2 frame = new GUI2();
 					frame.setVisible(true);
 					frame.setResizable(false);
+
+					JScrollBar vertical = scrollPane.getVerticalScrollBar();
+					InputMap im = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+					im.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+					im.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
 					e.printStackTrace();
@@ -465,7 +470,7 @@ public class GUI2 extends JFrame {
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
-				
+
 				if(theme != null){
 				setTheme(theme);
 				setAll();
