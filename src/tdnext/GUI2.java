@@ -35,9 +35,6 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 
-import java.awt.Robot;
-import java.awt.AWTException;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class GUI2 extends JFrame {
@@ -186,7 +183,6 @@ public class GUI2 extends JFrame {
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
-	//	System.out.println("color is:" + cT);
 		return cT;
 	}
 
@@ -221,6 +217,7 @@ public class GUI2 extends JFrame {
 			displayBackground = panda.getColor("displaybg");
 			foreground = panda.getColor("foreground");
 			background = panda.getColor("background");
+			guiLog.log(Level.INFO, "Panda theme is selected now.");
 
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
@@ -232,6 +229,7 @@ public class GUI2 extends JFrame {
 			displayBackground = lavender.getColor("displaybg");
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
+			guiLog.log(Level.INFO, "Lavender theme is selected now.");
 
 		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
@@ -243,6 +241,7 @@ public class GUI2 extends JFrame {
 			displayBackground = forest.getColor("displaybg");
 			foreground = forest.getColor("foreground");
 			background = forest.getColor("background");
+			guiLog.log(Level.INFO, "Forest theme is selected now.");
 
 		}else if(s.equals("Sapphire")){
 			red = sapphire.getColor("red");
@@ -254,6 +253,7 @@ public class GUI2 extends JFrame {
 			displayBackground = sapphire.getColor("displaybg");
 			foreground = sapphire.getColor("foreground");
 			background = sapphire.getColor("background");
+			guiLog.log(Level.INFO, "Sapphire theme is selected now.");
 
 		}else{
 			red = original.getColor("red");
@@ -265,6 +265,7 @@ public class GUI2 extends JFrame {
 			displayBackground = original.getColor("displaybg");
 			foreground = original.getColor("foreground");
 			background = original.getColor("background");
+			guiLog.log(Level.INFO, "Default theme is selected now.");
 
 		}
 	}
@@ -444,6 +445,7 @@ public class GUI2 extends JFrame {
 								"Choose your theme", "Input",
 								JOptionPane.INFORMATION_MESSAGE, null,
 								options, options[0]);
+						guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
 					}
 					};
 					
