@@ -466,6 +466,7 @@ public class GUI2 extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI2() {
+		setTitle("Welcome to TDNext");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
