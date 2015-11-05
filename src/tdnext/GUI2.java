@@ -23,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -508,7 +509,9 @@ public class GUI2 extends JFrame {
 
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help);
+				final ImageIcon helpIcon = new ImageIcon("/Users/Maple/git/main/Images/Help Icon S.png");
+				
+				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
 			}
 		});
