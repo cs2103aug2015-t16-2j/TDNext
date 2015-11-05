@@ -292,7 +292,6 @@ public class GUI2 extends JFrame {
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
 		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
-		System.out.println(red.toString());
 	}
 
 	private void setPanelDisplay(){
@@ -364,13 +363,15 @@ public class GUI2 extends JFrame {
 		panelCmd.revalidate();
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
-		for(int i =0; i<parsedInfo.size(); i++){
-			String s = new String(getParsedInoString(parsedInfo, i));
-			panelDisplay.add(createTextAreas(s, i), -1);
-			panelDisplay.revalidate();
-		}
+		addTextArea();
 		setTextAreaSize();
 		setDefaultScroll();
+	}
+	
+	private void refreshTheme(String name){
+		setTheme(name);
+		setAll();
+		refresh();
 	}
 
 
@@ -421,6 +422,8 @@ public class GUI2 extends JFrame {
 					ActionMap amHelp = btnHelp.getActionMap();
 					
 					Action showMsg = new AbstractAction() {
+						private static final long serialVersionUID = 1L;
+
 						public void actionPerformed(ActionEvent e) {
 							JOptionPane.showMessageDialog(null, help);
 							guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
@@ -429,6 +432,23 @@ public class GUI2 extends JFrame {
 					
 					imHelp.put(KeyStroke.getKeyStroke("F1"), "showMsg");
 					amHelp.put("showMsg", showMsg);
+					
+					//Keyboard Theme
+					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+					ActionMap amTheme = btnTheme.getActionMap();
+					
+					Action showTheme = new AbstractAction(){
+					public void actionPerformed(ActionEvent e) {
+						String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+						theme = (String) JOptionPane.showInputDialog(null,
+								"Choose your theme", "Input",
+								JOptionPane.INFORMATION_MESSAGE, null,
+								options, options[0]);
+					}
+					};
+					
+					imTheme.put(KeyStroke.getKeyStroke("F2"), "showTheme");
+					amTheme.put("showTheme", showTheme);
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error! Please restart program.");
@@ -477,14 +497,6 @@ public class GUI2 extends JFrame {
 				guiLog.log(Level.INFO, "Last input displayed.");
 				addTextArea();
 				setTextAreaSize();
-
-			/*	Robot rob;
-				try {
-					rob = new Robot();
-					rob.mouseWheel(500);
-				} catch (AWTException e1) {
-					e1.printStackTrace();
-				}*/
 			}
 		});
 
@@ -502,12 +514,8 @@ public class GUI2 extends JFrame {
 						"Choose your theme", "Input",
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
-
-				if(theme != null){
-				setTheme(theme);
-				setAll();
-				refresh();
-				}
+				if(theme != null)
+					refreshTheme(theme);
 			}
 		});
 
