@@ -94,11 +94,11 @@ public class GUI2 extends JFrame {
 			+"	EXIT";
 
 	//Themes
-	private ThemeAPI lavender = new ThemeAPI("Lavender");
-	private ThemeAPI panda = new ThemeAPI("Panda");
-	private ThemeAPI forest = new ThemeAPI("Forest");
-	private ThemeAPI sapphire = new ThemeAPI("Sapphire");
-	private ThemeAPI original = new ThemeAPI("");
+	private static ThemeAPI lavender = new ThemeAPI("Lavender");
+	private static ThemeAPI panda = new ThemeAPI("Panda");
+	private static ThemeAPI forest = new ThemeAPI("Forest");
+	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
+	private static ThemeAPI original = new ThemeAPI("");
 
 
 	//Colors used in GUI display
@@ -133,7 +133,7 @@ public class GUI2 extends JFrame {
 		textInput.setText("");
 	}
 
-	private String getParsedInoString(ArrayList<Task> parsedInfo, int i){
+	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
 		String output = new String();
 			int j = i+1;
 			output = j + ". " + parsedInfo.get(i).toString();
@@ -141,14 +141,14 @@ public class GUI2 extends JFrame {
 		return output;
 	}
 
-	private JTextArea createTextAreas(String s, int i){
+	private static JTextArea createTextAreas(String s, int i){
 		textArea = new JTextArea(s);
 	//	System.out.println("CreateLines: " + s);
 		setStyle(i);
 		return textArea;
 	}
 
-	private void addTextArea(){
+	private static void addTextArea(){
 		for(int i = parsedInfo.size() - 1; i >= 0; i--){
 			String s = new String(getParsedInoString(parsedInfo, i));
 		//	System.out.println(s);
@@ -159,7 +159,7 @@ public class GUI2 extends JFrame {
 
 	}
 
-	private void setDefaultScroll(){
+	private static void setDefaultScroll(){
 		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
 			public void run() {
@@ -206,7 +206,7 @@ public class GUI2 extends JFrame {
 	}
 
 	//Theme
-	void setTheme(String s){
+	static void setTheme(String s){
 		if(s.equals("Panda")){
 			red = panda.getColor("red");
 			orange = panda.getColor("orange");
@@ -285,17 +285,15 @@ public class GUI2 extends JFrame {
 		textArea.setBackground(displayBackground);
 	}
 
-	private void setContentPane(){
-		setBounds(100, 100, 500, 500);
+	private static void setContentPane(){
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
-		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px]", "[364px][34px][30px]"));
 		contentPane.validate();
 		contentPane.add(scrollPane, "cell 0 0 3 1,grow");
 	}
 
-	private void setPanelDisplay(){
+	private static void setPanelDisplay(){
 		scrollPane.setViewportView(panelDisplay);
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(displayBackground);
@@ -304,7 +302,7 @@ public class GUI2 extends JFrame {
 		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
 	}
 
-	private void setPanelCmd(){
+	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		contentPane.add(panelCmd, "cell 0 1 1 2,growx,aligny top");
@@ -315,14 +313,14 @@ public class GUI2 extends JFrame {
 		textInput.setColumns(10);
 	}
 
-	private void setBtnHelp(){
+	private static void setBtnHelp(){
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
 		contentPane.add(btnHelp, "cell 2 1,growx,aligny center");
 	}
 
-	private void setBtnTheme(){
+	private static void setBtnTheme(){
 		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		contentPane.add(btnTheme, "cell 2 2,growx,aligny center");
 		btnTheme.setBackground(background);
@@ -330,7 +328,7 @@ public class GUI2 extends JFrame {
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
 	}
 
-	private void setAll(){
+	private static void setAll(){
 		setContentPane();
 		setPanelDisplay();
 		setPanelCmd();
@@ -338,7 +336,7 @@ public class GUI2 extends JFrame {
 		setBtnTheme();
 	}
 
-	private void setTextAreaSize(){
+	private static void setTextAreaSize(){
 		if(parsedInfo.size() < 14){
 			for(int j=0; j<(14-parsedInfo.size()); j++){
 				textArea = new JTextArea("");
@@ -349,7 +347,7 @@ public class GUI2 extends JFrame {
 			}
 	}
 
-	private void refresh(){
+	private static void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
 		textInput.repaint();
@@ -369,7 +367,7 @@ public class GUI2 extends JFrame {
 		setDefaultScroll();
 	}
 	
-	private void refreshTheme(String name){
+	private static void refreshUI(String name){
 		setTheme(name);
 		setAll();
 		refresh();
@@ -446,6 +444,9 @@ public class GUI2 extends JFrame {
 								JOptionPane.INFORMATION_MESSAGE, null,
 								options, options[0]);
 						guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
+						
+						if(theme != null)
+							refreshUI(theme);
 					}
 					};
 					
@@ -486,6 +487,9 @@ public class GUI2 extends JFrame {
 		btnTheme = new JButton("THEME (F2)");
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 
+		setBounds(100, 100, 500, 500);
+		setContentPane(contentPane);
+		
 		setAll();
 
 		addTextArea();
@@ -517,7 +521,7 @@ public class GUI2 extends JFrame {
 						JOptionPane.INFORMATION_MESSAGE, null,
 						options, options[0]);
 				if(theme != null)
-					refreshTheme(theme);
+					refreshUI(theme);
 			}
 		});
 
