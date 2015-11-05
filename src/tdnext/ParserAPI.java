@@ -86,8 +86,8 @@ public class ParserAPI {
 			//return CommandType.EDITDATE;
 		else if (command.contains("undo"))
 			return CommandType.UNDO;
-		//else if (command.contains("cd"))
-			//return CommandType.
+		else if (command.contains("cd"))
+			return CommandType.CHANGE_DIRECTORY;
 		return CommandType.INVALID;
 	}
 	
