@@ -20,10 +20,13 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import tdnext.TDNextLogicAPI.ColourType;
 import java.awt.event.ActionListener;
@@ -153,7 +156,16 @@ public class GUI2 extends JFrame {
 			System.out.println(s);
 			panelDisplay.add(createTextAreas(s, i), 0);
 			panelDisplay.revalidate();
+
+			JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+			Runnable run1 = new Runnable() {
+				public void run() {
+					verticalScrollBar.setValue(0);
+				}
+			};
+			SwingUtilities.invokeLater(run1);
 		}
+
 	}
 	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
@@ -439,6 +451,7 @@ public class GUI2 extends JFrame {
 				guiLog.log(Level.INFO, "Last input displayed.");
 				addTextArea();
 				setTextAreaSize();
+
 				Robot rob;
 				try {
 					rob = new Robot();
@@ -471,5 +484,6 @@ public class GUI2 extends JFrame {
 				}
 			}
 		});
+
 	}
 }
