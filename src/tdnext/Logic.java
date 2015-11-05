@@ -92,7 +92,7 @@ public class Logic {
 		_logger.log(Level.INFO, "Date changed for " + currTask.toString());
 	}*/
 
-	private ArrayList<Task> addAllTask() throws IOException {
+	private ArrayList<Task> addAllTask() throws TDNextException {
 		ArrayList<Task> tempTaskList = _tempTask.pop();
 		for(int i = 0; i < tempTaskList.size(); i++) {
 			Task currTask = tempTaskList.get(i);
@@ -104,7 +104,7 @@ public class Logic {
 		return _listTask;
 	}
 
-	public ArrayList<Task> startProgram() throws IOException {
+	public ArrayList<Task> startProgram() throws TDNextException {
 		ArrayList<String> allFileInfo = new ArrayList<String>();
 		_listTask = new ArrayList<Task>();
 		allFileInfo = StorageAPI.getFromFile();
@@ -189,7 +189,7 @@ public class Logic {
 		}
 	}
 
-	private ArrayList<Task> clearAll() throws IOException{
+	private ArrayList<Task> clearAll() throws TDNextException{
 		ArrayList<Task> tempTaskList = new ArrayList<Task>(_listTask);
 		_tempTask.push(tempTaskList);
 		_listTask.clear();
@@ -362,7 +362,7 @@ public class Logic {
 		return _listTask;
 	}
 
-	private ArrayList<Task> changeDirectory(String input) throws IOException {
+	private ArrayList<Task> changeDirectory(String input) throws TDNextException {
 		String newDir = input.split(" ", 2)[1];
 		StorageAPI.changeDir(newDir);
 

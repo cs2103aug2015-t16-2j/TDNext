@@ -10,7 +10,7 @@ import org.junit.Test;
 public class StorageAPITest {
 
 	@Test
-	public void testStorage() throws IOException {
+	public void testStorage() throws TDNextException {
 		ArrayList<String> data1 = new ArrayList<String>();
 		data1.add("task 1");
 		data1.add("task 2");
