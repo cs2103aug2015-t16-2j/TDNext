@@ -79,7 +79,7 @@ public class Logic {
 				return _listTask;*/
 
 			default :
-				throw new CommandException("Invalid Command");
+				throw new TDNextException("Invalid Command");
 		}
 	}
 
@@ -127,7 +127,7 @@ public class Logic {
 			_undoMode = true;
 			output = executeCommand(_lastCommandList.pop());
 		} else {
-			throw new CommandException("There is no command before this.");
+			throw new TDNextException("There is no command before this.");
 		}
 
 		return output;
