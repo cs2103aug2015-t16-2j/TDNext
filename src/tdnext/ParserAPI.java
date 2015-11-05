@@ -34,6 +34,7 @@ public class ParserAPI {
 	public static Boolean isClear = false;
 	public static Boolean isDone = false;
 	public static Boolean isEditDate = false;
+	public static Boolean isCD = false;
 	public static ArrayList<String> storage = new ArrayList<String> ();
 	public static ArrayList<String> possibleWords = new ArrayList<String> ();
 	//public static Boolean isTwoWords = false;
@@ -320,6 +321,7 @@ public class ParserAPI {
 		task = new ArrayList<String> (5);
 		specificTime = "";
 		isTmrw = false;
+		isCD = false;
 		taskDescription = "";
 		origin = "";
 		noCommand = "";
@@ -345,6 +347,8 @@ public class ParserAPI {
 			isClear = true;
 		else if (firstWord.equals("(x)"))
 			isDone = true;
+		else if (firstWord.equalsIgnoreCase("cd"))
+			isCD = true;
 		
 		return formNew(breakDown);
 	}
@@ -356,7 +360,7 @@ public class ParserAPI {
 	private static String formNew(String[] array) {
 		String toReturn = new String();
 		
-		if (isAdd || isDone || isSearch) {
+		if (isAdd || isDone || isSearch || isCD) {
 			for (int index=1; index<array.length; index++) {
 				toReturn += (array[index] + " ");
 			}
