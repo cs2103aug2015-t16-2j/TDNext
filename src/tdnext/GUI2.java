@@ -170,6 +170,7 @@ public class GUI2 extends JFrame {
 		};
 		SwingUtilities.invokeLater(run1); 
 	}
+	
 	/*
 	JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
 	JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
@@ -211,7 +212,6 @@ public class GUI2 extends JFrame {
 	void setTheme(String s){
 		if(s.equals("Panda")){
 			red = panda.getColor("red");
-			System.out.println(red);
 			orange = panda.getColor("orange");
 			green = panda.getColor("green");
 			white = panda.getColor("white");
