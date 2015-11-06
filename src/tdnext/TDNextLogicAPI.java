@@ -23,7 +23,7 @@ public class TDNextLogicAPI {
 
 	// This method receives a string which is the command.
 	// Returns an array of Task objects
-	public ArrayList<Task> executeCommand(String input) throws Exception {
+	public ArrayList<Task> executeCommand(String input) throws TDNextException {
 		ArrayList<Task> output = _first.executeCommand(input);
 
 		return output;
@@ -31,7 +31,7 @@ public class TDNextLogicAPI {
 
 	// This method runs at the start of the program and
 	// returns an array of events
-	public ArrayList<Task> startProgram() throws Exception {
+	public ArrayList<Task> startProgram() throws TDNextException {
 		ArrayList<Task> output = _first.startProgram();
 
 		return output;
