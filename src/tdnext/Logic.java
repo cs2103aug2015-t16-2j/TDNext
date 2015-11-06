@@ -316,7 +316,8 @@ public class Logic {
 			String name = keywords.get(j);
 			for(int i = 0; i < _listTask.size(); i++) {
 				Task currTask = _listTask.get(i);
-				if(currTask.toString().toLowerCase().contains(name)) {
+				if(currTask.toString().toLowerCase().contains(name) &&
+						!_searchList.contains(currTask)) {
 					_searchList.add(currTask);
 				}
 			}
