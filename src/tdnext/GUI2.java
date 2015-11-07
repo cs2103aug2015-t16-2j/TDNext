@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -36,15 +35,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.InputStream;
-
 import javax.swing.SwingConstants;
 
 public class GUI2 extends JFrame {
 
+	//@@author A0113507R
 	private static JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
@@ -57,10 +53,10 @@ public class GUI2 extends JFrame {
 	private static String theme;
 
 	private static ArrayList<Task> parsedInfo;
-	private static TDNextLogicAPI logic1;
+	private static TDNextLogicAPI logicAPI;
 	private static Logger guiLog= Logger.getLogger("GUI");
 
-	private final static String help =
+	private final static String helpMsg =
 			"This is the help section. Please see below for more information:"
 			+"\n\n"
 			+ "Create-\n"
@@ -125,12 +121,12 @@ public class GUI2 extends JFrame {
 	private void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
-			output = logic1.executeCommand(input);
+			output = logicAPI.executeCommand(input);
 			parsedInfo = output;
 			clearInput(textInput);
 			updateStatus("Last command '" + input + "' was valid and is processed.");
 		} catch (Exception e) {
-			updateStatus("Last command '" + input + "' was invalid. Pls edit your input.");
+			updateStatus("Last command '" + input + "' was invalid. Please edit your input. Press 'HELP' or 'F1' for command list.");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -140,9 +136,7 @@ public class GUI2 extends JFrame {
 	}
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
-		String output = new String();
-			output = parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
-		return output;
+		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
@@ -163,7 +157,8 @@ public class GUI2 extends JFrame {
 	private static void updateStatus(String status){
 		txtStatus.setText(status);
 	}
-
+	
+	//@@author 
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
@@ -173,7 +168,9 @@ public class GUI2 extends JFrame {
 		};
 		SwingUtilities.invokeLater(run1);
 	}
-
+	
+	//@@author A0113507R
+	
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
@@ -252,8 +249,11 @@ public class GUI2 extends JFrame {
 		}
 	}
 
+	//@@author
 	final static ImageIcon helpIcon = new ImageIcon(GUI2.class.getResource("/Help Icon S.png"));
 	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
+	
+	//@@author A0113507R
 	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
@@ -403,7 +403,7 @@ public class GUI2 extends JFrame {
 		private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
 				updateStatus("You pressed 'F1' for HELP ......");
 			}
@@ -419,8 +419,8 @@ public class GUI2 extends JFrame {
 	 */
 	public static void main(String[] args) throws TDNextException {
 
-		logic1 = new TDNextLogicAPI();
-			parsedInfo = logic1.startProgram();
+		logicAPI = new TDNextLogicAPI();
+			parsedInfo = logicAPI.startProgram();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -519,7 +519,7 @@ public class GUI2 extends JFrame {
 
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
 				updateStatus("You clicked HELP ......");
 			}
