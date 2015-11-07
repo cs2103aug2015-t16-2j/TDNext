@@ -1,8 +1,8 @@
-//@author Adriel
 package tdnext;
 
 import java.util.ArrayList;
 
+//@author A0125283J
 public class TDNextLogicAPI {
 
 	private Logic _first;
