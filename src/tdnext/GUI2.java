@@ -317,16 +317,15 @@ public class GUI2 extends JFrame {
 	private static void setBtnHelp(){
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
-		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 14));
-		contentPane.add(btnHelp, "cell 2 2,growx,aligny center");
+		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 12));
+		contentPane.add(btnHelp, "cell 2 2,alignx center,aligny center");
 	}
 
 	private static void setBtnTheme(){
-		btnTheme.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		contentPane.add(btnTheme, "cell 2 3,growx,aligny center");
+		contentPane.add(btnTheme, "cell 2 3,alignx center,aligny center");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
-		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 14));
+		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 12));
 	}
 	
 	private static void setStatusBar(){
