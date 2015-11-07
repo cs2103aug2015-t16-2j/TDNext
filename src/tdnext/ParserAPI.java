@@ -448,9 +448,31 @@ public class ParserAPI {
 	
 	private static void removeDateAndTime() {
 		if (noCommand.contains("by") || noCommand.contains("on")) {
+			//System.out.println(noCommand);
 			String[] dismember = noCommand.split(" ");
+			int index = 0;
 			
+			if (noCommand.contains("by")) {
+				index = indexOf("by", dismember);
+			}
+			else {
+				index = indexOf("on", dismember);
+			}
 			
+			String temp = new String();
+			int i=0;
+			
+			while (i != dismember.length) {
+				//!dismember[i].equalsIgnoreCase("on") || !dismember[i].equalsIgnoreCase("on")
+				if (!isDateWord(dismember[i]) && !dismember[i].equalsIgnoreCase("next") && (!dismember[i].equalsIgnoreCase("on") && !dismember[i].equalsIgnoreCase("by"))) {
+					//System.out.println(dismember[i]);
+				    temp += (dismember[i] + " ");
+				}
+				
+				i++;
+			}
+			
+			noCommand = temp.trim();
 		}
 	}
 	
@@ -991,6 +1013,9 @@ public class ParserAPI {
 		else if (word.contains("tmrw") || word.contains("tomorrow")) {
 			isTmrw = true;
 			
+			return true;
+		}
+		else if (word.equals("by") || word.equals("on")) {
 			return true;
 		}
 		else if (word.contains("days")) {
