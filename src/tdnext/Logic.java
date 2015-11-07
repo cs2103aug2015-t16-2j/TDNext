@@ -1,7 +1,5 @@
-//@@author Adriel
 package tdnext;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
@@ -13,6 +11,7 @@ import tdnext.StorageAPI;
 import tdnext.Task;
 import tdnext.TDNextLogicAPI.CommandType;
 
+//@@author A0125283J
 public class Logic {
 
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
@@ -122,15 +121,12 @@ public class Logic {
 	}
 
 	private ArrayList<Task> undo() throws TDNextException{
-		ArrayList<Task> output = new ArrayList<Task>();
 		if(!_lastCommandList.isEmpty()) {
 			_undoMode = true;
-			output = executeCommand(_lastCommandList.pop());
+			return executeCommand(_lastCommandList.pop());
 		} else {
 			throw new TDNextException("There is no command before this.");
 		}
-
-		return output;
 	}
 
 	private ArrayList<Task> markAsUndone(String input) throws TDNextException {
@@ -143,11 +139,7 @@ public class Logic {
 		StorageAPI.editToFile(newDesc, oldDesc);
 		_listTask.add(currTask);
 
-		if(_searchMode) {
-			return executeCommand(_lastSearchCommand);
-		} else {
-			return _listTask;
-		}
+		return returnList();
 	}
 
 	private ArrayList<Task> editTask(String input) throws TDNextException {
@@ -155,56 +147,25 @@ public class Logic {
 		Task oldTask = null;
 		Task newTask = null;
 
-		if(_searchMode) {
-			assert((_searchList != null) && (_searchList.size() > 0));
-			try{
-				System.out.println("the index is " + index);
-				oldTask = _searchList.remove(index);
-			} catch (IndexOutOfBoundsException e) {
-				throw new TDNextException("Invalid index");
-			}
-			int originalIndex = _listTask.indexOf(oldTask);
-			_listTask.remove(originalIndex);
-			ArrayList<String> information = ParserAPI.parseInformation(input);
-			newTask = new Task(information);
-			_listTask.add(originalIndex, newTask);
-			_searchList.add(index, newTask);
-		} else {
+		try{
 			oldTask = _listTask.get(index);
-			_listTask.remove(index);
-			ArrayList<String> information = ParserAPI.parseInformation(input);
-			newTask = new Task(information);
-			_listTask.add(index, newTask);
+		} catch (IndexOutOfBoundsException e) {
+			throw new TDNextException("Invalid index");
 		}
+		_listTask.remove(index);
+		ArrayList<String> information = ParserAPI.parseInformation(input);
+		newTask = new Task(information);
+		_listTask.add(index, newTask);
 		StorageAPI.editToFile(newTask.toString(), oldTask.toString());
+
+		int newIndex = _listTask.indexOf(newTask) + 1;
+		assert((newIndex > 0) && (newIndex <= _listTask.size()));
+		String lastCommand =  "EDIT " + newIndex + " " + oldTask.toString();
+		addLastCommand(lastCommand);
 
 		_logger.log(Level.INFO, newTask.toString() + " is editted");
 
-		if(_searchMode) {
-			sortDefault();
-			_searchMode = true;
-			int newIndex = _listTask.indexOf(newTask) + 1;
-			assert((newIndex >= 0) && (newIndex < _searchList.size()));
-			if(_undoMode) {
-				_undoMode = false;
-			} else {
-				String lastCommand =  "EDIT " + newIndex + " " + oldTask.toString();
-				_lastCommandList.push(lastCommand);
-			}
-			searchTask(_lastSearchCommand);
-			return _searchList;
-		} else {
-			sortDefault();
-			int newIndex = _listTask.indexOf(newTask) + 1;
-			assert((newIndex >= 0) && (newIndex < _listTask.size()));
-			if(_undoMode) {
-				_undoMode = false;
-			} else {
-				String lastCommand =  "EDIT " + newIndex + " " + oldTask.toString();
-				_lastCommandList.push(lastCommand);
-			}
-			return _listTask;
-		}
+		return returnList();
 	}
 
 	private ArrayList<Task> clearAll() throws TDNextException{
@@ -212,13 +173,9 @@ public class Logic {
 		_tempTask.push(tempTaskList);
 		_listTask.clear();
 		StorageAPI.clearFile();
+		String lastCommand = "ADD_ALL";
+		addLastCommand(lastCommand);
 
-		if(_undoMode) {
-			_undoMode = false;
-		} else {
-			String lastCommand = "ADD_ALL";
-			_lastCommandList.push(lastCommand);
-		}
 		_logger.log(Level.INFO, "All tasks cleared");
 
 		return _listTask;
@@ -228,34 +185,23 @@ public class Logic {
 		int index = ParserAPI.parseIndex(input);
 		Task oldTask = null;
 
-		if(_searchMode) {
-			assert((_searchList != null) && (_searchList.size() > 0));
-			oldTask = _searchList.remove(index);
-			int originalIndex = _listTask.indexOf(oldTask);
-			_listTask.remove(originalIndex);
-		} else {
+		try {
 			oldTask = _listTask.get(index);
-			_listTask.remove(index);
+		} catch (IndexOutOfBoundsException e) {
+			throw new TDNextException("Invalid Index");
 		}
+		_listTask.remove(index);
 
 		String oldDesc = oldTask.toString();
 		oldTask.markAsDone();
 		String newDesc = oldTask.toString();
 		StorageAPI.editToFile(newDesc, oldDesc);
+		String lastCommand = "UNDONE " + newDesc;
+		addLastCommand(lastCommand);
 
-		if(_undoMode) {
-			_undoMode = false;
-		} else {
-			String lastCommand = "UNDONE " + newDesc;
-			_lastCommandList.push(lastCommand);
-		}
 		_logger.log(Level.INFO, oldDesc + " is marked as done");
 
-		if(_searchMode) {
-			return executeCommand(_lastSearchCommand);
-		} else {
-			return _listTask;
-		}
+		return returnList();
 	}
 
 
@@ -268,66 +214,41 @@ public class Logic {
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
-		int index = _listTask.indexOf(newTask) + 1;
 
-		if(_undoMode) {
-			_undoMode = false;
-		} else {
-			String lastCommand = "DELETE " + index;
-			_lastCommandList.push(lastCommand);
-		}
+		int newIndex = _listTask.indexOf(newTask) + 1;
+		assert((newIndex > 0) && (newIndex <= _listTask.size()));
+		String lastCommand = "DELETE " + newIndex;
+        addLastCommand(lastCommand);
+
 		_logger.log(Level.INFO, newTask.toString() + " added");
 
-		if(_searchMode) {
-			return executeCommand(_lastSearchCommand);
-		} else {
-			sortDefault();
-			return _listTask;
-		}
-
+		return returnList();
 	}
+
 
 	private ArrayList<Task> deleteTask(String input) throws TDNextException{
 		int index = ParserAPI.parseIndex(input);
 		Task deletedTask = null;
 
-		if(_searchMode) {
-			assert(_searchList != null);
-			deletedTask = _searchList.remove(index);
-			_listTask.remove(deletedTask);
-		} else {
+		try{
 			deletedTask = _listTask.remove(index);
+		} catch(IndexOutOfBoundsException e) {
+			throw new TDNextException("Invalid Index");
 		}
 		StorageAPI.deleteFromFile(deletedTask.toString());
+		String lastCommand = "ADD " + deletedTask.toString();
+		addLastCommand(lastCommand);
 
-		if(!_undoMode) {
-			String lastCommand = "ADD " + deletedTask.toString();
-			_lastCommandList.push(lastCommand);
-		}
-		_undoMode = false;
 		_logger.log(Level.INFO, deletedTask.toString() + " deleted");
 
-		if(_searchMode) {
-			return executeCommand(_lastSearchCommand);
-		} else {
-			return _listTask;
-		}
+		return returnList();
 	}
+
 
 	private ArrayList<Task> searchTask(String input) {
 		ArrayList<String> keywords = ParserAPI.parseSearch(input);
 		_searchList = new ArrayList<Task>();
-
-		for(int j = 0; j < keywords.size(); j++) {
-			String name = keywords.get(j);
-			for(int i = 0; i < _listTask.size(); i++) {
-				Task currTask = _listTask.get(i);
-				if(currTask.toString().toLowerCase().contains(name) &&
-						!_searchList.contains(currTask)) {
-					_searchList.add(currTask);
-				}
-			}
-		}
+		populateSearchList(keywords);
 
 		if(_undoMode) {
 			_undoMode = false;
@@ -359,12 +280,8 @@ public class Logic {
 		_searchMode = false;
 		updateIndex();
 
-		if(_undoMode) {
-			_undoMode = false;
-		} else {
-			String lastCommand = "sort";
-			_lastCommandList.push(lastCommand);
-		}
+		String lastCommand = "sort";
+		addLastCommand(lastCommand);
 
 		return _listTask;
 	}
@@ -375,12 +292,8 @@ public class Logic {
 		_searchMode = false;
 		updateIndex();
 
-		if(_undoMode) {
-			_undoMode = false;
-		} else {
-			String lastCommand = "sort";
-			_lastCommandList.push(lastCommand);
-		}
+		String lastCommand = "sort";
+		addLastCommand(lastCommand);
 
 		return _listTask;
 	}
@@ -395,6 +308,37 @@ public class Logic {
 	private void updateIndex() {
 		for(int i = 0; i < _listTask.size(); i++) {
 			_listTask.get(i).setIndex(i + 1);
+		}
+	}
+
+	private ArrayList<Task> returnList() {
+		if(_searchMode) {
+			searchTask(_lastSearchCommand);
+			return _searchList;
+		} else {
+			sortDefault();
+			return _listTask;
+		}
+	}
+
+	private void addLastCommand(String lastCommand) {
+		if(_undoMode) {
+			_undoMode = false;
+		} else {
+			_lastCommandList.push(lastCommand);
+		}
+	}
+
+	private void populateSearchList(ArrayList<String> keywords) {
+		for(int j = 0; j < keywords.size(); j++) {
+			String name = keywords.get(j);
+			for(int i = 0; i < _listTask.size(); i++) {
+				Task currTask = _listTask.get(i);
+				if(currTask.toString().toLowerCase().contains(name) &&
+						!_searchList.contains(currTask)) {
+					_searchList.add(currTask);
+				}
+			}
 		}
 	}
 }

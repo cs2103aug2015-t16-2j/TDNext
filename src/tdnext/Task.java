@@ -1,4 +1,4 @@
-//@@author Adriel
+
 package tdnext;
 
 import java.time.DateTimeException;
@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import tdnext.TDNextLogicAPI.ColourType;
 
+//@@author A0125283J
 public class Task {
 	private static final int URGENT_DAY = 14;
 
