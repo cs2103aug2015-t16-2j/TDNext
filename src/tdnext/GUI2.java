@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -36,15 +35,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.InputStream;
-
 import javax.swing.SwingConstants;
 
 public class GUI2 extends JFrame {
 
+	//@@author A0113507R
 	private static JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
@@ -57,10 +53,10 @@ public class GUI2 extends JFrame {
 	private static String theme;
 
 	private static ArrayList<Task> parsedInfo;
-	private static TDNextLogicAPI logic1;
+	private static TDNextLogicAPI logicAPI;
 	private static Logger guiLog= Logger.getLogger("GUI");
 
-	private final static String help =
+	private final static String helpMsg =
 			"This is the help section. Please see below for more information:"
 			+"\n\n"
 			+ "Create-\n"
@@ -125,12 +121,12 @@ public class GUI2 extends JFrame {
 	private void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
-			output = logic1.executeCommand(input);
+			output = logicAPI.executeCommand(input);
 			parsedInfo = output;
 			clearInput(textInput);
 			updateStatus("Last command '" + input + "' was valid and is processed.");
 		} catch (Exception e) {
-			updateStatus("Last command '" + input + "' was invalid. Pls edit your input.");
+			updateStatus("Last command '" + input + "' was invalid. Please edit your input. Press 'HELP' or 'F1' for command list.");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -140,9 +136,7 @@ public class GUI2 extends JFrame {
 	}
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
-		String output = new String();
-			output = parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
-		return output;
+		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
@@ -163,7 +157,8 @@ public class GUI2 extends JFrame {
 	private static void updateStatus(String status){
 		txtStatus.setText(status);
 	}
-
+	
+	//@@author A0125283J
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
@@ -173,7 +168,9 @@ public class GUI2 extends JFrame {
 		};
 		SwingUtilities.invokeLater(run1);
 	}
-
+	
+	//@@author A0113507R
+	
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
@@ -252,8 +249,11 @@ public class GUI2 extends JFrame {
 		}
 	}
 
+	//@@author
 	final static ImageIcon helpIcon = new ImageIcon(GUI2.class.getResource("/Help Icon S.png"));
 	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
+	
+	//@@author A0113507R
 	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
@@ -273,10 +273,10 @@ public class GUI2 extends JFrame {
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px,grow]", "[][377.00px][44.00px][41.00px]"));
+		
 		contentPane.validate();
 		
 		contentPane.add(txtStatus, "cell 0 0 3 1,growx,aligny center");
-		
 		contentPane.add(scrollPane, "cell 0 1 3 1,grow");
 	}
 
@@ -347,20 +347,28 @@ public class GUI2 extends JFrame {
 	private static void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
+		
 		textInput.repaint();
 		textInput.revalidate();
+		
 		scrollPane.repaint();
 		scrollPane.revalidate();
+		
 		btnTheme.repaint();
 		btnTheme.revalidate();
+		
 		btnHelp.repaint();
 		btnHelp.revalidate();
+		
 		panelCmd.repaint();
 		panelCmd.revalidate();
-		panelDisplay.removeAll();
-		panelDisplay.repaint();
+		
 		txtStatus.repaint();
 		txtStatus.revalidate();
+		
+		panelDisplay.removeAll();
+		panelDisplay.repaint();
+		
 		addTextArea();
 		setTextAreaSize();
 		setDefaultScroll();
@@ -397,13 +405,10 @@ public class GUI2 extends JFrame {
 		
 
 	static Action showMsg = new AbstractAction() {
-			/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
 				updateStatus("You pressed 'F1' for HELP ......");
 			}
@@ -419,8 +424,8 @@ public class GUI2 extends JFrame {
 	 */
 	public static void main(String[] args) throws TDNextException {
 
-		logic1 = new TDNextLogicAPI();
-			parsedInfo = logic1.startProgram();
+		logicAPI = new TDNextLogicAPI();
+			parsedInfo = logicAPI.startProgram();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -432,12 +437,12 @@ public class GUI2 extends JFrame {
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
 					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
 					
-					KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
-					KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
-					KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
-					KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
-					KeyStroke f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
-					KeyStroke f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
+					KeyStroke key_up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
+					KeyStroke key_down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
+					KeyStroke key_left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
+					KeyStroke key_right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
+					KeyStroke key_f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
+					KeyStroke key_f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
 					
 					vertical.setUnitIncrement(vertical.getMaximum()/10);
 					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
@@ -445,21 +450,21 @@ public class GUI2 extends JFrame {
 					InputMap imV = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					InputMap imH = horizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					
-					imV.put(down, "positiveUnitIncrement");
-					imV.put(up, "negativeUnitIncrement");
-					imH.put(right, "positiveUnitIncrement");
-					imH.put(left, "negativeUnitIncrement");
+					imV.put(key_down, "positiveUnitIncrement");
+					imV.put(key_up, "negativeUnitIncrement");
+					imH.put(key_right, "positiveUnitIncrement");
+					imH.put(key_left, "negativeUnitIncrement");
 					
 					//Keyboard Help
 					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amHelp = btnHelp.getActionMap();
-					imHelp.put(f1, "showMsg");
+					imHelp.put(key_f1, "showMsg");
 					amHelp.put("showMsg", showMsg);
 					
 					//Keyboard Theme
 					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amTheme = btnTheme.getActionMap();
-					imTheme.put(f2, "showTheme");
+					imTheme.put(key_f2, "showTheme");
 					amTheme.put("showTheme", showTheme);
 					
 			}
@@ -519,7 +524,7 @@ public class GUI2 extends JFrame {
 
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
 				updateStatus("You clicked HELP ......");
 			}

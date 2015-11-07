@@ -1,3 +1,11 @@
+//@@author A0127603M
+//Name: WangYulong
+//Date Created: 2015-08-20
+//Tutorial Group: C06
+//Subject: CS2103T
+//Project Name: TDNext
+//Architecture: Parser
+
 package tdnext;
 
 import java.text.DateFormat;
@@ -11,6 +19,8 @@ import tdnext.TDNextException;
 
 //Edit by name --> Parse back ArrayList<String>
 //Edit by  
+
+
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
 	private static String origin = new String();
@@ -57,56 +67,55 @@ public class ParserAPI {
 		String command = breakDown[0].toLowerCase();
 		
 		
-		if (breakDown.length == 1 && breakDown[0].equals("sort"))
+		if (breakDown.length == 1 && breakDown[0].equals("sort")) {
 			return CommandType.SORT_DEFAULT;	
-		
-		else if (command.equals("add"))
-			return CommandType.ADD;
-		
-		else if (command.contains("add_all"))
-			return CommandType.ADD_ALL;
-		
-		else if (command.contains("sort")) {
-			if (breakDown[1].equalsIgnoreCase("deadline"))
-				return CommandType.SORT_BY_DEADLINE;
-			
-			else if (breakDown[1].equalsIgnoreCase("name"))
-				return CommandType.SORT_BY_NAME;
-			
-			else
-				return CommandType.SORT_DEFAULT;
 		}
-		
-		else if (command.equals("undone"))
+		else if (command.equals("add")) {
+			return CommandType.ADD;
+		}
+		else if (command.contains("add_all")) {
+			return CommandType.ADD_ALL;
+		}
+		else if (command.contains("sort")) {
+			if (breakDown[1].equalsIgnoreCase("deadline")) {
+				return CommandType.SORT_BY_DEADLINE;
+			}
+			else if (breakDown[1].equalsIgnoreCase("name")) {
+				return CommandType.SORT_BY_NAME;
+			}
+			else {
+				return CommandType.SORT_DEFAULT;
+			}
+		}
+		else if (command.equals("undone")) {
 			return CommandType.UNDONE;
-		
-		else if (command.equalsIgnoreCase("done"))
+		}
+		else if (command.equalsIgnoreCase("done")) {
 			return CommandType.DONE;
-		
-		else if (command.equalsIgnoreCase("clear"))
+		}
+		else if (command.equalsIgnoreCase("clear")) {
 			return CommandType.CLEAR;
-		
-		else if (command.contains("delete"))
+		}
+		else if (command.contains("delete")) {
 			return CommandType.DELETE;
-		
-		else if (command.contains("edit"))
+		}
+		else if (command.contains("edit")) {
 			return CommandType.EDIT;
-		
-		else if (command.contains("search"))
+		}
+		else if (command.contains("search")) {
 			return CommandType.SEARCH;
-		
-		else if (command.contains("exit"))
+		}
+		else if (command.contains("exit")) {
 			return CommandType.EXIT;
-		
+		}
 		//else if (command.contains("editdate"))
-			//return CommandType.EDITDATE;
-		
-		else if (command.contains("undo"))
+			//return CommandType.EDITDATE;	
+		else if (command.contains("undo")) {
 			return CommandType.UNDO;
-		
-		else if (command.contains("cd"))
+		}
+		else if (command.contains("cd")) {
 			return CommandType.CHANGE_DIRECTORY;
-		
+		}
 		return CommandType.INVALID;
 	}
 	
@@ -131,7 +140,7 @@ public class ParserAPI {
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
 		try {
-        return Integer.parseInt(breakDown[1])-1;
+            return Integer.parseInt(breakDown[1])-1;
 		}
 		catch (NullPointerException e) {
 			throw new TDNextException ("Please make sure you are editing an integer index.");
@@ -147,7 +156,7 @@ public class ParserAPI {
 		return date;
 	}*/
 	
-	public static ArrayList<String> parseInformation(String input) {
+	public static ArrayList<String> parseInformation(String input) throws TDNextException {
 		
         initializeAll(); //Reset all attribute values
 		
@@ -167,11 +176,12 @@ public class ParserAPI {
 			
 			temp.add(noCommand);
 			
-			if (noCommand.equalsIgnoreCase("important"))
+			if (noCommand.equalsIgnoreCase("important")) {
 			    temp.add("important");
-			
-			else
+			}
+			else {
 				temp.add("");
+			}
 			
 			temp.add("");
 			temp.add("UNDONE");
@@ -213,12 +223,15 @@ public class ParserAPI {
 			return possibleWords;
 		}*/
 		else
-			for (int index=0; index<storage.size(); index++)
-				if (thisContains(storage.get(index).trim(), keyWord))
+			for (int index=0; index<storage.size(); index++) {
+				if (thisContains(storage.get(index).trim(), keyWord)) {
 					found.add(storage.get(index));
+				}
+			}
 		
-		if (possibleWords.isEmpty())
+		if (possibleWords.isEmpty()) {
 			throw new TDNextException("There are no related tasks in the list.");
+		}
 		
 		possibleWords.add(keyWord);
 		
@@ -234,32 +247,40 @@ public class ParserAPI {
 	private static ArrayList<String> removeRepeated(ArrayList<String> beforeEdit) {
 		ArrayList<String> afterEdit = new ArrayList<String> ();
 		
-		if (beforeEdit.isEmpty())
+		if (beforeEdit.isEmpty()) {
 			return new ArrayList<String> ();
+		}
 		
 		afterEdit.add(beforeEdit.get(0));
 		
-		for (int index=0; index<beforeEdit.size(); index++)
-			if (!isInside(beforeEdit.get(index), afterEdit))
+		for (int index=0; index<beforeEdit.size(); index++) {
+			if (!isInside(beforeEdit.get(index), afterEdit)) {
 				afterEdit.add(beforeEdit.get(index));
+			}
+		}
+		
 		return afterEdit;
 	}
 	
 	private static Boolean isInside(String thisWord, ArrayList<String> thisSentence) {
-		for (int index=0; index<thisSentence.size(); index++)
-			if (thisWord.equalsIgnoreCase(thisSentence.get(index)))
+		for (int index=0; index<thisSentence.size(); index++) {
+			if (thisWord.equalsIgnoreCase(thisSentence.get(index))) {
 				return true;
+			}
+		}
+		
 		return false;
 	}
 	
 	private static Boolean thisContains(String sentence, String keyWord) {
 		String[] breakUp = sentence.split(" ");
 		
-		for (int index=0; index<breakUp.length; index++)
+		for (int index=0; index<breakUp.length; index++) {
 			if (similarEnough(breakUp[index], keyWord)) {
 				possibleWords.add(breakUp[index]);
 				return true;
 			}
+		}
 		
 		return false;
 	}
@@ -272,8 +293,9 @@ public class ParserAPI {
 		
 		//System.out.println(equalLength + " " + pecASCII + " " + pecChar);
 		
-		if (keyWord.toCharArray().length <= 3)
+		if (keyWord.toCharArray().length <= 3) {
 			return ((pecASCII >= 0.50) && (pecChar >= 0.50)) || contained;
+		}
 		
 		return ((pecASCII >= 0.75) && (pecChar >= 0.75)) || contained;
 	}
@@ -315,8 +337,9 @@ public class ParserAPI {
 	private static ArrayList<Character> toArrayList(char[] charArray) {
 		ArrayList<Character> toStore = new ArrayList<Character> ();
 		
-		for (int index=0; index<charArray.length; index++)
+		for (int index=0; index<charArray.length; index++) {
 			toStore.add(charArray[index]);
+		}
 		
 		return toStore;
 	}
@@ -325,8 +348,9 @@ public class ParserAPI {
 		int value = 0;
 		char[] eachChar = aWord.toCharArray();
 		
-		for (int index=0; index<eachChar.length; index++)
+		for (int index=0; index<eachChar.length; index++) {
 			value += getValueOfChar(eachChar[index]);
+		}
 		
 		return value;
 	}
@@ -362,24 +386,33 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
 		
-		if (firstWord.equalsIgnoreCase("add"))
+		if (firstWord.equalsIgnoreCase("add")) {
 			isAdd = true;
-		else if (firstWord.equalsIgnoreCase("edit"))
+		}
+		else if (firstWord.equalsIgnoreCase("edit")) {
 			isEdit = true;
-		else if (firstWord.equalsIgnoreCase("editdate"))
+		}
+		else if (firstWord.equalsIgnoreCase("editdate")) {
 			isEditDate = true;
-		else if (firstWord.equalsIgnoreCase("search"))
+		}
+		else if (firstWord.equalsIgnoreCase("search")) {
 			isSearch = true;
-		else if (firstWord.equalsIgnoreCase("delete"))
+		}
+		else if (firstWord.equalsIgnoreCase("delete")) {
 			isDelete = true;
-		else if (firstWord.equalsIgnoreCase("undo"))
+		}
+		else if (firstWord.equalsIgnoreCase("undo")) {
 			isUndo = true;
-		else if (firstWord.equalsIgnoreCase("clear"))
+		}
+		else if (firstWord.equalsIgnoreCase("clear")) {
 			isClear = true;
-		else if (firstWord.equals("(x)"))
+		}
+		else if (firstWord.equals("(x)")) {
 			isDone = true;
-		else if (firstWord.equalsIgnoreCase("cd"))
+		}
+		else if (firstWord.equalsIgnoreCase("cd")) {
 			isCD = true;
+		}
 		
 		return formNew(breakDown);
 	}
@@ -396,15 +429,15 @@ public class ParserAPI {
 				toReturn += (array[index] + " ");
 			}
 		}
-		
 		else if (isEdit || isDelete || isEditDate)
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
-		
-		else
-			for (int index=0; index<array.length; index++)
+		else {
+			for (int index=0; index<array.length; index++) {
 				toReturn += array[index] + " ";
+			}
+		}
 		
 		return toReturn.trim();
 	}
@@ -413,35 +446,37 @@ public class ParserAPI {
 		//System.out.println(specificTime);
         task.add(noCommand);
         
-		if (importance)
+		if (importance) {
 			task.add("IMPORTANT");
-		
-		else
+	}
+		else {
 			task.add("");
+		}
 		
 		if (date.contains("tmrw") || date.contains("tomorrow")) {
 			setCurrentTime();
 			setNewDate(1);
 			task.add(date);
 		}
-		
-		else
+		else {
 			task.add(date);
+		}
 		
 		if (isDone) {
 			task.add("DONE");
 		}
-		
-		else
+		else {
 		    task.add("UNDONE");
+		}
 		
 		findSpecificTime();
 		
-		if (specificTime != null)
+		if (specificTime != null) {
 			task.add(specificTime);
-		
-		else
+		}
+		else {
 			task.add("");
+		}
 		
 		return task;
 	}
@@ -450,40 +485,41 @@ public class ParserAPI {
 		String[] breakDown = noCommand.split(" ");
 		
 		for (int index=0; index<breakDown.length; index++) {
-			if (breakDown[index].contains("pm") || breakDown[index].contains("am"))
+			if (breakDown[index].contains("pm") || breakDown[index].contains("am")) {
 				if (breakDown[index].contains(":")) {
 					specificTime = breakDown[index];
 					break;
 				}
+			}
 		}
 	}
 	
-	private static void checkInfo(String[] sentence) {
+	private static void checkInfo(String[] sentence) throws TDNextException {
 		int indexBy = indexOf("by", sentence);
 		
 		if (indexBy == -1) {
 			if (isEditDate) {
-                for (int index=0; index<sentence.length; index++)
-                	if (isDateWord(sentence[index]))
+                for (int index=0; index<sentence.length; index++) {
+                	if (isDateWord(sentence[index])) {
                 		date += (sentence[index] + " ");
-                noCommand = "";
-			}
-			
+                	}
+                }
+                noCommand = new String();
+			}		
 			else {
-			    date = "";
+			    date = new String();
 			}
 		}
-		
 		else if (indexBy == 0) {
 			//System.out.println("I was here");
 			int index = 1;
 			
-			if (isDateWord(sentence[index]))
+			if (isDateWord(sentence[index])) {
 				while (isDateWord(sentence[index])) {
 					date += (sentence[index] + " ");
 					index++;
 				}
-			
+			}
 			else {
 				while (!isDateWord(sentence[index])) {
 					date += (sentence[index] + " ");
@@ -504,8 +540,7 @@ public class ParserAPI {
 			}
 			
 			taskDescription.trim();
-		}
-		
+		}	
 		else {
 			for (int index=1; index<indexBy; index++)
 				taskDescription += (sentence[index] + " ");
@@ -538,30 +573,32 @@ public class ParserAPI {
 	}
 	
 	private static int daysInMonth(int month2) {
-		if (isLongMonth())
+		if (isLongMonth()) {
 			return 31;
-		
-		else if (month == 2 && isLeapYear())
+		}
+		else if (month == 2 && isLeapYear()) {
 			return 29;
-		
-		else if (month == 2 && !isLeapYear())
+		}
+		else if (month == 2 && !isLeapYear()) {
 			return 28;
-		
-		else
+		}
+		else {
 			return 30;
+		}
 	}
 
-	private static void setDate() {
+	private static void setDate() throws TDNextException {
 		String initial = date;
 		date = date.trim();
 		
-		if (date.contains("important"))
+		if (date.contains("important")) {
 			date = date.replace("important", "").trim();
+		}
 		//date.replace("IMPORTANT", "").replace("\\s+", " ");
 		String[] temp = date.trim().split(" ");
 		int length = temp.length;
+		
 		if (length == 1) {
-
 			if (date.contains("-") || date.contains("/")) {
 	
 				date = date.replace("-", "/");
@@ -571,8 +608,10 @@ public class ParserAPI {
 					day = Integer.parseInt(in[2]);
 					String stringDay = Integer.toString(day);
 					
-					if (stringDay.toCharArray().length == 1)
+					if (stringDay.toCharArray().length == 1) {
 						stringDay = "0" + stringDay;
+					}
+					
 					date = stringDay + "/" + in[1] + "/" + in[0];
 				}
 				
@@ -596,50 +635,46 @@ public class ParserAPI {
 			}
 			
 			//Case: Today
-			else if (date.equals("today"))
+			else if (date.equals("today")) {
 				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-
-		}
-		
-		else if (length == 2 || date.contains("IMPORTANT")) {
-		
+			}
+		}		
+		else if (length == 2 || date.contains("IMPORTANT")) {	
 			//Cases: next week/month/year
 			if (temp[0].equalsIgnoreCase("next")) {
 				if (temp[1].equalsIgnoreCase("week")) {
 					setNewDate(7);
 				}
 				//Case: next month
-				else if (temp[1].equalsIgnoreCase("month")|| temp[1].equalsIgnoreCase("mbyth") || temp[1].equalsIgnoreCase("mbyths"))
+				else if (temp[1].equalsIgnoreCase("month")|| temp[1].equalsIgnoreCase("mbyth") || temp[1].equalsIgnoreCase("mbyths")) {
 					month++;
-				
+				}
 				//Case: next year
-				else
+				else {
 					year++;
-			}
-			
+				}
+			}			
 			//Case: 5:00pm today
-			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("today")))
+			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("today"))) {
 				setNewDate(0);
-
+			}
 			//Case: today 5:00pm
-			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("today")))
+			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("today"))) {
 				setNewDate(0);
-
-			
+			}
 			//Case: 5:00pm tmrw/tomorrow
-			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("tomorrow") || temp[1].equalsIgnoreCase("tmrw")))
+			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("tomorrow") || temp[1].equalsIgnoreCase("tmrw"))) {
 				setNewDate(1);
-
+			}
 			//Case: tmrw/tomorrow 5:00pm
-			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("tomorrow") || temp[0].equalsIgnoreCase("tmrw")))
+			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("tomorrow") || temp[0].equalsIgnoreCase("tmrw"))) {
 				setNewDate(1);
-			
+			}
 			//Case: 1st September
 			else if (isDate(temp[0])) {
 				convertDate(temp[0]);
 				convertMonth(temp[1]);
-			}
-			
+			}		
 			//Case: September 1st
 			else {
 				convertDate(temp[1]);
@@ -648,28 +683,28 @@ public class ParserAPI {
 			
 			String stringDay = Integer.toString(day);
 			
-			if (stringDay.toCharArray().length == 1)
+			if (stringDay.toCharArray().length == 1) {
 				stringDay = "0" + stringDay;
+			}
 			
 			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-		}
-		
+		}	
 		else if (length == 3) {
 			//Case: next 2 days/weeks/months
 			//System.out.println(temp[0] + " " + temp[1]);
 			if (temp[0].equalsIgnoreCase("next")) {
 				int toAdd = Integer.parseInt(temp[1]);
 				
-				if (temp[2].equalsIgnoreCase("week") || temp[2].equalsIgnoreCase("weeks"))
+				if (temp[2].equalsIgnoreCase("week") || temp[2].equalsIgnoreCase("weeks")) {
 					setNewDate(toAdd * 7);
-				
-				else if (temp[2].equalsIgnoreCase("days") || temp[2].equalsIgnoreCase("day"))
+				}
+				else if (temp[2].equalsIgnoreCase("days") || temp[2].equalsIgnoreCase("day")) {
 					setNewDate(toAdd);
-				
-				else
+				}
+				else {
 					setNewDate(toAdd * 30);
-			}
-			
+				}
+			}			
 			else if (temp[2].contains("20")) {
 				//Case: 1st September
 				if (isDate(temp[0])) {
@@ -684,8 +719,10 @@ public class ParserAPI {
 			}
 			
 			String stringDay = Integer.toString(day);
-			if (stringDay.toCharArray().length == 1)
+			
+			if (stringDay.toCharArray().length == 1) {
 				stringDay = "0" + stringDay;
+			}
 			
 			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 		}
@@ -698,78 +735,85 @@ public class ParserAPI {
 	}
 	
 	private static void convertDate(String word) {
-		if (word.contains("nd"))
+		if (word.contains("nd")) {
 			day = 2;
-		
-		else if (word.contains("rd"))
+		}
+		else if (word.contains("rd")) {
 			day = 3;
-		
-		else if (word.contains("st"))
+		}
+		else if (word.contains("st")) {
 			day = 1;
-		
-		else
+		}
+		else {
 			day = Integer.parseInt(word.replace("th", ""));
+		}
 	}
 	
-	private static void convertMonth(String word) {
+	private static void convertMonth(String word) throws TDNextException {
 		word = word.toLowerCase();
 		
-		if (word.equals("january") || word.equals("jan"))
+		if (word.equals("january") || word.equals("jan")) {
 			month = 1;
-		
-		else if (word.equals("february") || word.equals("feb"))
+		}
+		else if (word.equals("february") || word.equals("feb")) {
 			month = 2;
-		
-		else if (word.equals("march") || word.equals("mar"))
+		}
+		else if (word.equals("march") || word.equals("mar")) {
 			month = 3;
-		
-		else if (word.equals("april") || word.equals("apr"))
+		}
+		else if (word.equals("april") || word.equals("apr")) {
 			month = 4;
-		
-		else if (word.equals("may"))
+		}
+		else if (word.equals("may")) {
 			month = 5;
-		
-		else if (word.equals("june"))
+		}
+		else if (word.equals("june")) {
 			month = 6;
-		
-		else if (word.equals("july"))
+		}
+		else if (word.equals("july")) {
 			month = 7;
-		
-		else if (word.equals("august") || word.equals("aug"))
+		}
+		else if (word.equals("august") || word.equals("aug")) {
 			month = 8;
-		
-		else if (word.equals("september") || word.equals("sept"))
+		}
+		else if (word.equals("september") || word.equals("sept")) {
 			month = 9;
-		
-		else if (word.equals("october") || word.equals("oct"))
+		}
+		else if (word.equals("october") || word.equals("oct")) {
 			month = 10;
-		
-		else if (word.equals("november") || word.equals("nov"))
+		}
+		else if (word.equals("november") || word.equals("nov")) {
 			month = 11;
-		
-		else if (word.equals("december") || word.equals("dec"))
+		}
+		else if (word.equals("december") || word.equals("dec")) {
 			month = 12;
+		}
+		else {
+			throw new TDNextException("Invalid month format.");
+		}
 	}
-	
+
 	private static Boolean isLeapYear() {
-		if (year % 4 == 0)
+		if (year % 4 == 0) {
 			return false;
-		
-		else if (year % 100 != 0)
+		}
+		else if (year % 100 != 0) {
 			return true;
-		
-		else if (year % 400 != 0)
+		}
+		else if (year % 400 != 0) {
 			return false;
-		
-		else
+		}
+		else {
 			return true;
+		}
 	}
 	
 	private static String checkEdit(String input) throws TDNextException {
 		String[] temp = input.split(" ");
 		
-		if (temp[0].equalsIgnoreCase("add"))
+		if (temp[0].equalsIgnoreCase("add")) {
 			return input;
+		}
 		
 		if (!temp[0].equalsIgnoreCase("add")) {
 			containsEdit = true;
@@ -784,12 +828,15 @@ public class ParserAPI {
 		String[] temp = input.split(" ");
 		int index = 1;
 		
-		for (; index<temp.length-1; index++)
-			if (temp[index].equalsIgnoreCase(ON))
+		for (; index<temp.length-1; index++) {
+			if (temp[index].equalsIgnoreCase(ON)) {
 				break;
+			}
+		}
 		
-		if ((input.contains("on") || input.contains("ON")) && index != temp.length-1) 
+		if ((input.contains("on") || input.contains("ON")) && index != temp.length-1) {
 			return input.replace(temp[index], "by");
+		}
 		
 		return input;
 	}
@@ -799,14 +846,18 @@ public class ParserAPI {
 		String[] temp = input.split(" ");
 		String tempString = "";
 		
-		for (int index=1; index<temp.length; index++)
-			if (temp[index].equalsIgnoreCase("IMPORTANT"))
+		for (int index=1; index<temp.length; index++) {
+			if (temp[index].equalsIgnoreCase("IMPORTANT")) {
 				importance = true;
+			}
+		}
 		
 		if (importance) {
-			for (int i=0; i<temp.length; i++)
+			for (int i=0; i<temp.length; i++) {
 				//if (!temp[i].equals("IMPORTANT"))
 					tempString += (temp[i] + " ");
+			}
+			
 			origin = tempString.trim();
 		}
 	}
@@ -814,9 +865,11 @@ public class ParserAPI {
 	private static int indexOf(String word, String[] sentence) {
 		ArrayList<Integer> position = new ArrayList<Integer> ();
 		
-		for (int index=0; index<sentence.length; index++)
-			if (sentence[index].equalsIgnoreCase(word))
+		for (int index=0; index<sentence.length; index++) {
+			if (sentence[index].equalsIgnoreCase(word)) {
 				position.add(index);
+			}
+		}
 		//System.out.println(position);
 		return findRightIndex(sentence, position);
 	}
@@ -827,9 +880,11 @@ public class ParserAPI {
         int numberOfPositions = position.size();
         
 	    while (numberOfPositions != 0) {
-	    	if (position.get(numberOfPositions-1) != length-1)
-	    		if (isDateWord(sentence[position.get(numberOfPositions-1) + 1]))
+	    	if (position.get(numberOfPositions-1) != length-1) {
+	    		if (isDateWord(sentence[position.get(numberOfPositions-1) + 1])) {
 	    			return position.get(numberOfPositions-1);
+	    		}
+	    	}
 	    	
 	    	numberOfPositions--;
 		}
@@ -865,49 +920,47 @@ public class ParserAPI {
 	}
 	
 	private static Boolean isDateWord(String word) {
-		if (word.equalsIgnoreCase("weeks") || word.equalsIgnoreCase("week"))
+		if (word.equalsIgnoreCase("weeks") || word.equalsIgnoreCase("week")) {
 			return true;
-		
+		}
 		else if (word.contains("tmrw") || word.contains("tomorrow")) {
 			isTmrw = true;
 			
 			return true;
 		}
-		
-		else if (word.contains("days"))
+		else if (word.contains("days")) {
 			return true;
-		
-		else if (word.equalsIgnoreCase("next"))
+		}
+		else if (word.equalsIgnoreCase("next")) {
 			return true;
-		
-		else if (word.equalsIgnoreCase("month") || word.equalsIgnoreCase("months") || word.equalsIgnoreCase("mbyth") || word.equalsIgnoreCase("mbyths"))
+		}
+		else if (word.equalsIgnoreCase("month") || word.equalsIgnoreCase("months") || word.equalsIgnoreCase("mbyth") || word.equalsIgnoreCase("mbyths")) {
 			return true;
-		
-		else if (word.equalsIgnoreCase("year"))
+		}
+		else if (word.equalsIgnoreCase("year")) {
 			return true;
-		
-		else if (word.equalsIgnoreCase("today"))
+		}
+		else if (word.equalsIgnoreCase("today")) {
 			return true;
-		
+		}
 		else if (word.contains("th") || word.contains("st") || word.contains("rd") || word.contains("nd")) {
 			return containInt(word);
 		}
-		
-		else if (containMonth(word))
+		else if (containMonth(word)) {
 			return true;
-		
-		else if (word.matches("\\d+"))
+		}
+		else if (word.matches("\\d+")) {
 			return true;
-		
-		else if (word.contains("/") || word.contains("-"))
+		}
+		else if (word.contains("/") || word.contains("-")) {
 			return containInt(word);
-		
-		else if (word.equals("pm") || word.equals("am"))
+		}
+		else if (word.equals("pm") || word.equals("am")) {
 			return true;
-		
-		else if (word.equalsIgnoreCase("IMPORTANT"))
+		}
+		else if (word.equalsIgnoreCase("IMPORTANT")) {
 			return false;
-		
+		}
 		else if (word.contains(":")) {
 			specificTime = word;
 			return containInt(word);

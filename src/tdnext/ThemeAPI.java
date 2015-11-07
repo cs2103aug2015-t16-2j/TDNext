@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ThemeAPI {
-//@@ A0113507R
+	//@@author A0113507R
 	private static Logger themeLog= Logger.getLogger("Theme");
 	
 		private String _name;
