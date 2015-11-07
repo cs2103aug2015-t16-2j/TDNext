@@ -318,11 +318,11 @@ public class GUI2 extends JFrame {
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 12));
-		contentPane.add(btnHelp, "cell 2 2,alignx center,aligny center");
+		contentPane.add(btnHelp, "cell 2 2,grow");
 	}
 
 	private static void setBtnTheme(){
-		contentPane.add(btnTheme, "cell 2 3,alignx center,aligny center");
+		contentPane.add(btnTheme, "cell 2 3,grow");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 12));
@@ -501,10 +501,12 @@ public class GUI2 extends JFrame {
 		textInput = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 
-		btnHelp = new JButton("HELP  (F1)");
+		ImageIcon helpIconXS = new ImageIcon (GUI2.class.getResource("/Help Icon XS.png"));
+		btnHelp = new JButton(" HELP  (F1)", helpIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
-
-		btnTheme = new JButton("THEME  (F2)");
+		
+		ImageIcon themeIconXS = new ImageIcon (GUI2.class.getResource("/theme Icon XS.png"));
+		btnTheme = new JButton("THEME (F2)", themeIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 		
 		txtStatus = new JTextField();
