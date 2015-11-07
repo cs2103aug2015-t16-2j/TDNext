@@ -306,7 +306,7 @@ public class GUI2 extends JFrame {
 	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 2 1 2,growx,aligny center");
+		contentPane.add(panelCmd, "cell 0 2 2 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
