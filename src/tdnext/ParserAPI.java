@@ -1,3 +1,11 @@
+//@@author A0127603M
+//Name: WangYulong
+//Date Created: 2015-08-20
+//Tutorial Group: C06
+//Subject: CS2103T
+//Project Name: TDNext
+//Architecture: Parser
+
 package tdnext;
 
 import java.text.DateFormat;
@@ -11,7 +19,8 @@ import tdnext.TDNextException;
 
 //Edit by name --> Parse back ArrayList<String>
 //Edit by  
-//@@author A0127603M
+
+
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
 	private static String origin = new String();
