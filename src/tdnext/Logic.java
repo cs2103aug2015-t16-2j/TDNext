@@ -394,7 +394,7 @@ public class Logic {
 
 	private void updateIndex() {
 		for(int i = 0; i < _listTask.size(); i++) {
-			_listTask.get(i).setIndex(i);
+			_listTask.get(i).setIndex(i + 1);
 		}
 	}
 }
