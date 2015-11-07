@@ -13,12 +13,16 @@ import javax.swing.JTextArea;
 
 import javax.swing.JTextField;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -36,7 +40,7 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
-import javax.swing.SwingConstants;
+import java.sql.Time;
 
 public class GUI2 extends JFrame {
 
@@ -55,6 +59,7 @@ public class GUI2 extends JFrame {
 	private static ArrayList<Task> parsedInfo;
 	private static TDNextLogicAPI logicAPI;
 	private static Logger guiLog= Logger.getLogger("GUI");
+	private static Date today = new Date();
 
 	private final static String helpMsg =
 			"This is the help section. Please see below for more information:"
@@ -124,11 +129,18 @@ public class GUI2 extends JFrame {
 			output = logicAPI.executeCommand(input);
 			parsedInfo = output;
 			clearInput(textInput);
-			updateStatus("Last command '" + input + "' was valid and is processed.");
+			input = trimInput(input);
+			updateStatus("We have executed your last entry: '" + input + "'" + " What do you want to do next?");
 		} catch (Exception e) {
-			updateStatus("Last command '" + input + "' was invalid. Please edit your input. Press 'HELP' or 'F1' for command list.");
+			updateStatus("Oh no! Please check your entry again. Refer to 'HELP' if need! :)");
 			JOptionPane.showMessageDialog(null, e);
 		}
+	}
+	
+	private String trimInput(String input){
+		if(input.length() > 45)
+		return input.substring(0, 40)+".....";
+		return input;
 	}
 
 	private static void clearInput(JTextField textInput){
@@ -136,7 +148,7 @@ public class GUI2 extends JFrame {
 	}
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
-		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
+		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString() + "  ";
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
@@ -272,12 +284,12 @@ public class GUI2 extends JFrame {
 	private static void setContentPane(){
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
-		contentPane.setLayout(new MigLayout("", "[377px][6px][88px,grow]", "[][377.00px][44.00px][41.00px]"));
+		contentPane.setLayout(new MigLayout("", "[360px:80%,center][20%,center]", "[80%,center][center][10%,center][10%,center]"));
 		
 		contentPane.validate();
 		
-		contentPane.add(txtStatus, "cell 0 0 3 1,growx,aligny center");
-		contentPane.add(scrollPane, "cell 0 1 3 1,grow");
+		contentPane.add(txtStatus, "cell 0 1 2 1,growx,aligny center");
+		contentPane.add(scrollPane, "cell 0 0 2 1,grow");
 		
 	}
 
@@ -286,14 +298,14 @@ public class GUI2 extends JFrame {
 		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
-		panelDisplay.setLayout(new GridLayout(0, 1, 0, 1));
+		panelDisplay.setLayout(new GridLayout(0, 1, 0, 0));
 		panelDisplay.setFont(new Font(systemFont, Font.PLAIN, 16));
 	}
 
 	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
-		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in your commands here: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
-		contentPane.add(panelCmd, "cell 0 2 2 2,growx,aligny center");
+		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in what to do next: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		contentPane.add(panelCmd, "cell 0 2 1 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
@@ -305,24 +317,48 @@ public class GUI2 extends JFrame {
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 12));
-		contentPane.add(btnHelp, "cell 2 2,grow");
+		contentPane.add(btnHelp, "cell 1 2,growx,aligny bottom");
 	}
 
 	private static void setBtnTheme(){
-		contentPane.add(btnTheme, "cell 2 3,grow");
+		contentPane.add(btnTheme, "cell 1 3,growx,aligny bottom");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 12));
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static void setStatusBar(){
-		txtStatus.setHorizontalAlignment(SwingConstants.TRAILING);
-		txtStatus.setColumns(5);
 		txtStatus.setBackground(background);
 		txtStatus.setFont(new Font(systemFont, Font.PLAIN, 10));
 		txtStatus.setForeground(foreground);
 		txtStatus.setEditable(false);
-		updateStatus("This is the status bar ......");
+		setWelcomeStatus(today.getDay());
+	}
+	
+	private static void setWelcomeStatus(int i){
+		switch(i){
+		case 1:
+		updateStatus("Fresh Monday! Let's start new schedule using 'add <task> <on/by> <date>' , shall we?");
+		break;
+		case 2:
+		updateStatus("Taco Tuesday! Have you added any items wrongly? Use 'Edit <index> <new task>' to fix it!");
+		break;
+		case 3:
+		updateStatus("It's Wednesday! You can use 'undo' to undo the last action! Use it to correct mistaks faster!");
+		break;
+		case 4:
+		updateStatus("Finally Thursday! Start deleting unwanted task using 'delete <index>' before things get messy!");
+		break;
+		case 5:
+		updateStatus("Oh yeah! It's Friday! But first, remember to archive your completed items using 'done <index>' !");
+		break;
+		case 6:
+		updateStatus("Sweet Saturday! Can't find the item you want? Use 'search <keyword>' to filter through the items!");
+		break;
+		case 7:
+		updateStatus("It's Sunday! Let's sort our list to see similar items! Try 'sort name' or 'sort deadline' !");
+	}
 	}
 
 	private static void setAll(){
@@ -378,7 +414,7 @@ public class GUI2 extends JFrame {
 	private static void refreshUI(String name){
 		setTheme(name);
 		setAll();
-		updateStatus("The theme chosen is: " + name + " ......");
+		updateStatus("Wow! You have chosen " + name + " as your theme! Isn't it wonderful?");
 		refresh();
 	}
 
@@ -397,7 +433,7 @@ public class GUI2 extends JFrame {
 					JOptionPane.INFORMATION_MESSAGE, themeIcon,
 					options, options[0]);
 			guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
-			updateStatus("You pressed 'F2' for THEME ......");
+			updateStatus("I see you pressed 'F2' for THEME! Are you satisfy with the current skintone?");
 			
 			if(theme != null)
 				refreshUI(theme);
@@ -412,7 +448,7 @@ public class GUI2 extends JFrame {
 				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
 				
-				updateStatus("You pressed 'F1' for HELP ......");
+				updateStatus("I see you pressed 'F1' for HELP. Excellent choice when you can't remember the commands!");
 			}
 		};
 		
@@ -520,7 +556,7 @@ public class GUI2 extends JFrame {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
 				passInput(getInput(textInput));
-				guiLog.log(Level.INFO, "Latest command: " + getInput(textInput) + " is passed.");
+				guiLog.log(Level.INFO, "Latest command: '" + getInput(textInput) + "' is passed.");
 				addTextArea();
 				setTextAreaSize();
 			}
@@ -531,7 +567,7 @@ public class GUI2 extends JFrame {
 				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				textInput.requestFocusInWindow();
 				guiLog.log(Level.INFO, "Help button pressed.");
-				updateStatus("You clicked 'HELP' ......");
+				updateStatus("I see you clicked the 'HELP' button. Do you know you can press 'F1' to access 'HELP too?");
 			}
 		});
 
@@ -543,7 +579,7 @@ public class GUI2 extends JFrame {
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,
 						options, options[0]);
 				guiLog.log(Level.INFO, "THEME button pressed.");
-				updateStatus("You clicked 'THEME' ......");
+				updateStatus("You clicked 'THEME' button! Do you know you can press 'F2' to access 'THEME' too?");
 				if(theme != null)
 					refreshUI(theme);
 			}
