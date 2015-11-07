@@ -18,6 +18,7 @@ public class Task {
 	private LocalDate _deadline;
 	private boolean _importance = false;
 	private int _priorityIndex = 0;
+	private int _index = 0;
 	private boolean _done = false;
 	private ColourType _colour = ColourType.WHITE;
 
@@ -143,6 +144,14 @@ public class Task {
 
 	public boolean isDone() {
 		return _done;
+	}
+
+	public int getIndex() {
+		return _index;
+	}
+
+	public void setIndex(int index) {
+		_index = index;
 	}
 
 	public void setDate(String date) throws TDNextException{
