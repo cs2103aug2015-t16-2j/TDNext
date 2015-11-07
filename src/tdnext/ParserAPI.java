@@ -56,39 +56,55 @@ public class ParserAPI {
 		
 		
 		if (breakDown.length == 1 && breakDown[0].equals("sort"))
-			return CommandType.SORT_DEFAULT;		
+			return CommandType.SORT_DEFAULT;	
+		
 		else if (command.equals("add"))
 			return CommandType.ADD;
+		
 		else if (command.contains("add_all"))
 			return CommandType.ADD_ALL;
+		
 		else if (command.contains("sort")) {
 			if (breakDown[1].equalsIgnoreCase("deadline"))
 				return CommandType.SORT_BY_DEADLINE;
+			
 			else if (breakDown[1].equalsIgnoreCase("name"))
 				return CommandType.SORT_BY_NAME;
+			
 			else
 				return CommandType.SORT_DEFAULT;
 		}
+		
 		else if (command.equals("undone"))
 			return CommandType.UNDONE;
+		
 		else if (command.equalsIgnoreCase("done"))
 			return CommandType.DONE;
+		
 		else if (command.equalsIgnoreCase("clear"))
 			return CommandType.CLEAR;
+		
 		else if (command.contains("delete"))
 			return CommandType.DELETE;
+		
 		else if (command.contains("edit"))
 			return CommandType.EDIT;
+		
 		else if (command.contains("search"))
 			return CommandType.SEARCH;
+		
 		else if (command.contains("exit"))
 			return CommandType.EXIT;
+		
 		//else if (command.contains("editdate"))
 			//return CommandType.EDITDATE;
+		
 		else if (command.contains("undo"))
 			return CommandType.UNDO;
+		
 		else if (command.contains("cd"))
 			return CommandType.CHANGE_DIRECTORY;
+		
 		return CommandType.INVALID;
 	}
 	
@@ -142,10 +158,13 @@ public class ParserAPI {
 			ArrayList<String> temp = new ArrayList<String> ();
 			
 			temp.add(noCommand);
+			
 			if (noCommand.equalsIgnoreCase("important"))
 			    temp.add("important");
+			
 			else
 				temp.add("");
+			
 			temp.add("");
 			temp.add("UNDONE");
 			temp.add("");
@@ -309,7 +328,7 @@ public class ParserAPI {
 		month = 0;
 		year = 2015;
 		importance = false;
-		date = "";
+		date = new String();
 		isAdd = false;
 		isEdit = false;
 		isSearch = false;
@@ -319,12 +338,12 @@ public class ParserAPI {
 		isClear = false;
 		isEditDate = false;
 		task = new ArrayList<String> (5);
-		specificTime = "";
+		specificTime = new String();
 		isTmrw = false;
 		isCD = false;
-		taskDescription = "";
-		origin = "";
-		noCommand = "";
+		taskDescription = new String();
+		origin = new String();
+		noCommand = new String();
 	}
 	
 	private static String removeCommand(String input) {
@@ -370,9 +389,11 @@ public class ParserAPI {
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
+		
 		else
 			for (int index=0; index<array.length; index++)
 				toReturn += array[index] + " ";
+		
 		return toReturn.trim();
 	}
 	
@@ -382,6 +403,7 @@ public class ParserAPI {
         
 		if (importance)
 			task.add("IMPORTANT");
+		
 		else
 			task.add("");
 		
@@ -390,18 +412,22 @@ public class ParserAPI {
 			setNewDate(1);
 			task.add(date);
 		}
+		
 		else
 			task.add(date);
 		
 		if (isDone) {
 			task.add("DONE");
 		}
+		
 		else
 		    task.add("UNDONE");
 		
 		findSpecificTime();
+		
 		if (specificTime != null)
 			task.add(specificTime);
+		
 		else
 			task.add("");
 		
@@ -430,6 +456,7 @@ public class ParserAPI {
                 		date += (sentence[index] + " ");
                 noCommand = "";
 			}
+			
 			else {
 			    date = "";
 			}
@@ -444,24 +471,29 @@ public class ParserAPI {
 					date += (sentence[index] + " ");
 					index++;
 				}
+			
 			else {
 				while (!isDateWord(sentence[index])) {
 					date += (sentence[index] + " ");
 					index++;
 				}
+				
 				while (isDateWord(sentence[index])) {
 					date += (sentence[index] + " ");
 					index++;
 				}
 			}
+			
 			date.trim();
 			
 			while (index < sentence.length) {
 				taskDescription += (sentence[index] + " ");
 				index++;
 			}
+			
 			taskDescription.trim();
 		}
+		
 		else {
 			for (int index=1; index<indexBy; index++)
 				taskDescription += (sentence[index] + " ");
@@ -496,10 +528,13 @@ public class ParserAPI {
 	private static int daysInMonth(int month2) {
 		if (isLongMonth())
 			return 31;
+		
 		else if (month == 2 && isLeapYear())
 			return 29;
+		
 		else if (month == 2 && !isLeapYear())
 			return 28;
+		
 		else
 			return 30;
 	}
@@ -523,6 +558,7 @@ public class ParserAPI {
 				if (in[0].toCharArray().length == 4 && in.length == 3) {
 					day = Integer.parseInt(in[2]);
 					String stringDay = Integer.toString(day);
+					
 					if (stringDay.toCharArray().length == 1)
 						stringDay = "0" + stringDay;
 					date = stringDay + "/" + in[1] + "/" + in[0];
@@ -533,14 +569,17 @@ public class ParserAPI {
 			else if (date.contains("tomorrow") || date.contains("tmrw") || date.contains("tmw")) {
                 setCurrentTime();
                 day += 1;
+                
                 if (day > daysInMonth(month)) {
                 	month++;
                 	day -= (daysInMonth(month-1));
                 }
+                
                 if (month > 12) {
                 	month -= 12;
                 	year++;
                 }
+                
                 date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 			}
 			
@@ -594,11 +633,15 @@ public class ParserAPI {
 				convertDate(temp[1]);
 				convertMonth(temp[0]);
 			}
+			
 			String stringDay = Integer.toString(day);
+			
 			if (stringDay.toCharArray().length == 1)
 				stringDay = "0" + stringDay;
+			
 			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 		}
+		
 		else if (length == 3) {
 			//Case: next 2 days/weeks/months
 			//System.out.println(temp[0] + " " + temp[1]);
@@ -607,18 +650,20 @@ public class ParserAPI {
 				
 				if (temp[2].equalsIgnoreCase("week") || temp[2].equalsIgnoreCase("weeks"))
 					setNewDate(toAdd * 7);
+				
 				else if (temp[2].equalsIgnoreCase("days") || temp[2].equalsIgnoreCase("day"))
 					setNewDate(toAdd);
+				
 				else
 					setNewDate(toAdd * 30);
 			}
+			
 			else if (temp[2].contains("20")) {
 				//Case: 1st September
 				if (isDate(temp[0])) {
 					convertDate(temp[0]);
 					convertMonth(temp[1]);
-				}
-				
+				}				
 				//Case: September 1st
 				else {
 					convertDate(temp[1]);
@@ -629,6 +674,7 @@ public class ParserAPI {
 			String stringDay = Integer.toString(day);
 			if (stringDay.toCharArray().length == 1)
 				stringDay = "0" + stringDay;
+			
 			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 		}
 		/*else
@@ -642,10 +688,13 @@ public class ParserAPI {
 	private static void convertDate(String word) {
 		if (word.contains("nd"))
 			day = 2;
+		
 		else if (word.contains("rd"))
 			day = 3;
+		
 		else if (word.contains("st"))
 			day = 1;
+		
 		else
 			day = Integer.parseInt(word.replace("th", ""));
 	}
@@ -655,26 +704,37 @@ public class ParserAPI {
 		
 		if (word.equals("january") || word.equals("jan"))
 			month = 1;
+		
 		else if (word.equals("february") || word.equals("feb"))
 			month = 2;
+		
 		else if (word.equals("march") || word.equals("mar"))
 			month = 3;
+		
 		else if (word.equals("april") || word.equals("apr"))
 			month = 4;
+		
 		else if (word.equals("may"))
 			month = 5;
+		
 		else if (word.equals("june"))
 			month = 6;
+		
 		else if (word.equals("july"))
 			month = 7;
+		
 		else if (word.equals("august") || word.equals("aug"))
 			month = 8;
+		
 		else if (word.equals("september") || word.equals("sept"))
 			month = 9;
+		
 		else if (word.equals("october") || word.equals("oct"))
 			month = 10;
+		
 		else if (word.equals("november") || word.equals("nov"))
 			month = 11;
+		
 		else if (word.equals("december") || word.equals("dec"))
 			month = 12;
 	}
@@ -682,10 +742,13 @@ public class ParserAPI {
 	private static Boolean isLeapYear() {
 		if (year % 4 == 0)
 			return false;
+		
 		else if (year % 100 != 0)
 			return true;
+		
 		else if (year % 400 != 0)
 			return false;
+		
 		else
 			return true;
 	}
@@ -701,6 +764,7 @@ public class ParserAPI {
 			String toRemove = temp[0] + " " + parseIndex(input) + " ";
 			return input.replace(toRemove, "add ");
 		}
+		
 		return input;
 	}
 	
@@ -714,6 +778,7 @@ public class ParserAPI {
 		
 		if ((input.contains("on") || input.contains("ON")) && index != temp.length-1) 
 			return input.replace(temp[index], "by");
+		
 		return input;
 	}
 	
@@ -748,10 +813,12 @@ public class ParserAPI {
 		int length = sentence.length;
 		//System.out.println(length);
         int numberOfPositions = position.size();
+        
 	    while (numberOfPositions != 0) {
 	    	if (position.get(numberOfPositions-1) != length-1)
 	    		if (isDateWord(sentence[position.get(numberOfPositions-1) + 1]))
 	    			return position.get(numberOfPositions-1);
+	    	
 	    	numberOfPositions--;
 		}
 		
@@ -788,41 +855,57 @@ public class ParserAPI {
 	private static Boolean isDateWord(String word) {
 		if (word.equalsIgnoreCase("weeks") || word.equalsIgnoreCase("week"))
 			return true;
+		
 		else if (word.contains("tmrw") || word.contains("tomorrow")) {
 			isTmrw = true;
+			
 			return true;
 		}
+		
 		else if (word.contains("days"))
 			return true;
+		
 		else if (word.equalsIgnoreCase("next"))
 			return true;
+		
 		else if (word.equalsIgnoreCase("month") || word.equalsIgnoreCase("months") || word.equalsIgnoreCase("mbyth") || word.equalsIgnoreCase("mbyths"))
 			return true;
+		
 		else if (word.equalsIgnoreCase("year"))
 			return true;
+		
 		else if (word.equalsIgnoreCase("today"))
 			return true;
+		
 		else if (word.contains("th") || word.contains("st") || word.contains("rd") || word.contains("nd")) {
 			return containInt(word);
 		}
+		
 		else if (containMonth(word))
 			return true;
+		
 		else if (word.matches("\\d+"))
 			return true;
+		
 		else if (word.contains("/") || word.contains("-"))
 			return containInt(word);
+		
 		else if (word.equals("pm") || word.equals("am"))
 			return true;
+		
 		else if (word.equalsIgnoreCase("IMPORTANT"))
 			return false;
+		
 		else if (word.contains(":")) {
 			specificTime = word;
 			return containInt(word);
 		}
 		else if (word.equalsIgnoreCase("tomorrow ") || word.equals("tmrw ")) {
 			isTmrw = true;
+			
 			return true;
 		}
+		
 		return word.contains(":");
 	}
 	
