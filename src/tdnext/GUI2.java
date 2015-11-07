@@ -178,7 +178,14 @@ public class GUI2 extends JFrame {
 	}
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
-		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString() + "  ";
+		int index = parsedInfo.get(i).getIndex();
+		if(index > 9){
+		return " " + index + ".  " + parsedInfo.get(i).toString() + "  ";
+		}else if (index > 99){
+		return index + "." + parsedInfo.get(i).toString() + "  ";
+		}else{
+		return "   " + index + ".  " + parsedInfo.get(i).toString() + "  ";
+		}
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
@@ -325,7 +332,7 @@ public class GUI2 extends JFrame {
 
 	private static void setPanelDisplay(){
 		scrollPane.setViewportView(panelDisplay);
-		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		panelDisplay.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Task List", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 18), foreground));
 		panelDisplay.setBackground(displayBackground);
 		panelDisplay.setForeground(displayFontColor);
 		panelDisplay.setLayout(new GridLayout(0, 1, 0, 0));
@@ -334,7 +341,7 @@ public class GUI2 extends JFrame {
 
 	private static void setPanelCmd(){
 		panelCmd.setBackground(background);
-		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in what to do next: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 16), foreground));
+		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in what to do next: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 17), foreground));
 		contentPane.add(panelCmd, "cell 0 2 1 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
@@ -346,7 +353,7 @@ public class GUI2 extends JFrame {
 	private static void setBtnHelp(){
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
-		btnHelp.setFont(new Font(systemFont, Font.PLAIN, 12));
+		btnHelp.setFont(new Font(systemFont, Font.BOLD, 12));
 		contentPane.add(btnHelp, "cell 1 2,growx,aligny bottom");
 	}
 
@@ -354,13 +361,13 @@ public class GUI2 extends JFrame {
 		contentPane.add(btnTheme, "cell 1 3,growx,aligny bottom");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
-		btnTheme.setFont(new Font(systemFont, Font.PLAIN, 12));
+		btnTheme.setFont(new Font(systemFont, Font.BOLD, 12));
 	}
 	
 	@SuppressWarnings("deprecation")
 	private static void setStatusBar(){
 		txtStatus.setBackground(background);
-		txtStatus.setFont(new Font(systemFont, Font.PLAIN, 10));
+		txtStatus.setFont(new Font(systemFont, Font.BOLD, 10));
 		txtStatus.setForeground(foreground);
 		txtStatus.setEditable(false);
 		setWelcomeStatus(today.getDay());
@@ -372,22 +379,22 @@ public class GUI2 extends JFrame {
 		updateStatus("Fresh Monday! Let's start new schedule using 'add <task> <on/by> <date>' , shall we?");
 		break;
 		case 2:
-		updateStatus("Taco Tuesday! Have you added any items wrongly? Use 'Edit <index> <new task>' to fix it!");
+		updateStatus("It's Tuesday! Wrong item description? Use 'Edit <index> <new task>' to fix it!");
 		break;
 		case 3:
-		updateStatus("It's Wednesday! You can use 'undo' to undo the last action! Use it to correct mistaks faster!");
+		updateStatus("It's Wednesday! You can use 'undo' to undo the last action! Correct mistaks faster!");
 		break;
 		case 4:
-		updateStatus("Finally Thursday! Start deleting unwanted task using 'delete <index>' before things get messy!");
+		updateStatus("It's Thursday! Start deleting unwanted task using 'delete <index>' before things get messy!");
 		break;
 		case 5:
-		updateStatus("Oh yeah! It's Friday! But first, remember to archive your completed items using 'done <index>' !");
+		updateStatus("Wow! It's Friday! Remember to archive your completed items using 'done <index>' !");
 		break;
 		case 6:
-		updateStatus("Sweet Saturday! Can't find the item you want? Use 'search <keyword>' to filter through the items!");
+		updateStatus("Sweet Saturday! Can't find the item you want? Try 'search <keyword>' now!");
 		break;
 		case 7:
-		updateStatus("It's Sunday! Let's sort our list to see similar items! Try 'sort name' or 'sort deadline' !");
+		updateStatus("It's Sunday! Try 'sort name' or 'sort deadline' ! Scanning through is so easy!");
 	}
 	}
 
