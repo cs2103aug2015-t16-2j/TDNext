@@ -245,7 +245,7 @@ public class Logic {
 	}
 
 
-	private ArrayList<Task> searchTask(String input) {
+	private ArrayList<Task> searchTask(String input) throws TDNextException {
 		ArrayList<String> keywords = ParserAPI.parseSearch(input);
 		_searchList = new ArrayList<Task>();
 		populateSearchList(keywords);
@@ -311,7 +311,7 @@ public class Logic {
 		}
 	}
 
-	private ArrayList<Task> returnList() {
+	private ArrayList<Task> returnList() throws TDNextException {
 		if(_searchMode) {
 			searchTask(_lastSearchCommand);
 			return _searchList;
