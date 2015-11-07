@@ -131,8 +131,10 @@ public class GUI2 extends JFrame {
 			clearInput(textInput);
 			input = trimInput(input);
 			updateStatus(setStatusUsingSplit(input));
+			guiLog.log(Level.INFO, "Latest command: " + input + " is passed.");
 		} catch (Exception e) {
 			updateStatus("Oh no! :( Please check your entry again. Refer to 'HELP' if needed!");
+			guiLog.log(Level.INFO, "Latest command: " + input + " is invalid.");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -593,7 +595,6 @@ public class GUI2 extends JFrame {
 				panelDisplay.removeAll();
 				panelDisplay.repaint();
 				passInput(getInput(textInput));
-				guiLog.log(Level.INFO, "Latest command: '" + getInput(textInput) + "' is passed.");
 				addTextArea();
 				setTextAreaSize();
 			}
