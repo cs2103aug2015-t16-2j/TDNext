@@ -56,39 +56,55 @@ public class ParserAPI {
 		
 		
 		if (breakDown.length == 1 && breakDown[0].equals("sort"))
-			return CommandType.SORT_DEFAULT;		
+			return CommandType.SORT_DEFAULT;	
+		
 		else if (command.equals("add"))
 			return CommandType.ADD;
+		
 		else if (command.contains("add_all"))
 			return CommandType.ADD_ALL;
+		
 		else if (command.contains("sort")) {
 			if (breakDown[1].equalsIgnoreCase("deadline"))
 				return CommandType.SORT_BY_DEADLINE;
+			
 			else if (breakDown[1].equalsIgnoreCase("name"))
 				return CommandType.SORT_BY_NAME;
+			
 			else
 				return CommandType.SORT_DEFAULT;
 		}
+		
 		else if (command.equals("undone"))
 			return CommandType.UNDONE;
+		
 		else if (command.equalsIgnoreCase("done"))
 			return CommandType.DONE;
+		
 		else if (command.equalsIgnoreCase("clear"))
 			return CommandType.CLEAR;
+		
 		else if (command.contains("delete"))
 			return CommandType.DELETE;
+		
 		else if (command.contains("edit"))
 			return CommandType.EDIT;
+		
 		else if (command.contains("search"))
 			return CommandType.SEARCH;
+		
 		else if (command.contains("exit"))
 			return CommandType.EXIT;
+		
 		//else if (command.contains("editdate"))
 			//return CommandType.EDITDATE;
+		
 		else if (command.contains("undo"))
 			return CommandType.UNDO;
+		
 		else if (command.contains("cd"))
 			return CommandType.CHANGE_DIRECTORY;
+		
 		return CommandType.INVALID;
 	}
 	
@@ -142,10 +158,13 @@ public class ParserAPI {
 			ArrayList<String> temp = new ArrayList<String> ();
 			
 			temp.add(noCommand);
+			
 			if (noCommand.equalsIgnoreCase("important"))
 			    temp.add("important");
+			
 			else
 				temp.add("");
+			
 			temp.add("");
 			temp.add("UNDONE");
 			temp.add("");
