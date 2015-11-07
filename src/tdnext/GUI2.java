@@ -273,10 +273,10 @@ public class GUI2 extends JFrame {
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
 		contentPane.setLayout(new MigLayout("", "[377px][6px][88px,grow]", "[][377.00px][44.00px][41.00px]"));
+		
 		contentPane.validate();
 		
 		contentPane.add(txtStatus, "cell 0 0 3 1,growx,aligny center");
-		
 		contentPane.add(scrollPane, "cell 0 1 3 1,grow");
 	}
 
@@ -347,20 +347,28 @@ public class GUI2 extends JFrame {
 	private static void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
+		
 		textInput.repaint();
 		textInput.revalidate();
+		
 		scrollPane.repaint();
 		scrollPane.revalidate();
+		
 		btnTheme.repaint();
 		btnTheme.revalidate();
+		
 		btnHelp.repaint();
 		btnHelp.revalidate();
+		
 		panelCmd.repaint();
 		panelCmd.revalidate();
-		panelDisplay.removeAll();
-		panelDisplay.repaint();
+		
 		txtStatus.repaint();
 		txtStatus.revalidate();
+		
+		panelDisplay.removeAll();
+		panelDisplay.repaint();
+		
 		addTextArea();
 		setTextAreaSize();
 		setDefaultScroll();
@@ -397,9 +405,6 @@ public class GUI2 extends JFrame {
 		
 
 	static Action showMsg = new AbstractAction() {
-			/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -432,12 +437,12 @@ public class GUI2 extends JFrame {
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
 					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
 					
-					KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
-					KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
-					KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
-					KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
-					KeyStroke f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
-					KeyStroke f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
+					KeyStroke key_up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
+					KeyStroke key_down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
+					KeyStroke key_left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
+					KeyStroke key_right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
+					KeyStroke key_f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
+					KeyStroke key_f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
 					
 					vertical.setUnitIncrement(vertical.getMaximum()/10);
 					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
@@ -445,21 +450,21 @@ public class GUI2 extends JFrame {
 					InputMap imV = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					InputMap imH = horizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					
-					imV.put(down, "positiveUnitIncrement");
-					imV.put(up, "negativeUnitIncrement");
-					imH.put(right, "positiveUnitIncrement");
-					imH.put(left, "negativeUnitIncrement");
+					imV.put(key_down, "positiveUnitIncrement");
+					imV.put(key_up, "negativeUnitIncrement");
+					imH.put(key_right, "positiveUnitIncrement");
+					imH.put(key_left, "negativeUnitIncrement");
 					
 					//Keyboard Help
 					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amHelp = btnHelp.getActionMap();
-					imHelp.put(f1, "showMsg");
+					imHelp.put(key_f1, "showMsg");
 					amHelp.put("showMsg", showMsg);
 					
 					//Keyboard Theme
 					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amTheme = btnTheme.getActionMap();
-					imTheme.put(f2, "showTheme");
+					imTheme.put(key_f2, "showTheme");
 					amTheme.put("showTheme", showTheme);
 					
 			}
