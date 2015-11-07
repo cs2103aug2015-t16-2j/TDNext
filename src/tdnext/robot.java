@@ -23,11 +23,13 @@ public class robot
   public robot() throws AWTException
   {  
 	  
-	//@@author A0113507R -used
-	  /*The code is used for manual GUI testing only. 
-	   *Since our group did not choose GUI automated testing as our extra feature,
-	   *and there is time constrain,
-	   *I did not continue to expend the code to compare graphics.
+	//@@author A0113507R
+	  /* The code is used for author A0113507R only!
+	   * DO NOT USE THIS CODE ON YOUR MACHINE!!!
+	   * And it is for manual GUI testing only. 
+	   * Since our group did not choose GUI automated testing as our extra feature,
+	   * and there is time constrain,
+	   * I did not continue to expend the code to compare graphics.
 	   */
 	System.out.println("Start of robot");
 	robot.delay(4000);
