@@ -158,7 +158,7 @@ public class GUI2 extends JFrame {
 		txtStatus.setText(status);
 	}
 	
-	//@@author 
+	//@@author A0125283J
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
