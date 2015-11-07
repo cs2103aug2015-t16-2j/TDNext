@@ -254,7 +254,6 @@ public class GUI2 extends JFrame {
 	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
 	
 	//@@author A0113507R
-	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
@@ -278,6 +277,7 @@ public class GUI2 extends JFrame {
 		
 		contentPane.add(txtStatus, "cell 0 0 3 1,growx,aligny center");
 		contentPane.add(scrollPane, "cell 0 1 3 1,grow");
+		
 	}
 
 	private static void setPanelDisplay(){
@@ -362,12 +362,15 @@ public class GUI2 extends JFrame {
 		
 		panelCmd.repaint();
 		panelCmd.revalidate();
+		textInput.requestFocusInWindow();
 		
 		txtStatus.repaint();
 		txtStatus.revalidate();
 		
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
+		
+		
 		
 		addTextArea();
 		setTextAreaSize();
@@ -430,6 +433,7 @@ public class GUI2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 					GUI2 frame = new GUI2();
+					
 					frame.setVisible(true);
 					frame.setResizable(false);
 
@@ -477,6 +481,7 @@ public class GUI2 extends JFrame {
 	public GUI2() {
 		setTitle("Welcome to TDNext");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		contentPane = new JPanel();
 		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
 
