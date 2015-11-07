@@ -222,12 +222,13 @@ public class ParserAPI {
 					possibleWords.add(keyWord);
 			return possibleWords;
 		}*/
-		else
+		else {
 			for (int index=0; index<storage.size(); index++) {
 				if (thisContains(storage.get(index).trim(), keyWord)) {
 					found.add(storage.get(index));
 				}
 			}
+		}
 		
 		if (possibleWords.isEmpty()) {
 			throw new TDNextException("There are no related tasks in the list.");
