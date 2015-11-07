@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -35,8 +36,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
-
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.InputStream;
+
 import javax.swing.SwingConstants;
 
 public class GUI2 extends JFrame {
@@ -52,7 +56,6 @@ public class GUI2 extends JFrame {
 	private static String theme;
 
 	private static ArrayList<Task> parsedInfo;
-
 	private static TDNextLogicAPI logic1;
 	private static Logger guiLog= Logger.getLogger("GUI");
 
@@ -165,7 +168,7 @@ public class GUI2 extends JFrame {
 	}
 
 	private static void setDefaultScroll(){
-		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
 			public void run() {
 				verticalScrollBar.setValue(0);
@@ -264,9 +267,8 @@ public class GUI2 extends JFrame {
 		}
 	}
 
-	//Interface-related
-	final static ImageIcon helpIcon = new ImageIcon("/Users/Maple/git/main/Images/Help Icon S.png");
-	final static ImageIcon themeIcon = new ImageIcon("/Users/Maple/git/main/Images/theme Icon S.png");
+	final static ImageIcon helpIcon = new ImageIcon(GUI2.class.getResource("/Help Icon S.png"));
+	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
 	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
