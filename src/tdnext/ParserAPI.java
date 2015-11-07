@@ -36,6 +36,8 @@ public class ParserAPI {
 	private static String format = new String();
 	private static Boolean isTmrw = false;
 	private static String specificTime = new String();
+	private static String startingTime = new String();
+	private static String endingTime = new String();
 	//private static Boolean isDateWord = false;
 	public static ArrayList<String> task = new ArrayList<String> (5);
 	public static Boolean isEdit = false;
@@ -380,6 +382,8 @@ public class ParserAPI {
 		taskDescription = new String();
 		origin = new String();
 		noCommand = new String();
+		startingTime = new String();
+		endingTime = new String();
 	}
 	
 	private static String removeCommand(String input) {
@@ -442,8 +446,17 @@ public class ParserAPI {
 		return toReturn.trim();
 	}
 	
+	private static void removeDateAndTime() {
+		if (noCommand.contains("by") || noCommand.contains("on")) {
+			String[] dismember = noCommand.split(" ");
+			
+			
+		}
+	}
+	
 	private static ArrayList<String> setTask(ArrayList<String> taks) {	
 		//System.out.println(specificTime);
+		removeDateAndTime();
         task.add(noCommand);
         
 		if (importance) {
@@ -471,12 +484,12 @@ public class ParserAPI {
 		
 		findSpecificTime();
 		
-		if (specificTime != null) {
-			task.add(specificTime);
-		}
-		else {
-			task.add("");
-		}
+		/*if (specificTime != null) {
+			endingTime = specificTime;
+		}*/
+        
+		task.add(startingTime);
+		task.add(endingTime);
 		
 		return task;
 	}
@@ -726,6 +739,58 @@ public class ParserAPI {
 			
 			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 		}
+		else if (length == 5) {
+			//Case: today/tmrw from 12:00pm to 4:00pm
+			if (temp[1].equalsIgnoreCase("from") && temp[3].equalsIgnoreCase("to")) {
+				if (temp[0].equalsIgnoreCase("today")) {
+					date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+				}
+				else {
+	                setCurrentTime();
+	                day += 1;
+	                
+	                if (day > daysInMonth(month)) {
+	                	month++;
+	                	day -= (daysInMonth(month-1));
+	                }
+	                
+	                if (month > 12) {
+	                	month -= 12;
+	                	year++;
+	                }
+	                
+	                date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+				}
+				
+				startingTime = temp[2];
+				endingTime = temp[4];
+			}
+		}
+		else if (length == 6) {
+			//Case: 1st Nov/ Nov 1st from 12:00pm to 6:00pm
+			if (temp[2].equalsIgnoreCase("from") && temp[4].equalsIgnoreCase("to")) {
+					//Case: 1st September
+					if (isDate(temp[0])) {
+						convertDate(temp[0]);
+						convertMonth(temp[1]);
+					}				
+					//Case: September 1st
+					else {
+						convertDate(temp[1]);
+						convertMonth(temp[0]);
+					}
+					
+					String stringDay = Integer.toString(day);
+					
+					if (stringDay.toCharArray().length == 1) {
+						stringDay = "0" + stringDay;
+					}
+					
+					date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+					startingTime = temp[3];
+					endingTime = temp[5];
+			}
+		}
 		/*else
 			date = initial;*/
 	}
@@ -931,6 +996,12 @@ public class ParserAPI {
 		else if (word.contains("days")) {
 			return true;
 		}
+		else if (word.equalsIgnoreCase("from")) {
+			return true;
+		}
+		else if (word.equalsIgnoreCase("to")) {
+			return true;
+		}
 		else if (word.equalsIgnoreCase("next")) {
 			return true;
 		}
@@ -974,12 +1045,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    /*public static void main(String[] args) {
+    public static void main(String[] args) throws TDNextException {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseSearch(input.nextLine()));
+		System.out.println(parseInformation(input.nextLine()));
 		}
-	}*/
+	}
 } 
