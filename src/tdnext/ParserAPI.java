@@ -13,13 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.lang.*;
-
 import tdnext.TDNextLogicAPI.CommandType;
 import tdnext.TDNextException;
-
-//Edit by name --> Parse back ArrayList<String>
-//Edit by  
-
 
 public class ParserAPI {
 	//-------------------------Attributes-----------------------------
