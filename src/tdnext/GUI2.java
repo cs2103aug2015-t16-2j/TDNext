@@ -132,7 +132,7 @@ public class GUI2 extends JFrame {
 			input = trimInput(input);
 			updateStatus(setStatusUsingSplit(input));
 		} catch (Exception e) {
-			updateStatus("Oh no! Please check your entry again. Refer to 'HELP' if need! :)");
+			updateStatus("Oh no! :( Please check your entry again. Refer to 'HELP' if needed!");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
