@@ -150,8 +150,8 @@ public class GUI2 extends JFrame {
 			String s = new String(getParsedInoString(parsedInfo, i));
 			panelDisplay.add(createTextAreas(s, i), 0);
 			panelDisplay.revalidate();
-			setDefaultScroll();
 		}
+		setDefaultScroll();
 	}
 	
 	private static void updateStatus(String status){
@@ -161,12 +161,13 @@ public class GUI2 extends JFrame {
 	//@@author A0125283J
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-		Runnable run1 = new Runnable() {
+		Runnable runScrollnCrusor = new Runnable() {
 			public void run() {
 				verticalScrollBar.setValue(0);
+				textInput.requestFocusInWindow();
 			}
 		};
-		SwingUtilities.invokeLater(run1);
+		SwingUtilities.invokeLater(runScrollnCrusor);
 	}
 	
 	//@@author A0113507R
@@ -362,15 +363,12 @@ public class GUI2 extends JFrame {
 		
 		panelCmd.repaint();
 		panelCmd.revalidate();
-		textInput.requestFocusInWindow();
 		
 		txtStatus.repaint();
 		txtStatus.revalidate();
 		
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
-		
-		
 		
 		addTextArea();
 		setTextAreaSize();
@@ -386,7 +384,7 @@ public class GUI2 extends JFrame {
 
 	//Keyboard-related
 	
-	static Action showTheme = new AbstractAction(){
+	private static Action showTheme = new AbstractAction(){
 		/**
 		 * 
 		 */
@@ -407,12 +405,13 @@ public class GUI2 extends JFrame {
 		};
 		
 
-	static Action showMsg = new AbstractAction() {
+	private static Action showMsg = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
+				
 				updateStatus("You pressed 'F1' for HELP ......");
 			}
 		};
@@ -530,8 +529,9 @@ public class GUI2 extends JFrame {
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				textInput.requestFocusInWindow();
 				guiLog.log(Level.INFO, "Help button pressed.");
-				updateStatus("You clicked HELP ......");
+				updateStatus("You clicked 'HELP' ......");
 			}
 		});
 
@@ -543,7 +543,7 @@ public class GUI2 extends JFrame {
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,
 						options, options[0]);
 				guiLog.log(Level.INFO, "THEME button pressed.");
-				updateStatus("You clicked THEME ......");
+				updateStatus("You clicked 'THEME' ......");
 				if(theme != null)
 					refreshUI(theme);
 			}
