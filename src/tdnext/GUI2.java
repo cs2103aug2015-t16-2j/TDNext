@@ -430,9 +430,9 @@ public class GUI2 extends JFrame {
 
 	/**
 	 * Launch the application.
-	 * @throws Throwable 
+	 * @throws TDNextException 
 	 */
-	public static void main(String[] args) throws Throwable {
+	public static void main(String[] args) throws TDNextException {
 
 		logic1 = new TDNextLogicAPI();
 			parsedInfo = logic1.startProgram();
@@ -447,11 +447,12 @@ public class GUI2 extends JFrame {
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
 					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
 					
-					
 					KeyStroke up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
 					KeyStroke down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
 					KeyStroke left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
 					KeyStroke right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
+					KeyStroke f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
+					KeyStroke f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
 					
 					vertical.setUnitIncrement(vertical.getMaximum()/10);
 					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
@@ -461,19 +462,19 @@ public class GUI2 extends JFrame {
 					
 					imV.put(down, "positiveUnitIncrement");
 					imV.put(up, "negativeUnitIncrement");
-					imH.put(left, "positiveUnitIncrement");
-					imH.put(right, "negativeUnitIncrement");
+					imH.put(right, "positiveUnitIncrement");
+					imH.put(left, "negativeUnitIncrement");
 					
 					//Keyboard Help
 					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amHelp = btnHelp.getActionMap();
-					imHelp.put(KeyStroke.getKeyStroke("F1"), "showMsg");
+					imHelp.put(f1, "showMsg");
 					amHelp.put("showMsg", showMsg);
 					
 					//Keyboard Theme
 					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amTheme = btnTheme.getActionMap();
-					imTheme.put(KeyStroke.getKeyStroke("F2"), "showTheme");
+					imTheme.put(f2, "showTheme");
 					amTheme.put("showTheme", showTheme);
 					
 			}
