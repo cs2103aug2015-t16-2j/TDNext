@@ -130,11 +130,41 @@ public class GUI2 extends JFrame {
 			parsedInfo = output;
 			clearInput(textInput);
 			input = trimInput(input);
-			updateStatus("We have executed your last entry: '" + input + "'" + " What do you want to do next?");
+			updateStatus(setStatusUsingSplit(input));
 		} catch (Exception e) {
 			updateStatus("Oh no! Please check your entry again. Refer to 'HELP' if need! :)");
 			JOptionPane.showMessageDialog(null, e);
 		}
+	}
+	
+	private String setStatusUsingSplit(String s){
+	String[] output = splitInput(s);
+	
+	switch(output[0].toLowerCase()){
+	case "add":
+		return "Item '" + output[1] + "' is added to your list.";
+	case "delete":
+		return "Item with index '" + output[1] + "' is deleted from your list.";
+	case "undo":
+		return "Your previous action is undone.";
+	case "done":
+		return "Great! You have mark item with index '" + output[1] + "' as done!";
+	case "sort":
+		return "Items are sorted according to '" + output[1] + "'!";
+	case "search":
+		return "You have searched for '" + output[1] + "'. Return to display all using 'sort' or 'undo'.";
+	case "clear":
+		return "You have cleared everything. Use 'undo' if that was a mistake!";
+	default:
+		return "Last entry" + output[0] + " " + output[1] + " is processed. What next?";
+	}
+	
+	}
+	
+	private String[] splitInput(String input){
+		String result[] = new String[2];
+		result = input.split(" ", 2);
+		return result;
 	}
 	
 	private String trimInput(String input){
