@@ -43,6 +43,8 @@ public class ParserAPI {
 	public static Boolean isEdit = false;
 	public static Boolean isAdd = false;
 	public static Boolean isSearch = false;
+	public static Boolean isSearchTime = false;
+	public static Boolean isSearchDate = false;
 	public static Boolean isDelete = false;
 	public static Boolean isUndo = false;
 	public static Boolean isClear = false;
@@ -187,6 +189,7 @@ public class ParserAPI {
 			
 			temp.add("");
 			temp.add("UNDONE");
+			temp.add("");
 			temp.add("");
 			
 			return temp;
@@ -375,6 +378,8 @@ public class ParserAPI {
 		isDone = false;
 		isClear = false;
 		isEditDate = false;
+		isSearchTime = false;
+		isSearchDate = false;
 		task = new ArrayList<String> (5);
 		specificTime = new String();
 		isTmrw = false;
@@ -389,6 +394,7 @@ public class ParserAPI {
 	private static String removeCommand(String input) {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
+		String secondWord = breakDown[1];
 		
 		if (firstWord.equalsIgnoreCase("add")) {
 			isAdd = true;
@@ -400,7 +406,15 @@ public class ParserAPI {
 			isEditDate = true;
 		}
 		else if (firstWord.equalsIgnoreCase("search")) {
-			isSearch = true;
+			if (secondWord.equalsIgnoreCase("date")) {
+				isSearchDate = true;
+			}
+			else if (secondWord.equalsIgnoreCase("time")) {
+				isSearchTime = true;
+			}
+			else {
+				isSearch = true;
+			}
 		}
 		else if (firstWord.equalsIgnoreCase("delete")) {
 			isDelete = true;
@@ -433,7 +447,7 @@ public class ParserAPI {
 				toReturn += (array[index] + " ");
 			}
 		}
-		else if (isEdit || isDelete || isEditDate)
+		else if (isEdit || isDelete || isEditDate || isSearchDate || isSearchTime)
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
