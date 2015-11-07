@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
  * @author Alvin Alexander, <a href="http://devdaily.com" title="http://devdaily.com">http://devdaily.com</a>
  * @modifier Maple
  */
+
 public class robot
 {
   Robot robot = new Robot();
@@ -21,6 +22,13 @@ public class robot
    
   public robot() throws AWTException
   {  
+	  
+	//@@author A0113507R -used
+	  /*The code is used for manual GUI testing only. 
+	   *Since our group did not choose GUI automated testing as our extra feature,
+	   *and there is time constrain,
+	   *I did not continue to expend the code to compare graphics.
+	   */
 	System.out.println("Start of robot");
 	robot.delay(4000);
 
@@ -354,7 +362,8 @@ public class robot
     enter();
     System.exit(0);//exit robot
   }
-   
+ 
+//@@author Alvin Alexander -generated
   private void leftClick()
   { 
 	robot.delay(100);
