@@ -332,7 +332,7 @@ public class GUI2 extends JFrame {
 		txtStatus.setHorizontalAlignment(SwingConstants.TRAILING);
 		txtStatus.setColumns(5);
 		txtStatus.setBackground(background);
-		txtStatus.setFont(new Font(systemFont, Font.PLAIN, 11));
+		txtStatus.setFont(new Font(systemFont, Font.PLAIN, 10));
 		txtStatus.setForeground(foreground);
 		txtStatus.setEditable(false);
 		updateStatus("This is the status bar ......");
