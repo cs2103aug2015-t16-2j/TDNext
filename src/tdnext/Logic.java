@@ -158,6 +158,7 @@ public class Logic {
 		if(_searchMode) {
 			assert((_searchList != null) && (_searchList.size() > 0));
 			try{
+				System.out.println("the index is " + index);
 				oldTask = _searchList.remove(index);
 			} catch (IndexOutOfBoundsException e) {
 				throw new TDNextException("Invalid index");
@@ -180,17 +181,22 @@ public class Logic {
 		_logger.log(Level.INFO, newTask.toString() + " is editted");
 
 		if(_searchMode) {
-			int newIndex = _searchList.indexOf(newTask);
+			sortDefault();
+			_searchMode = true;
+			int newIndex = _listTask.indexOf(newTask) + 1;
+			assert((newIndex >= 0) && (newIndex < _searchList.size()));
 			if(_undoMode) {
 				_undoMode = false;
 			} else {
 				String lastCommand =  "EDIT " + newIndex + " " + oldTask.toString();
 				_lastCommandList.push(lastCommand);
 			}
-			return executeCommand(_lastSearchCommand);
+			searchTask(_lastSearchCommand);
+			return _searchList;
 		} else {
 			sortDefault();
 			int newIndex = _listTask.indexOf(newTask) + 1;
+			assert((newIndex >= 0) && (newIndex < _listTask.size()));
 			if(_undoMode) {
 				_undoMode = false;
 			} else {
@@ -332,6 +338,7 @@ public class Logic {
 
 		_lastSearchCommand = input;
 		_searchMode = true;
+		updateIndex();
 		_logger.log(Level.INFO, "Search is done.");
 
 		return _searchList;
@@ -341,6 +348,7 @@ public class Logic {
 		Collections.sort(_listTask, new PriorityComparator());
 		_logger.log(Level.INFO, "Default sorted");
 		_searchMode = false;
+		updateIndex();
 
 		return _listTask;
 	}
@@ -349,6 +357,7 @@ public class Logic {
 		Collections.sort(_listTask, new NameComparator());
 		_logger.log(Level.INFO, "Sorted by name");
 		_searchMode = false;
+		updateIndex();
 
 		if(_undoMode) {
 			_undoMode = false;
@@ -364,6 +373,7 @@ public class Logic {
 		Collections.sort(_listTask, new DateComparator());
 		_logger.log(Level.INFO, "Sorted by deadline");
 		_searchMode = false;
+		updateIndex();
 
 		if(_undoMode) {
 			_undoMode = false;
@@ -380,5 +390,11 @@ public class Logic {
 		StorageAPI.changeDir(newDir);
 
 		return _listTask;
+	}
+
+	private void updateIndex() {
+		for(int i = 0; i < _listTask.size(); i++) {
+			_listTask.get(i).setIndex(i);
+		}
 	}
 }
