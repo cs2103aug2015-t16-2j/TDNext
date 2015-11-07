@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -36,15 +35,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.InputStream;
-
 import javax.swing.SwingConstants;
 
 public class GUI2 extends JFrame {
 
+	//@@author A0113507R
 	private static JPanel contentPane;
 	private static JTextField textInput;
 	private static JTextArea textArea;
@@ -53,13 +49,14 @@ public class GUI2 extends JFrame {
 	private static JButton btnTheme;
 	private static JPanel panelDisplay;
 	private static JPanel panelCmd;
+	private static JTextField txtStatus;
 	private static String theme;
 
 	private static ArrayList<Task> parsedInfo;
-	private static TDNextLogicAPI logic1;
+	private static TDNextLogicAPI logicAPI;
 	private static Logger guiLog= Logger.getLogger("GUI");
 
-	private final static String help =
+	private final static String helpMsg =
 			"This is the help section. Please see below for more information:"
 			+"\n\n"
 			+ "Create-\n"
@@ -103,21 +100,18 @@ public class GUI2 extends JFrame {
 	private static ThemeAPI panda = new ThemeAPI("Panda");
 	private static ThemeAPI forest = new ThemeAPI("Forest");
 	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
-	private static ThemeAPI original = new ThemeAPI("");
-
 
 	//Colors used in GUI display
-	private static Color red = Color.red;
-	private static Color orange = Color.orange ;
-	private static Color green = Color.green;
-	private static Color white = Color.lightGray;
-	private static Color displayBackground= null;
-	private static Color displayFontColor = null;
-	private static Color inputFontColor = null;
-	private static Color foreground = null;
-	private static Color background = null;
-	private static String systemFont = "Aria";
-	private static JTextField txtStatus;
+	private static Color red = new Color(255, 195, 206);
+	private static Color orange = new Color(255, 207, 121);
+	private static Color green = new Color(142, 210, 201);
+	private static Color white = new Color(236, 236, 240);
+	private static Color displayBackground= new Color(255, 255, 255);
+	private static Color foreground = new Color(70, 32, 102);
+	private static Color displayFontColor = foreground;
+	private static Color inputFontColor = foreground;
+	private static Color background = new Color(230, 230, 250);
+	private static String systemFont = "Arial";
 
 	//By Maple: Input and display related
 	private String getInput(JTextField textInput){
@@ -127,12 +121,12 @@ public class GUI2 extends JFrame {
 	private void passInput(String input){
 		ArrayList<Task> output = new ArrayList<Task>();
 		try {
-			output = logic1.executeCommand(input);
+			output = logicAPI.executeCommand(input);
 			parsedInfo = output;
 			clearInput(textInput);
 			updateStatus("Last command '" + input + "' was valid and is processed.");
 		} catch (Exception e) {
-			updateStatus("Last command '" + input + "' was invalid. Pls edit your input.");
+			updateStatus("Last command '" + input + "' was invalid. Please edit your input. Press 'HELP' or 'F1' for command list.");
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -142,9 +136,7 @@ public class GUI2 extends JFrame {
 	}
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
-		String output = new String();
-			output = parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
-		return output;
+		return parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
 	}
 
 	private static JTextArea createTextAreas(String s, int i){
@@ -165,7 +157,8 @@ public class GUI2 extends JFrame {
 	private static void updateStatus(String status){
 		txtStatus.setText(status);
 	}
-
+	
+	//@@author A0125283J
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		Runnable run1 = new Runnable() {
@@ -175,7 +168,9 @@ public class GUI2 extends JFrame {
 		};
 		SwingUtilities.invokeLater(run1);
 	}
-
+	
+	//@@author A0113507R
+	
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
@@ -251,23 +246,14 @@ public class GUI2 extends JFrame {
 			background = sapphire.getColor("background");
 			guiLog.log(Level.INFO, "Sapphire theme is selected now.");
 
-		}else{
-			red = original.getColor("red");
-			orange = original.getColor("orange");
-			green = original.getColor("green");
-			white = original.getColor("white");
-			displayFontColor = original.getColor("displayfont");
-			inputFontColor = original.getColor("inputfont");
-			displayBackground = original.getColor("displaybg");
-			foreground = original.getColor("foreground");
-			background = original.getColor("background");
-			guiLog.log(Level.INFO, "Default theme is selected now.");
-
 		}
 	}
 
+	//@@author
 	final static ImageIcon helpIcon = new ImageIcon(GUI2.class.getResource("/Help Icon S.png"));
 	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
+	
+	//@@author A0113507R
 	
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
@@ -396,7 +382,7 @@ public class GUI2 extends JFrame {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+			String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
 			theme = (String) JOptionPane.showInputDialog(null,
 					"Choose your theme", "Themes",
 					JOptionPane.INFORMATION_MESSAGE, themeIcon,
@@ -417,7 +403,7 @@ public class GUI2 extends JFrame {
 		private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
 				updateStatus("You pressed 'F1' for HELP ......");
 			}
@@ -433,8 +419,8 @@ public class GUI2 extends JFrame {
 	 */
 	public static void main(String[] args) throws TDNextException {
 
-		logic1 = new TDNextLogicAPI();
-			parsedInfo = logic1.startProgram();
+		logicAPI = new TDNextLogicAPI();
+			parsedInfo = logicAPI.startProgram();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -533,7 +519,7 @@ public class GUI2 extends JFrame {
 
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, help, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed.");
 				updateStatus("You clicked HELP ......");
 			}
@@ -541,7 +527,7 @@ public class GUI2 extends JFrame {
 
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Themes",
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,

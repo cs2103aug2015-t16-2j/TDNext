@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ThemeAPI {
+	//@@author A0113507R (Hu Hsin Jo)
 	private static Logger themeLog= Logger.getLogger("Theme");
 	
 		private String _name;
@@ -58,7 +59,6 @@ public class ThemeAPI {
 	}
 	
 	public void setDetails(String s){
-	
 		if(s.equals("Lavender") ){
 			_red = new Color(255, 195, 206);
 			_orange = new Color(255, 207, 121);
@@ -102,19 +102,6 @@ public class ThemeAPI {
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(183, 198, 139);
-				
-			}else{
-				_red = Color.red;
-				_orange = Color.orange;
-				_green = Color.green;
-				_white = Color.lightGray;
-				_displayBg = null;
-				_foreground = null;
-				_displayFontColor = _foreground;
-				_inputFontColor = _foreground;
-				_background = null;
-				
 			}
 	}
-	
 }
