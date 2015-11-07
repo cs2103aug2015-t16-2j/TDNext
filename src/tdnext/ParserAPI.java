@@ -4,8 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
+import java.lang.*;
 
 import tdnext.TDNextLogicAPI.CommandType;
+import tdnext.TDNextException;
 
 //Edit by name --> Parse back ArrayList<String>
 //Edit by  
@@ -108,7 +110,7 @@ public class ParserAPI {
 		return CommandType.INVALID;
 	}
 	
-	public static ArrayList<String> parseSearch(String keyWordWithCommand) {
+	public static ArrayList<String> parseSearch(String keyWordWithCommand) throws TDNextException {
 		String keyWords = removeCommand(keyWordWithCommand).toLowerCase();
 		possibleWords = new ArrayList<String> ();
 		
@@ -124,11 +126,17 @@ public class ParserAPI {
 	//} 
 	
 	//Returns index number of a task to edit
-	public static int parseIndex(String input) {
+	public static int parseIndex(String input)  throws TDNextException{
 		String[] breakDown = input.split(" ");
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
-		return Integer.parseInt(breakDown[1])-1;
+		try {
+        return Integer.parseInt(breakDown[1])-1;
+		}
+		catch (NullPointerException e) {
+			throw new TDNextException ("Please make sure you are editing an integer index.");
+		}
+
 	}
 	
 	/*public static String parseDate (String input) {
@@ -191,12 +199,13 @@ public class ParserAPI {
 		return find.length == 1;
 	}
 	
-	private static ArrayList<String> searchFromStorage (String keyWord) {
+	private static ArrayList<String> searchFromStorage (String keyWord) throws TDNextException {
 		ArrayList<String> found = new ArrayList<String> ();
 		//ArrayList<String> possibleWords = new ArrayList<String> ();
 		
-		if (storage.size() == 0)
-			return null;
+		if (storage.size() == 0) {
+			throw new TDNextException("Task list is empty, there are no tasks to search from.");
+		}
 		/*else if (moreThanOne(keyWord)) {
 			for (int index=0; index<storage.size(); index++)
 				if (storage.get(index).contains(keyWord))
@@ -207,6 +216,9 @@ public class ParserAPI {
 			for (int index=0; index<storage.size(); index++)
 				if (thisContains(storage.get(index).trim(), keyWord))
 					found.add(storage.get(index));
+		
+		if (possibleWords.isEmpty())
+			throw new TDNextException("There are no related tasks in the list.");
 		
 		possibleWords.add(keyWord);
 		
@@ -753,7 +765,7 @@ public class ParserAPI {
 			return true;
 	}
 	
-	private static String checkEdit(String input) {
+	private static String checkEdit(String input) throws TDNextException {
 		String[] temp = input.split(" ");
 		
 		if (temp[0].equalsIgnoreCase("add"))
