@@ -143,8 +143,7 @@ public class GUI2 extends JFrame {
 
 	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
 		String output = new String();
-			int j = i+1;
-			output = j + ". " + parsedInfo.get(i).toString();
+			output = parsedInfo.get(i).getIndex() + ". " + parsedInfo.get(i).toString();
 		return output;
 	}
 
