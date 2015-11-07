@@ -53,6 +53,7 @@ public class GUI2 extends JFrame {
 	private static JButton btnTheme;
 	private static JPanel panelDisplay;
 	private static JPanel panelCmd;
+	private static JTextField txtStatus;
 	private static String theme;
 
 	private static ArrayList<Task> parsedInfo;
@@ -103,21 +104,18 @@ public class GUI2 extends JFrame {
 	private static ThemeAPI panda = new ThemeAPI("Panda");
 	private static ThemeAPI forest = new ThemeAPI("Forest");
 	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
-	private static ThemeAPI original = new ThemeAPI("");
-
 
 	//Colors used in GUI display
-	private static Color red = Color.red;
-	private static Color orange = Color.orange ;
-	private static Color green = Color.green;
-	private static Color white = Color.lightGray;
-	private static Color displayBackground= null;
-	private static Color displayFontColor = null;
-	private static Color inputFontColor = null;
-	private static Color foreground = null;
-	private static Color background = null;
-	private static String systemFont = "Aria";
-	private static JTextField txtStatus;
+	private static Color red = new Color(255, 195, 206);
+	private static Color orange = new Color(255, 207, 121);
+	private static Color green = new Color(142, 210, 201);
+	private static Color white = new Color(236, 236, 240);
+	private static Color displayBackground= new Color(255, 255, 255);
+	private static Color foreground = new Color(70, 32, 102);
+	private static Color displayFontColor = foreground;
+	private static Color inputFontColor = foreground;
+	private static Color background = new Color(230, 230, 250);
+	private static String systemFont = "Arial";
 
 	//By Maple: Input and display related
 	private String getInput(JTextField textInput){
@@ -250,18 +248,6 @@ public class GUI2 extends JFrame {
 			foreground = sapphire.getColor("foreground");
 			background = sapphire.getColor("background");
 			guiLog.log(Level.INFO, "Sapphire theme is selected now.");
-
-		}else{
-			red = original.getColor("red");
-			orange = original.getColor("orange");
-			green = original.getColor("green");
-			white = original.getColor("white");
-			displayFontColor = original.getColor("displayfont");
-			inputFontColor = original.getColor("inputfont");
-			displayBackground = original.getColor("displaybg");
-			foreground = original.getColor("foreground");
-			background = original.getColor("background");
-			guiLog.log(Level.INFO, "Default theme is selected now.");
 
 		}
 	}
@@ -396,7 +382,7 @@ public class GUI2 extends JFrame {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+			String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
 			theme = (String) JOptionPane.showInputDialog(null,
 					"Choose your theme", "Themes",
 					JOptionPane.INFORMATION_MESSAGE, themeIcon,
@@ -541,7 +527,7 @@ public class GUI2 extends JFrame {
 
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavender", "Panda", "Sapphire", "Forest", "Default"};
+				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Themes",
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,
