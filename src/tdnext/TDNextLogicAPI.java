@@ -44,4 +44,8 @@ public class TDNextLogicAPI {
 	public String getTheme() throws TDNextException {
 		return _first.getTheme();
 	}
+
+	public CommandType getCommand() {
+		return _first.getCommand();
+	}
 }
