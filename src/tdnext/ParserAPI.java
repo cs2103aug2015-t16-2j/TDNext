@@ -557,12 +557,19 @@ public class ParserAPI {
 		
 		findSpecificTime();
 		
-		/*if (specificTime != null) {
-			endingTime = specificTime;
-		}*/
+		if (specificTime != null) {
+			startingTime = twentyFourHour(specificTime);
+			
+			if (startingTime.toCharArray().length == 4) {
+				String time = ("0" + startingTime);
+				startingTime = time;
+			}
+		}
+		
 		if (!startingTime.isEmpty()) {
 		    formateTime();
 		}
+		
 		task.add(startingTime);
 		task.add(endingTime);
 		
@@ -611,6 +618,7 @@ public class ParserAPI {
 		String temp = originalTime.substring(2, 3);
 		String actualHour = new String();
 		String actualMin = new String();
+		String zero = new String();
 		
 		if (temp.equals(":")) {
 			//System.out.println(actual);
@@ -620,9 +628,15 @@ public class ParserAPI {
 		else {
 			actualHour = originalTime.substring(0, 1);
 			actualMin = originalTime.substring(1, 4);
+			zero = "0";
 		}
 		//System.out.println(actual);
 		int time = Integer.parseInt(actualHour);
+		
+		if (time < 10 && addition == 0) {
+			return "0" +Integer.toString(time + addition) + actualMin;
+		}
+		
 		
 		return Integer.toString(time + addition) + actualMin;
 	}
