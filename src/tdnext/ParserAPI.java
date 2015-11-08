@@ -390,7 +390,10 @@ public class ParserAPI {
 	private static String removeCommand(String input) {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
-		String secondWord = breakDown[1];
+		String secondWord = new String();
+		if (breakDown.length != 1) {
+		     secondWord = breakDown[1];
+		}
 		
 		if (firstWord.equalsIgnoreCase("add")) {
 			isAdd = true;
