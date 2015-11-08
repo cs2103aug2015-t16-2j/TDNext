@@ -159,19 +159,23 @@ public class ParserAPI {
 
 	}
 	
-	public static String parseDate(String input) {
-		String[] information = input.split(" ");
-		String toReturn = new String();
+	public static String parseDate(String input) throws TDNextException {
+		initializeAll();
 		
-		for (int index=2; index<information.length; index++) {
-			toReturn += (information[index] + " ");
-		}
-		
-		return toReturn;
+        date = removeCommand(input);
+        
+        setDate();
+        doubleCheckDate();
+        
+        return date;
 	}
-	
+
 	public static String parseTime(String input) {
-		return parseDate(input);
+		initializeAll();
+		
+		String time = removeCommand(input);
+		
+		return twentyFourHour(time);
 	}
 	
 	/*public static String parseDate (String input) {
@@ -403,7 +407,7 @@ public class ParserAPI {
 		isEditDate = false;
 		isSearchTime = false;
 		isSearchDate = false;
-		task = new ArrayList<String> (5);
+		task = new ArrayList<String> ();
 		specificTime = new String();
 		isTmrw = false;
 		isCD = false;
@@ -766,15 +770,25 @@ public class ParserAPI {
                 }
                 
                 if (month > 12) {
-                	month -= 12;
+                	month -= 12; 
                 	year++;
                 }
-                
-                date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+                if (month < 10) {
+                	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+                }
+                else {
+                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+                }
 			}		
 			//Case: Today
 			else if (date.equals("today")) {
-				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+				setCurrentTime();
+                if (month < 10) {
+                	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+                }
+                else {
+                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+                }
 			}
 		}		
 		else if (length == 2 || date.contains("IMPORTANT")) {	
@@ -825,7 +839,12 @@ public class ParserAPI {
 				stringDay = "0" + stringDay;
 			}
 			
-			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+            if (month < 10) {
+            	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+            }
+            else {
+            	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+            }
 		}	
 		else if (length == 3) {
 			//Case: next 2 days/weeks/months
@@ -862,7 +881,12 @@ public class ParserAPI {
 				stringDay = "0" + stringDay;
 			}
 			
-			date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+            if (month < 10) {
+            	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+            }
+            else {
+            	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+            }
 		}
 		else if (length == 5) {
 			//Case: today/tmrw from 12:00pm to 4:00pm
@@ -890,7 +914,12 @@ public class ParserAPI {
 	                	year++;
 	                }
 	                
-	                date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+	                if (month < 10) {
+	                	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+	                }
+	                else {
+	                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+	                }
 				}
 				
 				startingTime = temp[2];
@@ -917,7 +946,13 @@ public class ParserAPI {
 						stringDay = "0" + stringDay;
 					}
 					
-					date = stringDay + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+	                if (month < 10) {
+	                	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
+	                }
+	                else {
+	                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+	                }
+	                
 					startingTime = temp[3];
 					endingTime = temp[5];
 			}
@@ -1179,12 +1214,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    public static void main(String[] args) throws TDNextException {
+    /*public static void main(String[] args) throws TDNextException {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseInformation(input.nextLine()));
 		}
-	}
+	}*/
 } 
