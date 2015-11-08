@@ -407,7 +407,7 @@ public class ParserAPI {
 		isEditDate = false;
 		isSearchTime = false;
 		isSearchDate = false;
-		task = new ArrayList<String> (5);
+		task = new ArrayList<String> ();
 		specificTime = new String();
 		isTmrw = false;
 		isCD = false;
