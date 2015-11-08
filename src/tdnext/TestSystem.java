@@ -18,8 +18,10 @@ public class TestSystem {
 	private static String CLEAR = "CLEAR";
 	private static String DELETE_INDEX0 = "DELETE 0";
 	private static String DELETE_INDEX1 = "DELETE 1";
+	private static String DELETE_INDEX4 = "DELETE 4";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
+	private static String EDIT_INDEX4 = "EDIT 4 taskEdit";
 	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
 	private static String SEARCH_HOME = "SEARCH home";
 	private static String SORT_BY_NAME = "SORT NAME";
@@ -51,7 +53,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -76,7 +78,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -102,7 +104,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -128,7 +130,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -149,8 +151,8 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			fail();
-		} catch (Exception e) {
-			String desiredOutput = "Index: 99, Size: 3";
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
@@ -170,8 +172,8 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			fail();
-		} catch (Exception e) {
-			String desiredOutput = "-1";
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
@@ -196,7 +198,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -216,8 +218,8 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			fail();
-		} catch (Exception e) {
-			String desiredOutput = "Index: 99, Size: 2";
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
@@ -245,7 +247,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -275,7 +277,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -294,20 +296,19 @@ public class TestSystem {
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
-		allInputs.add(EDIT_INDEX1);
+		allInputs.add(EDIT_INDEX4);
 		
 		try {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 31/10/2015\n" + "task1\n" +
-									"task2\n" + "taskEdit\n" + "homework2\n";
+			String desiredOutput = "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -326,20 +327,19 @@ public class TestSystem {
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
-		allInputs.add(DELETE_INDEX1);
+		allInputs.add(DELETE_INDEX4);
 		
 		try {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 31/10/2015\n" + "task1\n" +
-									"task2\n" + "homework2\n";
+			String desiredOutput = "homework2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -363,8 +363,8 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			fail();
-		} catch (Exception e) {
-			String desiredOutput = "Index: 99, Size: 2";
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
@@ -388,8 +388,8 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			fail();
-		} catch (Exception e) {
-			String desiredOutput = "Index: 99, Size: 2";
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
 			String testOutput = e.getMessage();
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
 		}
@@ -412,7 +412,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -436,7 +436,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();			
 			fail();
 		}
@@ -460,7 +460,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -492,7 +492,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -521,7 +521,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -554,7 +554,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -578,36 +578,7 @@ public class TestSystem {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
 			}
 			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
-	}
-	
-	@Test
-	public void testStartProgram() {
-		ArrayList<String> allInputs = new ArrayList<String>();
-		//allInputs.add(CLEAR);
-		allInputs.add(ADD_TASK1);
-		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITHDATE);
-		allInputs.add(ADD_TASK4_WITHDATE);
-		
-		try {
-			for(int i = 0; i < allInputs.size(); i++){
-				System.out.println(allInputs.get(i));
-				_testLogic.executeCommand(allInputs.get(i));
-			}
-			_output = _testLogic.startProgram();
-			String desiredOutput = "task3 BY 31/10/2015\n" +
-									"task4 BY 01/12/2015\n" +
-									"task1\n" + "task2\n";
-			String testOutput = new String();
-			for(int i = 0; i < _output.size(); i++) {
-				testOutput = testOutput + _output.get(i).toString() + "\n";
-			}
-			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
-		} catch (Exception e) {
+		} catch (TDNextException e) {
 			e.printStackTrace();
 			fail();
 		}
