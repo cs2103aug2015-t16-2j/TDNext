@@ -138,6 +138,10 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
+		if (!breakDown[1].matches("\\d+")) {
+			throw new TDNextException("Invalid index.");
+		}
+		
 		try {
             return Integer.parseInt(breakDown[1])-1;
 		}
@@ -391,6 +395,7 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
 		String secondWord = new String();
+		
 		if (breakDown.length != 1) {
 		     secondWord = breakDown[1];
 		}
@@ -459,7 +464,7 @@ public class ParserAPI {
 		return toReturn.trim();
 	}
 	
-	private static void removeDateAndTime() {
+	/*private static void removeDateAndTime() {
 		if (noCommand.contains("by") || noCommand.contains("on")) {
 			//System.out.println(noCommand);
 			String[] dismember = noCommand.split(" ");
@@ -487,11 +492,11 @@ public class ParserAPI {
 			
 			noCommand = temp.trim();
 		}
-	}
+	}*/
 	
 	private static ArrayList<String> setTask(ArrayList<String> taks) {	
 		//System.out.println(specificTime);
-		removeDateAndTime();
+		//removeDateAndTime();
         task.add(noCommand);
         
 		if (importance) {
@@ -499,6 +504,10 @@ public class ParserAPI {
 	}
 		else {
 			task.add("");
+		}
+		
+		if (!date.isEmpty()) {
+			doubleCheckDate();
 		}
 		
 		if (date.contains("tmrw") || date.contains("tomorrow")) {
@@ -522,11 +531,61 @@ public class ParserAPI {
 		/*if (specificTime != null) {
 			endingTime = specificTime;
 		}*/
-        
+		if (!startingTime.isEmpty()) {
+		    formateTime();
+		}
 		task.add(startingTime);
 		task.add(endingTime);
 		
 		return task;
+	}
+	
+	private static void doubleCheckDate() {
+		if (!date.substring(2, 3).equals("/")) {
+			date = "0" + date;
+		}
+	}
+	
+	private static void formateTime() {
+		if (!startingTime.isEmpty()) {
+			if (!endingTime.isEmpty()) {
+				startingTime = twentyFourHour(startingTime);
+				endingTime = twentyFourHour(endingTime);
+			}
+			else {
+				startingTime = twentyFourHour(startingTime);
+			}
+		}
+	}
+	
+	private static String twentyFourHour(String originalTime) {
+		int addition = 0;
+		
+		if (originalTime.contains("pm") && originalTime.contains("12")) {
+			return "00:00";
+		}
+		else if (originalTime.contains("pm")) {
+			addition = 12;
+			originalTime.replace("pm", "");
+		}
+		else {
+			originalTime.replace("am", "");
+		}
+		
+		String temp = originalTime.substring(2, 3);
+		String actual = new String();
+		
+		if (temp.equals(":")) {
+			//System.out.println(actual);
+			actual = originalTime.substring(0, 2);
+		}
+		else {
+			actual = originalTime.substring(0, 1);
+		}
+		//System.out.println(actual);
+		int time = Integer.parseInt(actual);
+		
+		return Integer.toString(time + addition) + ":00";
 	}
 	
 	private static void findSpecificTime() {
@@ -782,7 +841,7 @@ public class ParserAPI {
 				else {
 	                setCurrentTime();
 	                day += 1;
-	                
+	                 
 	                if (day > daysInMonth(month)) {
 	                	month++;
 	                	day -= (daysInMonth(month-1));
@@ -925,7 +984,7 @@ public class ParserAPI {
 	
 	private static String checkOn(String input) {
 		String[] temp = input.split(" ");
-		int index = 1;
+		int index = 0;
 		
 		for (; index<temp.length-1; index++) {
 			if (temp[index].equalsIgnoreCase(ON)) {
