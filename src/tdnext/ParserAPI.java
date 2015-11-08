@@ -980,7 +980,7 @@ public class ParserAPI {
 	
 	private static String checkOn(String input) {
 		String[] temp = input.split(" ");
-		int index = 1;
+		int index = 0;
 		
 		for (; index<temp.length-1; index++) {
 			if (temp[index].equalsIgnoreCase(ON)) {
