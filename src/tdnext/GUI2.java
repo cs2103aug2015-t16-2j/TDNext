@@ -100,7 +100,7 @@ public class GUI2 extends JFrame {
 			+"Exit-\n"
 			+"To exit, use this command:\n"
 			+"	EXIT";
-
+	
 	//Themes
 	private static ThemeAPI lavender = new ThemeAPI("Lavender");
 	private static ThemeAPI Wood = new ThemeAPI("Wood");
@@ -186,7 +186,7 @@ public class GUI2 extends JFrame {
 		if(input.length() > 45){
 			return input.substring(0, 40)+".....";
 		}
-			return input;
+		return input;
 	}
 
 	private static void clearInput(JTextField textInput){
@@ -523,9 +523,11 @@ public class GUI2 extends JFrame {
 				parsedInfo = logicAPI.startProgram();
 				
 			} catch (TDNextException e) {
+				
+				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
 						+ "check project manual for trouble-shooting or contact us.",
-						"Error!", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+						"Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				e.printStackTrace();
 			}
 
