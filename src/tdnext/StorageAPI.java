@@ -38,6 +38,10 @@ public class StorageAPI {
 		
 	}
 	
+	public static String getTheme() throws TDNextException{
+		initialise();
+		return theme;
+	}
 	//API method for user to change directory of the output text file
 	public static void changeDir(String newDir) throws TDNextException{
 		
@@ -117,6 +121,7 @@ public class StorageAPI {
 			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
 			dir = settings.get(0);
 			outputName = settings.get(1);
+			theme=settings.get(2);
 			storageLog.log(Level.INFO,"Settings.txt loaded");
 		}
 		else {
