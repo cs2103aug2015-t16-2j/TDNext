@@ -521,8 +521,8 @@ public class GUI2 extends JFrame {
 		logicAPI = new TDNextLogicAPI();
 			try {
 				parsedInfo = logicAPI.startProgram();
-			} catch (TDNextException e) {
 				
+			} catch (TDNextException e) {
 				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
 						+ "check project manual for trouble-shooting or contact us.",
 						"Error!", JOptionPane.INFORMATION_MESSAGE, helpIcon);
