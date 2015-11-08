@@ -38,7 +38,11 @@ public class Task {
 		if(information.get(2).isEmpty()) {
 			_deadline = LocalDate.MAX;
 		} else {
-			_deadline = LocalDate.parse(information.get(2));
+			try {
+				_deadline = LocalDate.parse(information.get(2));
+			} catch (DateTimeException e) {
+				throw new TDNextException("Invalid Date");
+			}
 		}
 		if(information.get(3) == "DONE") {
 			_done = true;
