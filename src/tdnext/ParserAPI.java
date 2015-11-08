@@ -391,6 +391,7 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
 		String firstWord = breakDown[0];
 		String secondWord = new String();
+		
 		if (breakDown.length != 1) {
 		     secondWord = breakDown[1];
 		}
@@ -459,7 +460,7 @@ public class ParserAPI {
 		return toReturn.trim();
 	}
 	
-	private static void removeDateAndTime() {
+	/*private static void removeDateAndTime() {
 		if (noCommand.contains("by") || noCommand.contains("on")) {
 			//System.out.println(noCommand);
 			String[] dismember = noCommand.split(" ");
@@ -487,11 +488,11 @@ public class ParserAPI {
 			
 			noCommand = temp.trim();
 		}
-	}
+	}*/
 	
 	private static ArrayList<String> setTask(ArrayList<String> taks) {	
 		//System.out.println(specificTime);
-		removeDateAndTime();
+		//removeDateAndTime();
         task.add(noCommand);
         
 		if (importance) {
@@ -522,11 +523,45 @@ public class ParserAPI {
 		/*if (specificTime != null) {
 			endingTime = specificTime;
 		}*/
-        
+		formateTime();
 		task.add(startingTime);
 		task.add(endingTime);
 		
 		return task;
+	}
+	
+	private static void formateTime() {
+		if (startingTime != null) {
+			if (endingTime != null) {
+				startingTime = twentyFourHour(startingTime);
+				endingTime = twentyFourHour(endingTime);
+			}
+			else {
+				startingTime = twentyFourHour(startingTime);
+			}
+		}
+	}
+	
+	private static String twentyFourHour(String originalTime) {
+		int addition = 0;
+		
+		if (originalTime.contains("pm")) {
+			addition = 12;
+			originalTime.replace("pm", "");
+		}
+		else {
+			originalTime.replace("am", "");
+		}
+		
+		char[] temp = originalTime.toCharArray();
+		
+		if (temp[1] == ':') {
+			
+		}
+		else {
+			
+		}
+		return null;
 	}
 	
 	private static void findSpecificTime() {
