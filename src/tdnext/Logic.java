@@ -158,6 +158,7 @@ public class Logic {
 		_listTask.add(index, newTask);
 		StorageAPI.editToFile(newTask.toString(), oldTask.toString());
 
+		ArrayList<Task> output = returnList();
 		int newIndex = _listTask.indexOf(newTask) + 1;
 		assert((newIndex > 0) && (newIndex <= _listTask.size()));
 		String lastCommand =  "EDIT " + newIndex + " " + oldTask.toString();
@@ -165,7 +166,7 @@ public class Logic {
 
 		_logger.log(Level.INFO, newTask.toString() + " is editted");
 
-		return returnList();
+		return output;
 	}
 
 	private ArrayList<Task> clearAll() throws TDNextException{
@@ -215,6 +216,7 @@ public class Logic {
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
 
+		ArrayList<Task> output = returnList();
 		int newIndex = _listTask.indexOf(newTask) + 1;
 		assert((newIndex > 0) && (newIndex <= _listTask.size()));
 		String lastCommand = "DELETE " + newIndex;
@@ -222,7 +224,7 @@ public class Logic {
 
 		_logger.log(Level.INFO, newTask.toString() + " added");
 
-		return returnList();
+		return output;
 	}
 
 
