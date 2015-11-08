@@ -528,7 +528,7 @@ public class ParserAPI {
 		}
 	}*/
 	
-	private static ArrayList<String> setTask(ArrayList<String> taks) {	
+	private static ArrayList<String> setTask(ArrayList<String> taks) throws TDNextException {	
 		//System.out.println(specificTime);
 		//removeDateAndTime();
         task.add(noCommand);
@@ -595,7 +595,7 @@ public class ParserAPI {
 		date = _year + "-" + _month + "-" + _day;
 	}
 	
-	private static void formateTime() {
+	private static void formateTime() throws TDNextException {
 		if (!startingTime.isEmpty()) {
 			if (!endingTime.isEmpty()) {
 				startingTime = twentyFourHour(startingTime);
@@ -607,7 +607,7 @@ public class ParserAPI {
 		}
 	}
 	
-	private static String twentyFourHour(String originalTime) {
+	private static String twentyFourHour(String originalTime) throws TDNextException {
 		int addition = 0;
 		
 		if (originalTime.contains("am") && originalTime.contains("12")) {
@@ -638,6 +638,10 @@ public class ParserAPI {
 		}
 		//System.out.println(actual);
 		int time = Integer.parseInt(actualHour);
+		
+		if (time > 12) {
+			throw new TDNextException("Time cannot be larger than 12.");
+		}
 		
 		if (time < 10 && addition == 0) {
 			return "0" +Integer.toString(time + addition) + actualMin;
