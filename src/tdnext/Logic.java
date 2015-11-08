@@ -144,7 +144,7 @@ public class Logic {
 	}
 
 	public void setTheme(String theme) throws TDNextException {
-		StorageAPI.setTheme(String theme);
+		StorageAPI.setTheme(theme);
 	}
 
 	public String getTheme() throws TDNextException {
