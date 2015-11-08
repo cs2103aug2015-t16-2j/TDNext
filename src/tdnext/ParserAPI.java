@@ -138,6 +138,10 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
+		if (!breakDown[1].matches("\\d+")) {
+			throw new TDNextException("Invalid index.");
+		}
+		
 		try {
             return Integer.parseInt(breakDown[1])-1;
 		}
@@ -557,7 +561,10 @@ public class ParserAPI {
 	private static String twentyFourHour(String originalTime) {
 		int addition = 0;
 		
-		if (originalTime.contains("pm")) {
+		if (originalTime.contains("pm") && originalTime.contains("12")) {
+			return "00:00";
+		}
+		else if (originalTime.contains("pm")) {
 			addition = 12;
 			originalTime.replace("pm", "");
 		}
@@ -834,7 +841,7 @@ public class ParserAPI {
 				else {
 	                setCurrentTime();
 	                day += 1;
-	                
+	                 
 	                if (day > daysInMonth(month)) {
 	                	month++;
 	                	day -= (daysInMonth(month-1));
@@ -977,7 +984,7 @@ public class ParserAPI {
 	
 	private static String checkOn(String input) {
 		String[] temp = input.split(" ");
-		int index = 1;
+		int index = 0;
 		
 		for (; index<temp.length-1; index++) {
 			if (temp[index].equalsIgnoreCase(ON)) {
