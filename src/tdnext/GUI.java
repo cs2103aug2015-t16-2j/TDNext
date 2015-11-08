@@ -130,7 +130,7 @@ public class GUI extends JFrame {
 	} catch (TDNextException e) {
 		// TODO Auto-generated catch block
 		ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
-		JOptionPane.showMessageDialog(null, "Theme is not initialised. Please contact us.",
+		JOptionPane.showMessageDialog(null, "Theme is not initialised.",
 				"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 		e.printStackTrace();
 	}
@@ -310,7 +310,7 @@ public class GUI extends JFrame {
 				logicAPI.setTheme(s);
 			} catch (TDNextException e) {
 				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
-				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+				JOptionPane.showMessageDialog(null, "Theme is not passed.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
 
@@ -613,8 +613,7 @@ public class GUI extends JFrame {
 			} catch (TDNextException e) {
 
 				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
-				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
-						+ "check project manual for trouble-shooting or contact us.",
+				JOptionPane.showMessageDialog(null, "Initialisation error: Cannot start GUI.",
 						"Initialisation Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				e.printStackTrace();
 			}
