@@ -557,7 +557,8 @@ public class ParserAPI {
 		
 		findSpecificTime();
 		
-		if (specificTime != null) {
+		if (!specificTime.isEmpty()) {
+			System.out.println(specificTime);
 			startingTime = twentyFourHour(specificTime);
 			
 			if (startingTime.toCharArray().length == 4) {
@@ -652,6 +653,7 @@ public class ParserAPI {
 				}
 			}
 		}
+		//System.out.println(specificTime);
 	}
 	
 	private static void checkInfo(String[] sentence) throws TDNextException {
@@ -983,14 +985,25 @@ public class ParserAPI {
 	}
 	
 	private static void convertDate(String word) {
-		if (word.contains("nd")) {
+		int length = word.toCharArray().length;
+		
+		if (word.contains("nd") && length == 3) {
 			day = 2;
 		}
-		else if (word.contains("rd")) {
+		else if (word.contains("nd") && length != 3) {
+			day = Integer.parseInt(word.replace("nd", ""));
+		}
+		else if (word.contains("rd") && length != 3) {
+			day = Integer.parseInt(word.replace("rd", ""));
+		}
+		else if (word.contains("rd") && length == 3) {
 			day = 3;
 		}
-		else if (word.contains("st")) {
+		else if (word.contains("st") && length == 3) {
 			day = 1;
+		}
+		else if (word.contains("st") && length != 3) {
+			day = Integer.parseInt(word.replace("st", ""));
 		}
 		else {
 			day = Integer.parseInt(word.replace("th", ""));
