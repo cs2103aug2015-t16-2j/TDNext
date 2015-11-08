@@ -38,6 +38,7 @@ public class Task {
 		if(information.get(2).isEmpty()) {
 			_deadline = LocalDate.MAX;
 		} else {
+			System.out.println(information.get(2));
 			calculateDeadline(information.get(2));
 		}
 		if(information.get(3) == "DONE") {
@@ -55,6 +56,7 @@ public class Task {
 		}
 
 		calculatePriorityIndex();
+		System.out.println(_priorityIndex);
 		determineColourType();
 
 		Logic._logger.log(Level.INFO, this.toString() + " is created");
@@ -136,7 +138,7 @@ public class Task {
 	}
 
 	private int dateDifference() {
-		assert(_deadline != null);
+		assert(_deadline != LocalDate.MAX);
 
 		LocalDate day1 = LocalDate.now();
 		LocalDate day2 = _deadline;
@@ -174,6 +176,10 @@ public class Task {
 
 	public LocalTime getStartTime() {
 		return _startTime;
+	}
+	
+	public LocalTime getEndTime() {
+		return _endTime;
 	}
 
 }
