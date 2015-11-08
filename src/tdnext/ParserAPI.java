@@ -782,6 +782,7 @@ public class ParserAPI {
 			}		
 			//Case: Today
 			else if (date.equals("today")) {
+				setCurrentTime();
                 if (month < 10) {
                 	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
                 }
@@ -1218,7 +1219,7 @@ public class ParserAPI {
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseDate(input.nextLine()));
+		System.out.println(parseInformation(input.nextLine()));
 		}
 	}
 } 
