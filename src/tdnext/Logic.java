@@ -100,7 +100,7 @@ public class Logic {
 		return _searchList;
 	}
 
-	private ArrayList<Task> searchTime(String input) {
+	private ArrayList<Task> searchTime(String input) throws TDNextException{
 		String timeString = ParserAPI.parseTime(input);
 		LocalTime time = LocalTime.parse(timeString);
 		_searchList = new ArrayList<Task>();
