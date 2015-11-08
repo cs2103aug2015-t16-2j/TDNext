@@ -5,7 +5,7 @@
 //Subject: CS2103T
 //Project Name: TDNext
 //Architecture: Parser
-
+//Maximum 5 most significant attributes
 package tdnext;
 
 import java.text.DateFormat;
@@ -598,7 +598,7 @@ public class ParserAPI {
 		int addition = 0;
 		
 		if (originalTime.contains("pm") && originalTime.contains("12")) {
-			return "00:00";
+			return "00" + originalTime.substring(2, 5);
 		}
 		else if (originalTime.contains("pm")) {
 			addition = 12;
@@ -609,19 +609,22 @@ public class ParserAPI {
 		}
 		
 		String temp = originalTime.substring(2, 3);
-		String actual = new String();
+		String actualHour = new String();
+		String actualMin = new String();
 		
 		if (temp.equals(":")) {
 			//System.out.println(actual);
-			actual = originalTime.substring(0, 2);
+			actualHour = originalTime.substring(0, 2);
+			actualMin = originalTime.substring(2, 5);
 		}
 		else {
-			actual = originalTime.substring(0, 1);
+			actualHour = originalTime.substring(0, 1);
+			actualMin = originalTime.substring(1, 4);
 		}
 		//System.out.println(actual);
-		int time = Integer.parseInt(actual);
+		int time = Integer.parseInt(actualHour);
 		
-		return Integer.toString(time + addition) + ":00";
+		return Integer.toString(time + addition) + actualMin;
 	}
 	
 	private static void findSpecificTime() {
@@ -1077,7 +1080,7 @@ public class ParserAPI {
 		String[] temp = input.split(" ");
 		String tempString = "";
 		
-		for (int index=1; index<temp.length; index++) {
+		for (int index=0; index<temp.length; index++) {
 			if (temp[index].equalsIgnoreCase("IMPORTANT")) {
 				importance = true;
 			}
@@ -1214,12 +1217,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    /*public static void main(String[] args) throws TDNextException {
+    public static void main(String[] args) throws TDNextException {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
 		System.out.println(parseInformation(input.nextLine()));
 		}
-	}*/
+	}
 } 
