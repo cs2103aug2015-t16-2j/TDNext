@@ -176,7 +176,7 @@ public class ParserAPI {
 			temp.add(noCommand);
 			
 			if (noCommand.equalsIgnoreCase("important")) {
-			    temp.add("important");
+			    temp.add("IMPORTANT");
 			}
 			else {
 				temp.add("");
@@ -677,8 +677,7 @@ public class ParserAPI {
                 }
                 
                 date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-			}
-			
+			}		
 			//Case: Today
 			else if (date.equals("today")) {
 				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
