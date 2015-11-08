@@ -553,15 +553,20 @@ public class ParserAPI {
 			originalTime.replace("am", "");
 		}
 		
-		char[] temp = originalTime.toCharArray();
+		String temp = originalTime.substring(2, 3);
+		String actual = new String();
 		
-		if (temp[1] == ':') {
-			
+		if (temp.equals(":")) {
+			//System.out.println(actual);
+			actual = originalTime.substring(0, 2);
 		}
 		else {
-			
+			actual = originalTime.substring(0, 1);
 		}
-		return null;
+		//System.out.println(actual);
+		int time = Integer.parseInt(actual);
+		
+		return Integer.toString(time + addition) + ":00";
 	}
 	
 	private static void findSpecificTime() {
