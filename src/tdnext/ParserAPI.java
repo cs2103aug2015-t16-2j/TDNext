@@ -557,12 +557,20 @@ public class ParserAPI {
 		
 		findSpecificTime();
 		
-		/*if (specificTime != null) {
-			endingTime = specificTime;
-		}*/
+		if (!specificTime.isEmpty()) {
+			//System.out.println(specificTime);
+			startingTime = twentyFourHour(specificTime);
+			
+			if (startingTime.toCharArray().length == 4) {
+				String time = ("0" + startingTime);
+				startingTime = time;
+			}
+		}
+		
 		if (!startingTime.isEmpty()) {
 		    formateTime();
 		}
+		
 		task.add(startingTime);
 		task.add(endingTime);
 		
@@ -597,10 +605,10 @@ public class ParserAPI {
 	private static String twentyFourHour(String originalTime) {
 		int addition = 0;
 		
-		if (originalTime.contains("pm") && originalTime.contains("12")) {
+		if (originalTime.contains("am") && originalTime.contains("12")) {
 			return "00" + originalTime.substring(2, 5);
 		}
-		else if (originalTime.contains("pm")) {
+		else if (originalTime.contains("pm") && !originalTime.contains("12")) {
 			addition = 12;
 			originalTime.replace("pm", "");
 		}
@@ -611,6 +619,7 @@ public class ParserAPI {
 		String temp = originalTime.substring(2, 3);
 		String actualHour = new String();
 		String actualMin = new String();
+		String zero = new String();
 		
 		if (temp.equals(":")) {
 			//System.out.println(actual);
@@ -620,9 +629,15 @@ public class ParserAPI {
 		else {
 			actualHour = originalTime.substring(0, 1);
 			actualMin = originalTime.substring(1, 4);
+			zero = "0";
 		}
 		//System.out.println(actual);
 		int time = Integer.parseInt(actualHour);
+		
+		if (time < 10 && addition == 0) {
+			return "0" +Integer.toString(time + addition) + actualMin;
+		}
+		
 		
 		return Integer.toString(time + addition) + actualMin;
 	}
@@ -638,6 +653,7 @@ public class ParserAPI {
 				}
 			}
 		}
+		//System.out.println(specificTime);
 	}
 	
 	private static void checkInfo(String[] sentence) throws TDNextException {
@@ -969,14 +985,25 @@ public class ParserAPI {
 	}
 	
 	private static void convertDate(String word) {
-		if (word.contains("nd")) {
+		int length = word.toCharArray().length;
+		
+		if (word.contains("nd") && length == 3) {
 			day = 2;
 		}
-		else if (word.contains("rd")) {
+		else if (word.contains("nd") && length != 3) {
+			day = Integer.parseInt(word.replace("nd", ""));
+		}
+		else if (word.contains("rd") && length != 3) {
+			day = Integer.parseInt(word.replace("rd", ""));
+		}
+		else if (word.contains("rd") && length == 3) {
 			day = 3;
 		}
-		else if (word.contains("st")) {
+		else if (word.contains("st") && length == 3) {
 			day = 1;
+		}
+		else if (word.contains("st") && length != 3) {
+			day = Integer.parseInt(word.replace("st", ""));
 		}
 		else {
 			day = Integer.parseInt(word.replace("th", ""));
