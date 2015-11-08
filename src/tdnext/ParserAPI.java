@@ -546,6 +546,13 @@ public class ParserAPI {
 		if (!date.substring(2, 3).equals("/")) {
 			date = "0" + date;
 		}
+		
+		String[] edit = date.split("/");
+		String _day = edit[0];
+		String _month = edit[1];
+		String _year = edit[2];
+		
+		date = _year + "-" + _month + "-" + _day;
 	}
 	
 	private static void formateTime() {
