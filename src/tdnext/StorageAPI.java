@@ -128,8 +128,10 @@ public class StorageAPI {
 			//First time running program, no properties set
 			dir = System.getProperty("user.dir").concat(File.separator);//Getting root directory
 			outputName = "TDNext.txt";//Default name
+			theme=null;
 			settings.add(dir);
 			settings.add(outputName);
+			settings.add(theme);
 			saveSettings();
 			storageLog.log(Level.INFO,"Settings.txt created");
 		}
