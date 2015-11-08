@@ -901,6 +901,19 @@ public class ParserAPI {
 					convertDate(temp[1]);
 					convertMonth(temp[0]);
 				}
+				year = Integer.parseInt(temp[2]);
+			}
+			else if (temp[0].contains("20") && temp[0].toCharArray().length == 4) {
+				if (isDate(temp[1])) {
+					convertDate(temp[1]);
+					convertMonth(temp[2]);
+				}				
+				//Case: September 1st
+				else {
+					convertDate(temp[2]);
+					convertMonth(temp[1]);
+				}
+				year = Integer.parseInt(temp[0]);
 			}
 			
 			String stringDay = Integer.toString(day);
