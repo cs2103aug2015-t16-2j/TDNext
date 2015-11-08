@@ -558,7 +558,7 @@ public class ParserAPI {
 		findSpecificTime();
 		
 		if (!specificTime.isEmpty()) {
-			System.out.println(specificTime);
+			//System.out.println(specificTime);
 			startingTime = twentyFourHour(specificTime);
 			
 			if (startingTime.toCharArray().length == 4) {
@@ -605,10 +605,10 @@ public class ParserAPI {
 	private static String twentyFourHour(String originalTime) {
 		int addition = 0;
 		
-		if (originalTime.contains("pm") && originalTime.contains("12")) {
+		if (originalTime.contains("am") && originalTime.contains("12")) {
 			return "00" + originalTime.substring(2, 5);
 		}
-		else if (originalTime.contains("pm")) {
+		else if (originalTime.contains("pm") && !originalTime.contains("12")) {
 			addition = 12;
 			originalTime.replace("pm", "");
 		}
