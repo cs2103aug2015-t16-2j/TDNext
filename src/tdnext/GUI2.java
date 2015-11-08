@@ -476,7 +476,7 @@ public class GUI2 extends JFrame {
 		case 6:
 		updateStatus("Sweet Saturday! Can't find the item you want? Try 'search <keyword>' now!");
 		break;
-		case 7:
+		default:
 		updateStatus("It's Sunday! Try 'sort name' or 'sort deadline' ! Scanning through is so easy!");
 	}
 	}
@@ -485,9 +485,9 @@ public class GUI2 extends JFrame {
 		setContentPane();
 		setPanelDisplay();
 		setPanelCmd();
+		setStatusBar();
 		setBtnHelp();
 		setBtnTheme();
-		setStatusBar();
 	}
 
 	private static void setTextAreaSize(){
