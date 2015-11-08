@@ -170,12 +170,17 @@ public class ParserAPI {
         return date;
 	}
 
-	public static String parseTime(String input) {
+	public static String parseTime(String input) throws TDNextException{
 		initializeAll();
 		
 		String time = removeCommand(input);
 		
-		return twentyFourHour(time);
+		try {
+			return twentyFourHour(time);
+		}
+		catch (NullPointerException e) {
+			throw new TDNextException("Invalid time format.");
+		}
 	}
 	
 	/*public static String parseDate (String input) {
