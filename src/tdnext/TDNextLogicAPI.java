@@ -36,4 +36,12 @@ public class TDNextLogicAPI {
 
 		return output;
 	}
+
+	public void setTheme(String theme) throws TDNextException {
+		_first.setTheme(theme);
+	}
+
+	public String getTheme() throws TDNextException {
+		return _first.getTheme();
+	}
 }
