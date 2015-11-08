@@ -502,6 +502,10 @@ public class ParserAPI {
 			task.add("");
 		}
 		
+		if (!date.isEmpty()) {
+			doubleCheckDate();
+		}
+		
 		if (date.contains("tmrw") || date.contains("tomorrow")) {
 			setCurrentTime();
 			setNewDate(1);
@@ -530,6 +534,12 @@ public class ParserAPI {
 		task.add(endingTime);
 		
 		return task;
+	}
+	
+	private static void doubleCheckDate() {
+		if (!date.substring(2, 3).equals("/")) {
+			date = "0" + date;
+		}
 	}
 	
 	private static void formateTime() {
