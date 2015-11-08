@@ -1,5 +1,6 @@
 package tdnext;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
@@ -22,15 +23,16 @@ public class Logic {
 	private boolean _searchMode = false;
 	private boolean _undoMode = false;
 	private String _lastSearchCommand = new String();
+	private CommandType _command;
 
 	public Logic(){
 	}
 
 	public ArrayList<Task> executeCommand(String input) throws TDNextException {
 		assert(input != "");
-		CommandType command = ParserAPI.parseCommand(input);
+		_command = ParserAPI.parseCommand(input);
 
-		switch (command) {
+		switch (_command) {
 			case ADD :
 				return addTask(input);
 
@@ -100,10 +102,16 @@ public class Logic {
 
 	private ArrayList<Task> searchTime(String input) {
 		String timeString = ParserAPI.parseTime(input);
+		LocalTime time = LocalTime.parse(timeString);
 		_searchList = new ArrayList<Task>();
 		for(int i = 0; i < _listTask.size(); i++) {
 			Task currTask = _listTask.get(i);
-			if(currTask.getStartTime().toString().equals(timeString)){
+			LocalTime startTime = currTask.getStartTime();
+			LocalTime endTime = currTask.getEndTime();
+			if(startTime.equals(time)) {
+				_searchList.add(currTask);
+			} else if ((endTime != LocalTime.MAX) && (startTime.isBefore(time))
+						&& (time.isBefore(endTime))){
 				_searchList.add(currTask);
 			}
 		}
@@ -145,6 +153,10 @@ public class Logic {
 
 	public String getTheme() throws TDNextException {
 		return StorageAPI.getTheme();
+	}
+
+	public CommandType getCommand() {
+		return _command;
 	}
 
 	private ArrayList<Task> undo() throws TDNextException{
