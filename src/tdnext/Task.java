@@ -3,6 +3,8 @@ package tdnext;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,6 +19,8 @@ public class Task {
 	// Instance attributes
 	private String _description = new String();
 	private LocalDate _deadline;
+	private LocalTime _startTime;
+	private LocalTime _endTime;
 	private boolean _importance = false;
 	private int _priorityIndex = 0;
 	private int _index = 0;
@@ -26,17 +30,30 @@ public class Task {
 	// Receives an arraylist of String which contains the line broken down
 	// into various information
 	public Task(ArrayList<String> information) throws TDNextException {
-		assert(information.get(0) != "");
+		assert(!information.get(0).isEmpty());
 		_description = information.get(0);
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
 		}
-		if(information.get(2) != "") {
+		if(information.get(2).isEmpty()) {
+			_deadline = LocalDate.MAX;
+		} else {
 			calculateDeadline(information.get(2));
 		}
 		if(information.get(3) == "DONE") {
 			_done = true;
 		}
+		if(information.get(4).isEmpty()) {
+		    _startTime = LocalTime.MAX;
+		} else {
+			_startTime = LocalTime.parse(information.get(4));
+		}
+		if(information.get(5).isEmpty()) {
+		    _endTime = LocalTime.MAX;
+		} else {
+			_endTime = LocalTime.parse(information.get(4));
+		}
+
 		calculatePriorityIndex();
 		determineColourType();
 
@@ -86,7 +103,7 @@ public class Task {
 	}
 
 	private void calculatePriorityIndex() {
-		if((!_done) && (_deadline != null)) {
+		if((!_done) && (_deadline != LocalDate.MAX)) {
 			int difference = dateDifference();
 			if(difference <= 14){
 				if(_importance) {
@@ -155,10 +172,8 @@ public class Task {
 		_index = index;
 	}
 
-	public void setDate(String date) throws TDNextException{
-		calculateDeadline(date);
-		calculatePriorityIndex();
-		determineColourType();
+	public LocalTime getStartTime() {
+		return _startTime;
 	}
 
 }
@@ -177,7 +192,7 @@ class PriorityComparator implements Comparator<Task> {
 		int task2PriorityIndex = task2.getPriorityIndex();
 
 		if(task1PriorityIndex == task2PriorityIndex) {
-			return 0;
+			return compareTime(task1, task2);
 		} else if((task1PriorityIndex != -1) && (task2PriorityIndex != -1)){
 			if(task1.getPriorityIndex() < task2.getPriorityIndex()) {
 				return 1;
@@ -190,34 +205,31 @@ class PriorityComparator implements Comparator<Task> {
 
 		return -1;
 	}
+
+	private int compareTime(Task task1, Task task2) {
+		LocalTime time1 = task1.getStartTime();
+		LocalTime time2 = task2.getStartTime();
+
+		if(time1.equals(time2)){
+			return 0;
+		} else if (time1.isBefore(time2)){
+			return -1;
+		} else {
+			return 1;
+		}
+	}
 }
 
 class DateComparator implements Comparator<Task> {
 	@Override
 	public int compare(Task task1, Task task2) {
-		int task1PriorityIndex = task1.getPriorityIndex();
-		int task2PriorityIndex = task2.getPriorityIndex();
+		LocalDate date1 = task1.getDeadline();
+		LocalDate date2 = task2.getDeadline();
+		LocalTime time1 = task1.getStartTime();
+		LocalTime time2 = task2.getStartTime();
+		LocalDateTime dateTime1 = time1.atDate(date1);
+		LocalDateTime dateTime2 = time2.atDate(date2);
 
-		if(task1PriorityIndex % 2 == 0) {
-			if(task2PriorityIndex % 2 == 0) {
-				if(task2PriorityIndex > task1PriorityIndex) {
-					return 1;
-				} else if(task1PriorityIndex > task2PriorityIndex) {
-					return -1;
-				} else {
-					return 0;
-				}
-			} else {
-				return -1;
-			}
-		} else if(task2PriorityIndex % 2 == 0){
-			return 1;
-		} else if (task2PriorityIndex > task1PriorityIndex){
-			return 1;
-		} else if (task1PriorityIndex > task2PriorityIndex) {
-			return -1;
-		} else {
-			return 0;
-		}
+		return dateTime1.compareTo(dateTime2);
 	}
 }
