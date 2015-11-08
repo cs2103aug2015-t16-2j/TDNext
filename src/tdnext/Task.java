@@ -3,6 +3,7 @@ package tdnext;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -34,9 +35,9 @@ public class Task {
 		if(information.get(1) == "IMPORTANT") {
 			_importance = true;
 		}
-		if(!information.get(2).isEmpty()) {
-			assert(information.get(2) != "");
-			System.out.println("information 2 is" + information.get(2) + "something");
+		if(information.get(2).isEmpty()) {
+			_deadline = LocalDate.MAX;
+		} else {
 			calculateDeadline(information.get(2));
 		}
 		if(information.get(3) == "DONE") {
@@ -222,42 +223,13 @@ class PriorityComparator implements Comparator<Task> {
 class DateComparator implements Comparator<Task> {
 	@Override
 	public int compare(Task task1, Task task2) {
-		int task1PriorityIndex = task1.getPriorityIndex();
-		int task2PriorityIndex = task2.getPriorityIndex();
-
-		if(task1PriorityIndex % 2 == 0) {
-			if(task2PriorityIndex % 2 == 0) {
-				if(task2PriorityIndex > task1PriorityIndex) {
-					return 1;
-				} else if(task1PriorityIndex > task2PriorityIndex) {
-					return -1;
-				} else {
-					return 0;
-				}
-			} else {
-				return -1;
-			}
-		} else if(task2PriorityIndex % 2 == 0){
-			return 1;
-		} else if (task2PriorityIndex > task1PriorityIndex){
-			return 1;
-		} else if (task1PriorityIndex > task2PriorityIndex) {
-			return -1;
-		} else {
-			return compareTime(task1, task2);
-		}
-	}
-
-	private int compareTime(Task task1, Task task2) {
+		LocalDate date1 = task1.getDeadline();
+		LocalDate date2 = task2.getDeadline();
 		LocalTime time1 = task1.getStartTime();
 		LocalTime time2 = task2.getStartTime();
+		LocalDateTime dateTime1 = time1.atDate(date1);
+		LocalDateTime dateTime2 = time2.atDate(date2);
 
-		if(time1.equals(time2)){
-			return 0;
-		} else if (time1.isBefore(time2)){
-			return -1;
-		} else {
-			return 1;
-		}
+		return dateTime1.compareTo(dateTime2);
 	}
 }
