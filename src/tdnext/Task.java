@@ -38,8 +38,7 @@ public class Task {
 		if(information.get(2).isEmpty()) {
 			_deadline = LocalDate.MAX;
 		} else {
-			System.out.println(information.get(2));
-			calculateDeadline(information.get(2));
+			_deadline = LocalDate.parse(information.get(2));
 		}
 		if(information.get(3) == "DONE") {
 			_done = true;
@@ -177,7 +176,7 @@ public class Task {
 	public LocalTime getStartTime() {
 		return _startTime;
 	}
-	
+
 	public LocalTime getEndTime() {
 		return _endTime;
 	}
