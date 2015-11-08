@@ -55,7 +55,7 @@ public class GUI2 extends JFrame {
 	private static JPanel panelCmd;
 	private static JTextField txtStatus;
 	private static String theme;
-	private static String lastThemeChosen = null; //getLastTheme();
+	private static String lastThemeChosen;
 
 	private static ArrayList<Task> parsedInfo;
 	private static TDNextLogicAPI logicAPI;
@@ -63,10 +63,10 @@ public class GUI2 extends JFrame {
 	private static Date today = new Date();
 
 	private final static String helpMsg =
-			"This is the help section. Please see below for more information:"
+			"Hi! See below for our list of commands availavle:"
 			+"\n\n"
 			+ "Create-\n"
-			+"To create a task with deadline, use this command:\n"
+			+"To create a task with deadline:\n"
 			+"	ADD <task description> BY <deadline> WITH <importance>\n"
 			+"To create an event with a set date and/or time, use this command:\n"
 			+"	ADD <event description> ON <date, time> WITH <importance> \n"
@@ -106,7 +106,6 @@ public class GUI2 extends JFrame {
 	private static ThemeAPI Wood = new ThemeAPI("Wood");
 	private static ThemeAPI forest = new ThemeAPI("Forest");
 	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
-	private static ThemeAPI lastTheme = new ThemeAPI("");
 
 	//Colors used in GUI display 
 	/*
@@ -120,6 +119,22 @@ public class GUI2 extends JFrame {
 	private static Color inputFontColor = foreground;
 	private static Color background = new Color(230, 230, 250);
 	private static String systemFont = "Arial";*/
+	
+	private static String setLastTheme(){
+		lastThemeChosen = null;
+	try {
+		lastThemeChosen = logicAPI.getTheme();
+	} catch (TDNextException e) {
+		// TODO Auto-generated catch block
+		ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+		JOptionPane.showMessageDialog(null, "Theme is not initialised. Please contact us.",
+				"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+		e.printStackTrace();
+	}
+	return lastThemeChosen;
+	}
+	
+	private static ThemeAPI lastTheme = new ThemeAPI(setLastTheme());
 	
 	private static Color red = lastTheme.getColor("Red");
 	private static Color orange = lastTheme.getColor("Orange");
@@ -264,8 +279,6 @@ public class GUI2 extends JFrame {
 
 	//Theme
 	static void setTheme(String s){
-		lastThemeChosen = s;
-		System.out.println(s);
 		
 		if(s.equals("Wood")){
 			red = Wood.getColor("red");
@@ -278,6 +291,17 @@ public class GUI2 extends JFrame {
 			foreground = Wood.getColor("foreground");
 			background = Wood.getColor("background");
 			guiLog.log(Level.INFO, "Wood theme is selected now.");
+			try {
+				logicAPI.setTheme(s);
+			} catch (TDNextException e) {
+				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+				System.out.println(s);
+				
+				e.printStackTrace();
+			}
+			
 
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
@@ -290,6 +314,17 @@ public class GUI2 extends JFrame {
 			foreground = lavender.getColor("foreground");
 			background = lavender.getColor("background");
 			guiLog.log(Level.INFO, "Lavender theme is selected now.");
+			try {
+				logicAPI.setTheme(s);
+			} catch (TDNextException e) {
+				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+				System.out.println(s);
+				
+				e.printStackTrace();
+			}
+			
 
 		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
@@ -302,6 +337,17 @@ public class GUI2 extends JFrame {
 			foreground = forest.getColor("foreground");
 			background = forest.getColor("background");
 			guiLog.log(Level.INFO, "Forest theme is selected now.");
+			try {
+				logicAPI.setTheme(s);
+			} catch (TDNextException e) {
+				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+				System.out.println(s);
+				
+				e.printStackTrace();
+			}
+			
 
 		}else if(s.equals("Sapphire")){
 			red = sapphire.getColor("red");
@@ -314,8 +360,28 @@ public class GUI2 extends JFrame {
 			foreground = sapphire.getColor("foreground");
 			background = sapphire.getColor("background");
 			guiLog.log(Level.INFO, "Sapphire theme is selected now.");
-
+			try {
+				logicAPI.setTheme(s);
+			} catch (TDNextException e) {
+				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+				System.out.println(s);
+				
+				e.printStackTrace();
+			}
 		}
+		try {
+			logicAPI.setTheme(null);
+		} catch (TDNextException e) {
+			ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+			JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
+					"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+			System.out.println(s);
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 	//@@author
@@ -527,7 +593,7 @@ public class GUI2 extends JFrame {
 				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
 						+ "check project manual for trouble-shooting or contact us.",
-						"Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
+						"Initialisation Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				e.printStackTrace();
 			}
 
