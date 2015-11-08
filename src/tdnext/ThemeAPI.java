@@ -59,49 +59,48 @@ public class ThemeAPI {
 	}
 	
 	public void setDetails(String s){
-		if(s.equals("Lavender") ){
-			_red = new Color(255, 195, 206);
-			_orange = new Color(255, 207, 121);
-			_green = new Color(142, 210, 201);
-			_white = new Color(236, 236, 240);
-			_displayBg = new Color(255, 255, 255);
-			_foreground = new Color(70, 32, 102);
-			_displayFontColor = _foreground;
-			_inputFontColor = _foreground;
-			_background = new Color(230, 230, 250);
-			
-			}else if(s.equals("Panda")){
-				_red = new Color(200, 87, 80);
+		if(s.equals("Wood")){
+				_red = new Color(190, 107, 100);
 				_orange = new Color(213, 162, 83);
 				_green = new Color(201, 167, 152);
-				_white = new Color(219, 216, 214);
+				_white = new Color(215, 182, 131);
 				_displayBg = new Color(104, 86, 66);
 				_foreground = new Color(233, 224, 219);
-				_displayFontColor = new Color(48, 31, 13);
+				_displayFontColor = new Color(188, 117, 63);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(79, 36, 18);
 				
 			}else if(s.equals("Sapphire")){
-				_red = new Color(102, 167, 197);
+				_red = new Color(79, 153, 204);
 				_orange = new Color(116, 194, 225);
 				_green = new Color(172, 209, 233);
-				_white = new Color(206, 235, 251);
-				_displayBg = new Color(255,255,255);
+				_white = new Color(210, 235, 251);
+				_displayBg = new Color(88, 116, 152);
 				_foreground = new Color(163, 214, 245);
 				_displayFontColor = new Color(0, 91, 154);
 				_inputFontColor = _displayFontColor;
 				_background = _displayFontColor;
 				
 			}else if(s.equals("Forest")){
-				_red = new Color(169, 125, 93);
+				_red = new Color(189, 145, 113);
 				_orange = new Color(179, 165, 128);
-				_green = new Color(222, 210, 158);
+				_green = new Color(183, 198, 139);
 				_white = new Color(244, 240, 203);
-				_displayBg = new Color(204, 204, 153);
-				_foreground = new Color(88, 112, 88);
+				_displayBg = new Color(239, 235, 214);
+				_foreground = new Color(68, 92, 68);
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(183, 198, 139);
+			}else{
+				_red = new Color(255, 195, 206);
+				_orange = new Color(255, 207, 121);
+				_green = new Color(142, 210, 201);
+				_white = new Color(236, 236, 240);
+				_displayBg = new Color(255, 255, 255);
+				_foreground = new Color(70, 32, 102);
+				_displayFontColor = _foreground;
+				_inputFontColor = _foreground;
+				_background = new Color(230, 230, 250);
 			}
 	}
 }
