@@ -9,22 +9,33 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+//@@author Tan Wei Ming
 public class StorageAPI {
 	public static String dir;
 	public static String outputName;
+	public static String theme;
 	private static Logger storageLog = Logger.getLogger("Storage");
 	public static ArrayList<String> settings = new ArrayList<String>();
 	public static ArrayList<String> data= new ArrayList<String>(); //ArrayList of strings that contain all the tasks and events, with their details
 	
 	//API method for the user to save the file with a different name
 	public static void setName(String newName) throws TDNextException{
+		
 		File f = new File(dir+outputName);
 		f.renameTo(new File(dir+newName));
 		outputName=newName;
 		settings.set(1, newName);
 		saveSettings();
-		storageLog.log(Level.INFO,"File output name set to : "+outputName);
+		
+	}
+	
+	//API method to remember user's choice of theme
+	public static void setTheme(String newTheme) throws TDNextException{
+		
+		theme = newTheme;
+		settings.set(2, newTheme);
+		saveSettings();
+		
 	}
 	
 	//API method for user to change directory of the output text file
@@ -36,11 +47,12 @@ public class StorageAPI {
 		syncFile(data);
 		settings.set(0, newDir);
 		saveSettings();
-		storageLog.log(Level.INFO, "File directory set to : " +dir);
+		
 	}
 	
 	//Private method to update values in settings.txt
 	private static void saveSettings() throws TDNextException{
+		
 		try{
 			File f = new File(System.getProperty("user.dir").concat(File.separator)+"settings.txt");	
 			FileWriter writer = new FileWriter(f,false);
@@ -48,8 +60,10 @@ public class StorageAPI {
 				writer.write(settings.get(i) + System.getProperty( "line.separator" ));
 			}
 			writer.close();
-			storageLog.log(Level.INFO,"Settings saved.");
-		}catch(IOException e){
+			storageLog.log(Level.INFO,"Settings saved.\n Directory is: "+dir+"\n File name is: "+outputName + "\n Theme is : " +theme);
+		}
+		
+		catch(IOException e){
 			throw new TDNextException("File directory is wrong.", e);
 		}
 		
@@ -60,17 +74,20 @@ public class StorageAPI {
 		
 		data.add(Task);
 		addToFile(Task);
-		storageLog.log(Level.INFO,Task + " is added.");
+		
 	}
 	
 	//Internal method to add a single task into the text file (added to the bottom of the text file)
 	private static void addToFile(String newTask) throws TDNextException{
+		
 		try{
 			File f = new File(dir+outputName); 
 			FileWriter writer = new FileWriter(f,true);	
 			writer.write(newTask + System.getProperty( "line.separator" ));
 			writer.close();
-		}catch(IOException e){
+			storageLog.log(Level.INFO,newTask + " is added.");
+		}
+		catch(IOException e){
 			throw new TDNextException("File directory is wrong.", e);
 		}
 		
@@ -78,25 +95,23 @@ public class StorageAPI {
 	
 	//API method to fetch all data from text file into "data" arrayList
 	public static ArrayList<String> getFromFile() throws TDNextException{
+		
 		initialise();
 		if(fileExists(dir+outputName)){
 			if(data.size()>0)
 				data.clear();
 			fetchFromFile(dir+outputName,data);
-			storageLog.log(Level.INFO,"Data fetched");
 			return data;
-			
-			
 		}
 		else {
 			storageLog.log(Level.INFO,"No data available.");
 			return new ArrayList<String>();
-			
 		}
 	}
 	
 	//Private method to retrieve dir and outputName from settings.txt and create a new settings.txt if it does not exist
 	private static void initialise() throws TDNextException{
+		
 		if(fileExists("settings.txt")){
 			//Fetching properties
 			settings= fetchFromFile(System.getProperty("user.dir").concat(File.separator+"settings.txt"),settings);
@@ -117,7 +132,8 @@ public class StorageAPI {
 	}
 	
 	//Internal method to fetch data from file, store into arrayList and return this arrayList
-	private static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws TDNextException{
+	static ArrayList<String> fetchFromFile(String filePath,ArrayList<String> list) throws TDNextException{
+		
 		try{
 			File f = new File(filePath); 
 			FileReader reader = new FileReader(f);
@@ -128,20 +144,21 @@ public class StorageAPI {
 				list.add(line);
 			}
 			reader.close();
+			storageLog.log(Level.INFO,"Data fetched from text file into data arrayList");
 			return list;
-		}catch(IOException e){
+		}
+		catch(IOException e){
 			throw new TDNextException("File directory is wrong." , e);
 		}
-		
-		
 		
 	}
 	
 	//API method to update tasks, either change value or mark as done
 	public static void editToFile(String newVal, String orig) throws TDNextException{
+		
 		int index = findIndex(data,orig);
 		updateTextFile(data,index,newVal);
-		storageLog.log(Level.INFO,orig + " updated to : " + newVal);
+		
 	}
 	
 	//Internal method to modify the String corresponding to the task
@@ -149,17 +166,24 @@ public class StorageAPI {
 		
 		//Clears the text file and re-populates the text file according to the updated data 
 		list.set(index, newVal);
+		storageLog.log(Level.INFO, "element at index " +index +" is replaced by "+ newVal);
 		syncFile(list);
+	
 	}
 	
 	//Internal method to find the index of the string in the arrayList, and return that index
 	private static int findIndex(ArrayList<String> list,String term){
 		
 		if(list.contains(term)){
+			storageLog.log(Level.INFO, term + " is found inside list.");
 			return list.indexOf(term);
 		}
 		//Return -1 if not found
-		return -1;
+		else{
+			storageLog.log(Level.INFO, term + " is not found inside list.");
+			return -1;
+		}
+		
 	}
 	
 	//API method to clear text file. "data" arrayList is saved into "temp" arrayList and then cleared
@@ -180,6 +204,7 @@ public class StorageAPI {
 
 	//API method to delete a task from text file
 	public static void deleteFromFile(String task) throws TDNextException{
+		
 		data.remove(task);
 		syncFile(data);
 		storageLog.log(Level.INFO,task + " deleted.");
@@ -187,6 +212,7 @@ public class StorageAPI {
 
 	//Internal method to replace the entire text file according to the "data" arrayList
 	private static void syncFile(ArrayList<String> list) throws TDNextException{
+		
 		File f = new File(dir+outputName);
 		try{
 			FileWriter writer = new FileWriter(f,false);
@@ -194,6 +220,7 @@ public class StorageAPI {
 				writer.write(list.get(i) + System.getProperty( "line.separator" ));
 			}
 			writer.close();
+			storageLog.log(Level.INFO,  "Text File is synchronised according to data arraylist");
 		}catch(IOException e){
 			throw new TDNextException("File directory is wrong." , e);
 		}
@@ -206,7 +233,6 @@ public class StorageAPI {
 	private static boolean fileExists(String filePath){
 		
 		File f = new File(filePath);
-		
 		if(f.exists()){
 			storageLog.log(Level.INFO,filePath + " exists.");
 			return true;
@@ -216,7 +242,6 @@ public class StorageAPI {
 			return false;
 		}
 	}
-	
-	
+
 }	
 
