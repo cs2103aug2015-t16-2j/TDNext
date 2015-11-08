@@ -33,6 +33,8 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import tdnext.TDNextLogicAPI.ColourType;
+import tdnext.TDNextLogicAPI.CommandType;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
@@ -101,14 +103,14 @@ public class GUI extends JFrame {
 			+"Exit-\n"
 			+"To exit, use this command:\n"
 			+"	EXIT";
-	
+
 	//Themes
 	private static Theme lavender = new Theme("Lavender");
 	private static Theme Wood = new Theme("Wood");
 	private static Theme forest = new Theme("Forest");
 	private static Theme sapphire = new Theme("Sapphire");
 
-	//Colors used in GUI display 
+	//Colors used in GUI display
 	/*
 	private static Color red = new Color(255, 195, 206);
 	private static Color orange = new Color(255, 207, 121);
@@ -120,7 +122,7 @@ public class GUI extends JFrame {
 	private static Color inputFontColor = foreground;
 	private static Color background = new Color(230, 230, 250);
 	private static String systemFont = "Arial";*/
-	
+
 	private static String setLastTheme(){
 		lastThemeChosen = null;
 	try {
@@ -134,9 +136,9 @@ public class GUI extends JFrame {
 	}
 	return lastThemeChosen;
 	}
-	
+
 	private static Theme lastTheme = new Theme(setLastTheme());
-	
+
 	private static Color red = lastTheme.getColor("Red");
 	private static Color orange = lastTheme.getColor("Orange");
 	private static Color green = lastTheme.getColor("Green");
@@ -160,7 +162,7 @@ public class GUI extends JFrame {
 			parsedInfo = output;
 			clearInput(textInput);
 			input = trimInput(input);
-			updateStatus(setStatusUsingSplit(input));
+			updateStatus(setStatus());
 			guiLog.log(Level.INFO, "Latest command: " + input + " is passed.");
 		} catch (Exception e) {
 			updateStatus("Oh no! :( Please check your entry again. Refer to 'HELP' if needed!");
@@ -168,38 +170,48 @@ public class GUI extends JFrame {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
-	
-	private String setStatusUsingSplit(String s){
-	String[] output = splitInput(s);
-	
-	switch(output[0].toLowerCase()){
-	case "add":
-		return "Item '" + output[1] + "' is added to your list.";
-	case "delete":
-		return "Item with index '" + output[1] + "' is deleted from your list.";
-	case "undo":
-		return "Your previous action is undone.";
-	case "done":
-		return "Great! You have mark item with index '" + output[1] + "' as done!";
-	case "sort":
-		lbl.setText("Display Mode: showing ALL items");
-		return "Your items are sorted!";
-	case "search":
-		lbl.setText("Search Mode: Return to Display Mode with 'sort'!");
-		return "You have searched for '" + output[1] + "'. Return to display all using 'sort' or 'undo'.";
-	case "clear":
-		return "You have cleared everything. Use 'undo' if that was a mistake!";
-	default:
-		return "Last entry" + output[0] + " " + output[1] + " is processed. What next?";
+
+	private String setStatus(){
+		CommandType command = logicAPI.getCommand();
+
+	switch(command){
+
+	    case ADD :
+			return "Item is added to your list.";
+
+		case DELETE :
+			return "Item is deleted from your list.";
+
+		case UNDO :
+			return "Your previous action is undone.";
+
+		case DONE :
+		    return "Great! You have mark the item as done!";
+
+		case SORT_DEFAULT :
+
+		case SORT_BY_NAME :
+
+		case SORT_BY_DEADLINE :
+			lbl.setText("Display Mode: showing ALL items");
+			return "Your items are sorted!";
+
+		case SEARCH :
+
+		case SEARCH_DATE :
+
+		case SEARCH_TIME :
+			lbl.setText("Search Mode: Return to Display Mode with 'sort'!");
+			return "You have searched for something.";
+
+		case CLEAR :
+			return "You have cleared everything. Use 'undo' if that was a mistake!";
+
+		default :
+			return "The last command has been processed. What next?";
+		}
 	}
-	}
-	
-	private String[] splitInput(String input){
-		String result[] = new String[2];
-		result = input.split(" ", 2);
-		return result;
-	}
-	
+
 	private String trimInput(String input){
 		if(input.length() > 45){
 			return input.substring(0, 40)+".....";
@@ -236,11 +248,11 @@ public class GUI extends JFrame {
 		}
 		setDefaultScroll();
 	}
-	
+
 	private static void updateStatus(String status){
 		txtStatus.setText(status);
 	}
-	
+
 	//@@author A0125283J
 	private static void setDefaultScroll(){
 		final JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
@@ -252,9 +264,9 @@ public class GUI extends JFrame {
 		};
 		SwingUtilities.invokeLater(runScrollnCrusor);
 	}
-	
+
 	//@@author A0113507R
-	
+
 	//By Maple: Color related
 	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
@@ -282,7 +294,7 @@ public class GUI extends JFrame {
 
 	//Theme
 	static void setTheme(String s){
-		
+
 		if(s.equals("Wood")){
 			red = Wood.getColor("red");
 			orange = Wood.getColor("orange");
@@ -301,10 +313,10 @@ public class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
-				
+
 				e.printStackTrace();
 			}
-			
+
 
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
@@ -324,10 +336,10 @@ public class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
-				
+
 				e.printStackTrace();
 			}
-			
+
 
 		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
@@ -347,10 +359,10 @@ public class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
-				
+
 				e.printStackTrace();
 			}
-			
+
 
 		}else if(s.equals("Sapphire")){
 			red = sapphire.getColor("red");
@@ -370,7 +382,7 @@ public class GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
-				
+
 				e.printStackTrace();
 			}
 		}else{
@@ -381,17 +393,17 @@ public class GUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 					"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 			System.out.println(s);
-			
+
 			e.printStackTrace();
 		}
 		}
-		
+
 	}
 
 	//@@author
 	final static ImageIcon helpIcon = new ImageIcon(GUI.class.getResource("/Help Icon S.png"));
 	final static ImageIcon themeIcon = new ImageIcon(GUI.class.getResource("/theme Icon S.png"));
-	
+
 	//@@author A0113507R
 	static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
@@ -412,8 +424,8 @@ public class GUI extends JFrame {
 		contentPane.setBorder(null);
 		contentPane.setLayout(new MigLayout("", "[360px:80%,center][20%,center]", "[][80%,center][center][10%,center][10%,center]"));
 		contentPane.validate();
-		
-		
+
+
 	}
 
 	private static void setPanelDisplay(){
@@ -450,7 +462,7 @@ public class GUI extends JFrame {
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.BOLD, 12));
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private static void setStatusBar(){
 		contentPane.add(txtStatus, "cell 0 2 2 1,growx,aligny center");
@@ -460,14 +472,14 @@ public class GUI extends JFrame {
 		txtStatus.setEditable(false);
 		setWelcomeStatus(today.getDay());
 	}
-	
+
 	private static void setLbl(){
 		contentPane.add(lbl, "cell 0 0 2 1,alignx trailing,aligny center");
 		lbl.setHorizontalAlignment(SwingConstants.TRAILING);
 		lbl.setFont(new Font(systemFont, Font.BOLD, 12));
 		lbl.setForeground(foreground);
 	}
-	
+
 	private static void setWelcomeStatus(int i){
 		switch(i){
 		case 1:
@@ -517,36 +529,36 @@ public class GUI extends JFrame {
 	private static void refresh(){
 		contentPane.repaint();
 		contentPane.revalidate();
-		
+
 		textInput.repaint();
 		textInput.revalidate();
-		
+
 		scrollPane.repaint();
 		scrollPane.revalidate();
-		
+
 		btnTheme.repaint();
 		btnTheme.revalidate();
-		
+
 		btnHelp.repaint();
 		btnHelp.revalidate();
-		
+
 		panelCmd.repaint();
 		panelCmd.revalidate();
-		
+
 		txtStatus.repaint();
 		txtStatus.revalidate();
-		
+
 		lbl.repaint();
 		lbl.revalidate();
-		
+
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
-		
+
 		addTextArea();
 		setTextAreaSize();
 		setDefaultScroll();
 	}
-	
+
 	private static void refreshUI(String name){
 		setTheme(name);
 		setAll();
@@ -555,10 +567,10 @@ public class GUI extends JFrame {
 	}
 
 	//Keyboard-related
-	
+
 	private static Action showTheme = new AbstractAction(){
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -570,12 +582,12 @@ public class GUI extends JFrame {
 					options, options[0]);
 			guiLog.log(Level.INFO, "Theme button pressed through 'F2'.");
 			updateStatus("I see you pressed 'F2' for THEME! Are you satisfy with the current skintone?");
-			
+
 			if(theme != null)
 				refreshUI(theme);
 		}
 		};
-		
+
 
 	private static Action showMsg = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
@@ -583,23 +595,23 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, helpMsg, "HELP", JOptionPane.INFORMATION_MESSAGE, helpIcon);
 				guiLog.log(Level.INFO, "Help button pressed through 'F1'.");
-				
+
 				updateStatus("I see you pressed 'F1' for HELP. Excellent choice when you can't remember the commands!");
 			}
-		};	
+		};
 
 	//End of functions added by Maple
 
 	/**
 	 * Launch the application.
-	 * @throws TDNextException 
+	 * @throws TDNextException
 	 */
 	public static void main(String[] args) {
 			try {
 				parsedInfo = logicAPI.startProgram();
-				
+
 			} catch (TDNextException e) {
-				
+
 				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
 						+ "check project manual for trouble-shooting or contact us.",
@@ -610,44 +622,44 @@ public class GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 					GUI frame = new GUI();
-					
+
 					frame.setVisible(true);
 					frame.setResizable(false);
 
 					//Scrolling with Keyboard
 					JScrollBar vertical = scrollPane.getVerticalScrollBar();
 					JScrollBar horizontal = scrollPane.getHorizontalScrollBar();
-					
+
 					KeyStroke key_up = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true);
 					KeyStroke key_down = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true);
 					KeyStroke key_left = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true);
 					KeyStroke key_right = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true);
 					KeyStroke key_f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true);
 					KeyStroke key_f2 = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true);
-					
+
 					vertical.setUnitIncrement(vertical.getMaximum()/10);
 					horizontal.setUnitIncrement(horizontal.getMaximum()/10);
-					
+
 					InputMap imV = vertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					InputMap imH = horizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-					
+
 					imV.put(key_down, "positiveUnitIncrement");
 					imV.put(key_up, "negativeUnitIncrement");
 					imH.put(key_right, "positiveUnitIncrement");
 					imH.put(key_left, "negativeUnitIncrement");
-					
+
 					//Keyboard Help
 					InputMap imHelp = btnHelp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amHelp = btnHelp.getActionMap();
 					imHelp.put(key_f1, "showMsg");
 					amHelp.put("showMsg", showMsg);
-					
+
 					//Keyboard Theme
 					InputMap imTheme = btnTheme.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 					ActionMap amTheme = btnTheme.getActionMap();
 					imTheme.put(key_f2, "showTheme");
 					amTheme.put("showTheme", showTheme);
-					
+
 			}
 		});
 	}
@@ -658,7 +670,7 @@ public class GUI extends JFrame {
 	public GUI() {
 		setTitle("Welcome to TDNext");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		contentPane = new JPanel();
 		guiLog.log(Level.INFO, "GUI Initialised: 'contentPane'.");
 
@@ -677,20 +689,20 @@ public class GUI extends JFrame {
 		ImageIcon helpIconXS = new ImageIcon (GUI.class.getResource("/Help Icon XS.png"));
 		btnHelp = new JButton(" HELP  (F1)", helpIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
-		
+
 		ImageIcon themeIconXS = new ImageIcon (GUI.class.getResource("/theme Icon XS.png"));
 		btnTheme = new JButton("THEME (F2)", themeIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
-		
+
 		txtStatus = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'txtStatus'.");
-		
+
 		lbl = new JLabel("Display Mode: showing ALL items");
-		
+
 
 		setBounds(100, 100, 500, 500);
 		setContentPane(contentPane);
-		
+
 		setAll();
 
 		addTextArea();
