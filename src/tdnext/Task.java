@@ -103,7 +103,7 @@ public class Task {
 	}
 
 	private void calculatePriorityIndex() {
-		if((!_done) && (_deadline != null)) {
+		if((!_done) && (_deadline != LocalDate.MAX)) {
 			int difference = dateDifference();
 			if(difference <= 14){
 				if(_importance) {
