@@ -21,8 +21,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 import javax.swing.border.EtchedBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -40,7 +38,6 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
-import java.sql.Time;
 
 public class GUI2 extends JFrame {
 
@@ -58,7 +55,7 @@ public class GUI2 extends JFrame {
 	private static String lastThemeChosen;
 
 	private static ArrayList<Task> parsedInfo;
-	private static TDNextLogicAPI logicAPI;
+	private static TDNextLogicAPI logicAPI = new TDNextLogicAPI();
 	private static Logger guiLog= Logger.getLogger("GUI");
 	private static Date today = new Date();
 
@@ -370,7 +367,7 @@ public class GUI2 extends JFrame {
 				
 				e.printStackTrace();
 			}
-		}
+		}else{
 		try {
 			logicAPI.setTheme(null);
 		} catch (TDNextException e) {
@@ -380,6 +377,7 @@ public class GUI2 extends JFrame {
 			System.out.println(s);
 			
 			e.printStackTrace();
+		}
 		}
 		
 	}
@@ -583,8 +581,6 @@ public class GUI2 extends JFrame {
 	 * @throws TDNextException 
 	 */
 	public static void main(String[] args) {
-
-		logicAPI = new TDNextLogicAPI();
 			try {
 				parsedInfo = logicAPI.startProgram();
 				
