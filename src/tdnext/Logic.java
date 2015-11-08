@@ -77,7 +77,7 @@ public class Logic {
 				return searchDate(input);
 
 			case SEARCH_TIME :
-				return searchTime(input);
+				//return searchTime(input);
 
 			/*case EDIT_DATE :
 				editDate(input);
@@ -90,17 +90,19 @@ public class Logic {
 
 	private ArrayList<Task> searchDate(String input) {
 		String dateString = ParserAPI.parseDate(input);
+		System.out.println(dateString);
 		_searchList = new ArrayList<Task>();
 		for(int i = 0; i < _listTask.size(); i++) {
 			Task currTask = _listTask.get(i);
 			if(currTask.getDeadline().toString().equals(dateString)){
+				System.out.println(currTask.getDeadline());
 				_searchList.add(currTask);
 			}
 		}
 		return _searchList;
 	}
 
-	private ArrayList<Task> searchTime(String input) {
+	/*private ArrayList<Task> searchTime(String input) {
 		String timeString = ParserAPI.parseTime(input);
 		_searchList = new ArrayList<Task>();
 		for(int i = 0; i < _listTask.size(); i++) {
@@ -110,7 +112,7 @@ public class Logic {
 			}
 		}
 		return _searchList;
-	}
+	}*/
 
 	private ArrayList<Task> addAllTask() throws TDNextException {
 		ArrayList<Task> tempTaskList = _tempTask.pop();
@@ -139,6 +141,14 @@ public class Logic {
 
 		_logger.log(Level.INFO, "Program started");
 		return _listTask;
+	}
+
+	public void setTheme(String theme) throws TDNextException {
+		StorageAPI.setTheme(String theme);
+	}
+
+	public String getTheme() throws TDNextException {
+		return StorageAPI.getTheme();
 	}
 
 	private ArrayList<Task> undo() throws TDNextException{
