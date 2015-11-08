@@ -557,7 +557,10 @@ public class ParserAPI {
 	private static String twentyFourHour(String originalTime) {
 		int addition = 0;
 		
-		if (originalTime.contains("pm")) {
+		if (originalTime.contains("pm") && originalTime.contains("12")) {
+			return "00:00";
+		}
+		else if (originalTime.contains("pm")) {
 			addition = 12;
 			originalTime.replace("pm", "");
 		}
