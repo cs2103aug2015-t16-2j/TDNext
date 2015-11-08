@@ -138,6 +138,10 @@ public class ParserAPI {
 		String[] breakDown = input.split(" ");
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
+		if (!breakDown[1].matches("\\d+")) {
+			throw new TDNextException("Invalid index.");
+		}
+		
 		try {
             return Integer.parseInt(breakDown[1])-1;
 		}
