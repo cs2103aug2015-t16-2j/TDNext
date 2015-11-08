@@ -151,6 +151,21 @@ public class ParserAPI {
 
 	}
 	
+	public static String parseDate(String input) {
+		String[] information = input.split(" ");
+		String toReturn = new String();
+		
+		for (int index=2; index<information.length; index++) {
+			toReturn += (information[index] + " ");
+		}
+		
+		return toReturn;
+	}
+	
+	public static String parseTime(String input) {
+		return parseDate(input);
+	}
+	
 	/*public static String parseDate (String input) {
 		initializeAll();
 		date = removeCommand(input);
