@@ -447,14 +447,16 @@ public class ParserAPI {
 		String toReturn = new String();
 		
 		if (isAdd || isDone || isSearch || isCD) {
+			//System.out.println("here");
 			for (int index=1; index<array.length; index++) {
 				toReturn += (array[index] + " ");
 			}
 		}
-		else if (isEdit || isDelete || isEditDate || isSearchDate || isSearchTime)
+		else if (isEdit || isDelete || isEditDate || isSearchDate || isSearchTime) {
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
+		}
 		else {
 			for (int index=0; index<array.length; index++) {
 				toReturn += array[index] + " ";
@@ -498,17 +500,17 @@ public class ParserAPI {
 		//System.out.println(specificTime);
 		//removeDateAndTime();
         task.add(noCommand);
-        
-		if (importance) {
-			task.add("IMPORTANT");
-	}
-		else {
-			task.add("");
-		}
-		
-		if (!date.isEmpty()) {
-			doubleCheckDate();
-		}
+
+        if (importance) {
+        	task.add("IMPORTANT");
+        }
+        else {
+        	task.add("");
+        }
+
+        if (!date.isEmpty()) {
+        	doubleCheckDate();
+        }
 		
 		if (date.contains("tmrw") || date.contains("tomorrow")) {
 			setCurrentTime();
