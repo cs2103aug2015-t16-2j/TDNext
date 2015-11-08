@@ -73,6 +73,12 @@ public class Logic {
 			case CHANGE_DIRECTORY :
 				return changeDirectory(input);
 
+			case SEARCH_DATE :
+				return searchDate(input);
+
+			case SEARCH_TIME :
+				return searchTime(input);
+
 			/*case EDIT_DATE :
 				editDate(input);
 				return _listTask;*/
@@ -82,14 +88,29 @@ public class Logic {
 		}
 	}
 
-	/*private void editDate(String input) {
-		int index = ParserAPI.parseIndex(input);
-		Task currTask = _listTask.get(index);
-		String date = ParserAPI.parseDate(input);
-		currTask.setDate(date);
+	private ArrayList<Task> searchDate(String input) {
+		String dateString = ParserAPI.parseDate(input);
+		_searchList = new ArrayList<Task>();
+		for(int i = 0; i < _listTask.size(); i++) {
+			Task currTask = _listTask.get(i);
+			if(currTask.getDeadline().toString().equals(dateString)){
+				_searchList.add(currTask);
+			}
+		}
+		return _searchList;
+	}
 
-		_logger.log(Level.INFO, "Date changed for " + currTask.toString());
-	}*/
+	private ArrayList<Task> searchTime(String input) {
+		String timeString = ParserAPI.parseTime(input);
+		_searchList = new ArrayList<Task>();
+		for(int i = 0; i < _listTask.size(); i++) {
+			Task currTask = _listTask.get(i);
+			if(currTask.getStartTime().toString().equals(timeString)){
+				_searchList.add(currTask);
+			}
+		}
+		return _searchList;
+	}
 
 	private ArrayList<Task> addAllTask() throws TDNextException {
 		ArrayList<Task> tempTaskList = _tempTask.pop();
@@ -212,6 +233,7 @@ public class Logic {
 
 	private ArrayList<Task> addTask(String input) throws TDNextException {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
+		System.out.println(information);
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
