@@ -523,7 +523,9 @@ public class ParserAPI {
 		/*if (specificTime != null) {
 			endingTime = specificTime;
 		}*/
-		formateTime();
+		if (!startingTime.isEmpty()) {
+		    formateTime();
+		}
 		task.add(startingTime);
 		task.add(endingTime);
 		
@@ -531,8 +533,8 @@ public class ParserAPI {
 	}
 	
 	private static void formateTime() {
-		if (startingTime != null) {
-			if (endingTime != null) {
+		if (!startingTime.isEmpty()) {
+			if (!endingTime.isEmpty()) {
 				startingTime = twentyFourHour(startingTime);
 				endingTime = twentyFourHour(endingTime);
 			}
