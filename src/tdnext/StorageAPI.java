@@ -123,12 +123,12 @@ public class StorageAPI {
 			outputName = settings.get(1);
 			theme=settings.get(2);
 			storageLog.log(Level.INFO,"Settings.txt loaded");
-		}
+		} 
 		else {
 			//First time running program, no properties set
 			dir = System.getProperty("user.dir").concat(File.separator);//Getting root directory
 			outputName = "TDNext.txt";//Default name
-			theme=null;
+			theme="null";
 			settings.add(dir);
 			settings.add(outputName);
 			settings.add(theme);
