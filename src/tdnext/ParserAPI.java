@@ -447,14 +447,16 @@ public class ParserAPI {
 		String toReturn = new String();
 		
 		if (isAdd || isDone || isSearch || isCD) {
+			//System.out.println("here");
 			for (int index=1; index<array.length; index++) {
 				toReturn += (array[index] + " ");
 			}
 		}
-		else if (isEdit || isDelete || isEditDate || isSearchDate || isSearchTime)
+		else if (isEdit || isDelete || isEditDate || isSearchDate || isSearchTime) {
 			for (int index=2; index<array.length; index++) {
 				toReturn += array[index] + " ";
 			}
+		}
 		else {
 			for (int index=0; index<array.length; index++) {
 				toReturn += array[index] + " ";
@@ -498,17 +500,17 @@ public class ParserAPI {
 		//System.out.println(specificTime);
 		//removeDateAndTime();
         task.add(noCommand);
-        
-		if (importance) {
-			task.add("IMPORTANT");
-	}
-		else {
-			task.add("");
-		}
-		
-		if (!date.isEmpty()) {
-			doubleCheckDate();
-		}
+
+        if (importance) {
+        	task.add("IMPORTANT");
+        }
+        else {
+        	task.add("");
+        }
+
+        if (!date.isEmpty()) {
+        	doubleCheckDate();
+        }
 		
 		if (date.contains("tmrw") || date.contains("tomorrow")) {
 			setCurrentTime();
@@ -837,6 +839,12 @@ public class ParserAPI {
 			if (temp[1].equalsIgnoreCase("from") && temp[3].equalsIgnoreCase("to")) {
 				if (temp[0].equalsIgnoreCase("today")) {
 					date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+				}
+				else if (temp[0].contains("/")) {
+					date = temp[0];
+					
+					startingTime = temp[2];
+					endingTime = temp[4];
 				}
 				else {
 	                setCurrentTime();
