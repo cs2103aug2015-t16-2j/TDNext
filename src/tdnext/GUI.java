@@ -38,8 +38,10 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
-public class GUI2 extends JFrame {
+public class GUI extends JFrame {
 
 	//@@author A0113507R
 	private static JPanel contentPane;
@@ -53,11 +55,13 @@ public class GUI2 extends JFrame {
 	private static JTextField txtStatus;
 	private static String theme;
 	private static String lastThemeChosen;
+	private static JLabel lbl;
 
 	private static ArrayList<Task> parsedInfo;
 	private static TDNextLogicAPI logicAPI = new TDNextLogicAPI();
 	private static Logger guiLog= Logger.getLogger("GUI");
 	private static Date today = new Date();
+
 
 	private final static String helpMsg =
 			"Hi! See below for our list of commands availavle:"
@@ -123,7 +127,7 @@ public class GUI2 extends JFrame {
 		lastThemeChosen = logicAPI.getTheme();
 	} catch (TDNextException e) {
 		// TODO Auto-generated catch block
-		ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+		ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 		JOptionPane.showMessageDialog(null, "Theme is not initialised. Please contact us.",
 				"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 		e.printStackTrace();
@@ -178,8 +182,10 @@ public class GUI2 extends JFrame {
 	case "done":
 		return "Great! You have mark item with index '" + output[1] + "' as done!";
 	case "sort":
+		lbl.setText("Display Mode: showing ALL items");
 		return "Your items are sorted!";
 	case "search":
+		lbl.setText("Search Mode: Return to Display Mode with 'sort'!");
 		return "You have searched for '" + output[1] + "'. Return to display all using 'sort' or 'undo'.";
 	case "clear":
 		return "You have cleared everything. Use 'undo' if that was a mistake!";
@@ -291,7 +297,7 @@ public class GUI2 extends JFrame {
 			try {
 				logicAPI.setTheme(s);
 			} catch (TDNextException e) {
-				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
@@ -314,7 +320,7 @@ public class GUI2 extends JFrame {
 			try {
 				logicAPI.setTheme(s);
 			} catch (TDNextException e) {
-				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
@@ -337,7 +343,7 @@ public class GUI2 extends JFrame {
 			try {
 				logicAPI.setTheme(s);
 			} catch (TDNextException e) {
-				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
@@ -360,7 +366,7 @@ public class GUI2 extends JFrame {
 			try {
 				logicAPI.setTheme(s);
 			} catch (TDNextException e) {
-				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 						"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 				System.out.println(s);
@@ -371,7 +377,7 @@ public class GUI2 extends JFrame {
 		try {
 			logicAPI.setTheme(null);
 		} catch (TDNextException e) {
-			ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+			ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 			JOptionPane.showMessageDialog(null, "Theme is not passed. Please contact us.",
 					"Theme Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
 			System.out.println(s);
@@ -383,8 +389,8 @@ public class GUI2 extends JFrame {
 	}
 
 	//@@author
-	final static ImageIcon helpIcon = new ImageIcon(GUI2.class.getResource("/Help Icon S.png"));
-	final static ImageIcon themeIcon = new ImageIcon(GUI2.class.getResource("/theme Icon S.png"));
+	final static ImageIcon helpIcon = new ImageIcon(GUI.class.getResource("/Help Icon S.png"));
+	final static ImageIcon themeIcon = new ImageIcon(GUI.class.getResource("/theme Icon S.png"));
 	
 	//@@author A0113507R
 	static void setStyle(int i){
@@ -404,12 +410,9 @@ public class GUI2 extends JFrame {
 	private static void setContentPane(){
 		contentPane.setBackground(background);
 		contentPane.setBorder(null);
-		contentPane.setLayout(new MigLayout("", "[360px:80%,center][20%,center]", "[80%,center][center][10%,center][10%,center]"));
-		
+		contentPane.setLayout(new MigLayout("", "[360px:80%,center][20%,center]", "[][80%,center][center][10%,center][10%,center]"));
 		contentPane.validate();
 		
-		contentPane.add(txtStatus, "cell 0 1 2 1,growx,aligny center");
-		contentPane.add(scrollPane, "cell 0 0 2 1,grow");
 		
 	}
 
@@ -423,9 +426,10 @@ public class GUI2 extends JFrame {
 	}
 
 	private static void setPanelCmd(){
+		contentPane.add(scrollPane, "cell 0 1 2 1,grow");
 		panelCmd.setBackground(background);
 		panelCmd.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Type in what to do next: ", TitledBorder.LEADING, TitledBorder.TOP, new Font(systemFont, Font.PLAIN, 17), foreground));
-		contentPane.add(panelCmd, "cell 0 2 1 2,growx,aligny center");
+		contentPane.add(panelCmd, "cell 0 3 1 2,growx,aligny center");
 		panelCmd.setLayout(new BorderLayout(0, 0));
 		panelCmd.add(textInput);
 		textInput.setFont(new Font(systemFont, Font.PLAIN, 16));
@@ -437,11 +441,11 @@ public class GUI2 extends JFrame {
 		btnHelp.setBackground(background);
 		btnHelp.setForeground(foreground);
 		btnHelp.setFont(new Font(systemFont, Font.BOLD, 12));
-		contentPane.add(btnHelp, "cell 1 2,growx,aligny bottom");
+		contentPane.add(btnHelp, "cell 1 3,growx,aligny bottom");
 	}
 
 	private static void setBtnTheme(){
-		contentPane.add(btnTheme, "cell 1 3,growx,aligny bottom");
+		contentPane.add(btnTheme, "cell 1 4,growx,aligny bottom");
 		btnTheme.setBackground(background);
 		btnTheme.setForeground(foreground);
 		btnTheme.setFont(new Font(systemFont, Font.BOLD, 12));
@@ -449,11 +453,19 @@ public class GUI2 extends JFrame {
 	
 	@SuppressWarnings("deprecation")
 	private static void setStatusBar(){
+		contentPane.add(txtStatus, "cell 0 2 2 1,growx,aligny center");
 		txtStatus.setBackground(background);
 		txtStatus.setFont(new Font(systemFont, Font.BOLD, 10));
 		txtStatus.setForeground(foreground);
 		txtStatus.setEditable(false);
 		setWelcomeStatus(today.getDay());
+	}
+	
+	private static void setLbl(){
+		contentPane.add(lbl, "cell 0 0 2 1,alignx trailing,aligny center");
+		lbl.setHorizontalAlignment(SwingConstants.TRAILING);
+		lbl.setFont(new Font(systemFont, Font.BOLD, 12));
+		lbl.setForeground(foreground);
 	}
 	
 	private static void setWelcomeStatus(int i){
@@ -485,6 +497,7 @@ public class GUI2 extends JFrame {
 		setContentPane();
 		setPanelDisplay();
 		setPanelCmd();
+		setLbl();
 		setStatusBar();
 		setBtnHelp();
 		setBtnTheme();
@@ -522,6 +535,9 @@ public class GUI2 extends JFrame {
 		
 		txtStatus.repaint();
 		txtStatus.revalidate();
+		
+		lbl.repaint();
+		lbl.revalidate();
 		
 		panelDisplay.removeAll();
 		panelDisplay.repaint();
@@ -570,9 +586,7 @@ public class GUI2 extends JFrame {
 				
 				updateStatus("I see you pressed 'F1' for HELP. Excellent choice when you can't remember the commands!");
 			}
-		};
-		
-	
+		};	
 
 	//End of functions added by Maple
 
@@ -586,7 +600,7 @@ public class GUI2 extends JFrame {
 				
 			} catch (TDNextException e) {
 				
-				ImageIcon errorIconS = new ImageIcon (GUI2.class.getResource("/error Icon XS.png"));
+				ImageIcon errorIconS = new ImageIcon (GUI.class.getResource("/error Icon XS.png"));
 				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
 						+ "check project manual for trouble-shooting or contact us.",
 						"Initialisation Error!", JOptionPane.INFORMATION_MESSAGE, errorIconS);
@@ -595,7 +609,7 @@ public class GUI2 extends JFrame {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-					GUI2 frame = new GUI2();
+					GUI frame = new GUI();
 					
 					frame.setVisible(true);
 					frame.setResizable(false);
@@ -641,7 +655,7 @@ public class GUI2 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GUI2() {
+	public GUI() {
 		setTitle("Welcome to TDNext");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -660,16 +674,19 @@ public class GUI2 extends JFrame {
 		textInput = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'textInput'.");
 
-		ImageIcon helpIconXS = new ImageIcon (GUI2.class.getResource("/Help Icon XS.png"));
+		ImageIcon helpIconXS = new ImageIcon (GUI.class.getResource("/Help Icon XS.png"));
 		btnHelp = new JButton(" HELP  (F1)", helpIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnHelp'.");
 		
-		ImageIcon themeIconXS = new ImageIcon (GUI2.class.getResource("/theme Icon XS.png"));
+		ImageIcon themeIconXS = new ImageIcon (GUI.class.getResource("/theme Icon XS.png"));
 		btnTheme = new JButton("THEME (F2)", themeIconXS);
 		guiLog.log(Level.INFO, "GUI Initialised: 'btnTheme'.");
 		
 		txtStatus = new JTextField();
 		guiLog.log(Level.INFO, "GUI Initialised: 'txtStatus'.");
+		
+		lbl = new JLabel("Display Mode: showing ALL items");
+		
 
 		setBounds(100, 100, 500, 500);
 		setContentPane(contentPane);
