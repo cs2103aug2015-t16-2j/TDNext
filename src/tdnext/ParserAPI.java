@@ -1212,7 +1212,7 @@ public class ParserAPI {
 			isTmrw = true;
 			
 			return true;
-		}
+		} 
 		
 		return word.contains(":");
 	}
