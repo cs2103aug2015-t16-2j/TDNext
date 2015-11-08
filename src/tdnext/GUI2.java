@@ -55,6 +55,7 @@ public class GUI2 extends JFrame {
 	private static JPanel panelCmd;
 	private static JTextField txtStatus;
 	private static String theme;
+	private static String lastThemeChosen = null; //getLastTheme();
 
 	private static ArrayList<Task> parsedInfo;
 	private static TDNextLogicAPI logicAPI;
@@ -102,11 +103,13 @@ public class GUI2 extends JFrame {
 
 	//Themes
 	private static ThemeAPI lavender = new ThemeAPI("Lavender");
-	private static ThemeAPI panda = new ThemeAPI("Panda");
+	private static ThemeAPI Wood = new ThemeAPI("Wood");
 	private static ThemeAPI forest = new ThemeAPI("Forest");
 	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
+	private static ThemeAPI lastTheme = new ThemeAPI("");
 
-	//Colors used in GUI display
+	//Colors used in GUI display 
+	/*
 	private static Color red = new Color(255, 195, 206);
 	private static Color orange = new Color(255, 207, 121);
 	private static Color green = new Color(142, 210, 201);
@@ -116,6 +119,17 @@ public class GUI2 extends JFrame {
 	private static Color displayFontColor = foreground;
 	private static Color inputFontColor = foreground;
 	private static Color background = new Color(230, 230, 250);
+	private static String systemFont = "Arial";*/
+	
+	private static Color red = lastTheme.getColor("Red");
+	private static Color orange = lastTheme.getColor("Orange");
+	private static Color green = lastTheme.getColor("Green");
+	private static Color white = lastTheme.getColor("white");
+	private static Color displayBackground = lastTheme.getColor("displayBG");
+	private static Color foreground = lastTheme.getColor("foreground");
+	private static Color displayFontColor = lastTheme.getColor("displayfont");
+	private static Color inputFontColor = lastTheme.getColor("inputfont");
+	private static Color background = lastTheme.getColor("background");
 	private static String systemFont = "Arial";
 
 	//By Maple: Input and display related
@@ -152,7 +166,7 @@ public class GUI2 extends JFrame {
 	case "done":
 		return "Great! You have mark item with index '" + output[1] + "' as done!";
 	case "sort":
-		return "Items are sorted according to '" + output[1] + "'!";
+		return "Your items are sorted!";
 	case "search":
 		return "You have searched for '" + output[1] + "'. Return to display all using 'sort' or 'undo'.";
 	case "clear":
@@ -160,7 +174,6 @@ public class GUI2 extends JFrame {
 	default:
 		return "Last entry" + output[0] + " " + output[1] + " is processed. What next?";
 	}
-	
 	}
 	
 	private String[] splitInput(String input){
@@ -170,9 +183,10 @@ public class GUI2 extends JFrame {
 	}
 	
 	private String trimInput(String input){
-		if(input.length() > 45)
-		return input.substring(0, 40)+".....";
-		return input;
+		if(input.length() > 45){
+			return input.substring(0, 40)+".....";
+		}
+			return input;
 	}
 
 	private static void clearInput(JTextField textInput){
@@ -250,17 +264,20 @@ public class GUI2 extends JFrame {
 
 	//Theme
 	static void setTheme(String s){
-		if(s.equals("Panda")){
-			red = panda.getColor("red");
-			orange = panda.getColor("orange");
-			green = panda.getColor("green");
-			white = panda.getColor("white");
-			displayFontColor = panda.getColor("displayfont");
-			inputFontColor = panda.getColor("inputfont");
-			displayBackground = panda.getColor("displaybg");
-			foreground = panda.getColor("foreground");
-			background = panda.getColor("background");
-			guiLog.log(Level.INFO, "Panda theme is selected now.");
+		lastThemeChosen = s;
+		System.out.println(s);
+		
+		if(s.equals("Wood")){
+			red = Wood.getColor("red");
+			orange = Wood.getColor("orange");
+			green = Wood.getColor("green");
+			white = Wood.getColor("white");
+			displayFontColor = Wood.getColor("displayfont");
+			inputFontColor = Wood.getColor("inputfont");
+			displayBackground = Wood.getColor("displaybg");
+			foreground = Wood.getColor("foreground");
+			background = Wood.getColor("background");
+			guiLog.log(Level.INFO, "Wood theme is selected now.");
 
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
@@ -466,7 +483,7 @@ public class GUI2 extends JFrame {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
+			String[] options = {"Lavender", "Wood", "Sapphire", "Forest"};
 			theme = (String) JOptionPane.showInputDialog(null,
 					"Choose your theme", "Themes",
 					JOptionPane.INFORMATION_MESSAGE, themeIcon,
@@ -499,10 +516,18 @@ public class GUI2 extends JFrame {
 	 * Launch the application.
 	 * @throws TDNextException 
 	 */
-	public static void main(String[] args) throws TDNextException {
+	public static void main(String[] args) {
 
 		logicAPI = new TDNextLogicAPI();
-			parsedInfo = logicAPI.startProgram();
+			try {
+				parsedInfo = logicAPI.startProgram();
+				
+			} catch (TDNextException e) {
+				JOptionPane.showMessageDialog(null, "Please restart program. If the problem persists,"
+						+ "check project manual for trouble-shooting or contact us.",
+						"Error!", JOptionPane.INFORMATION_MESSAGE, helpIcon);
+				e.printStackTrace();
+			}
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -611,7 +636,7 @@ public class GUI2 extends JFrame {
 
 		btnTheme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String[] options = {"Lavender", "Panda", "Sapphire", "Forest"};
+				String[] options = {"Lavender", "Wood", "Sapphire", "Forest"};
 				theme = (String) JOptionPane.showInputDialog(null,
 						"Choose your theme", "Themes",
 						JOptionPane.INFORMATION_MESSAGE, themeIcon,
