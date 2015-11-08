@@ -840,6 +840,12 @@ public class ParserAPI {
 				if (temp[0].equalsIgnoreCase("today")) {
 					date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 				}
+				else if (temp[0].contains("/")) {
+					date = temp[0];
+					
+					startingTime = temp[2];
+					endingTime = temp[4];
+				}
 				else {
 	                setCurrentTime();
 	                day += 1;
