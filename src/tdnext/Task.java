@@ -51,11 +51,11 @@ public class Task {
 		if(information.get(5).isEmpty()) {
 		    _endTime = LocalTime.MAX;
 		} else {
-			_endTime = LocalTime.parse(information.get(4));
+			_endTime = LocalTime.parse(information.get(5));
+			System.out.println(_endTime);
 		}
 
 		calculatePriorityIndex();
-		System.out.println(_priorityIndex);
 		determineColourType();
 
 		Logic._logger.log(Level.INFO, this.toString() + " is created");
@@ -63,22 +63,6 @@ public class Task {
 
 	public Task() throws TDNextException {
 		throw new TDNextException("All information are missing");
-	}
-
-	private void calculateDeadline(String dateString) throws TDNextException {
-		assert(dateString.length() == 10);
-		String[] dateList = dateString.split("/");
-		assert(dateList[0].length() == 2);
-		int day = Integer.parseInt(dateList[0]);
-		assert(dateList[1].length() == 2);
-		int month = Integer.parseInt(dateList[1]);
-		assert(dateList[2].length() == 4);
-		int year = Integer.parseInt(dateList[2]);
-		try {
-		    _deadline = LocalDate.of(year,  month,  day);
-		} catch (DateTimeException e) {
-			throw new TDNextException("Date is invalid");
-		}
 	}
 
 	public void markAsDone() {
