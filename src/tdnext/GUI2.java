@@ -99,10 +99,10 @@ public class GUI2 extends JFrame {
 			+"	EXIT";
 	
 	//Themes
-	private static ThemeAPI lavender = new ThemeAPI("Lavender");
-	private static ThemeAPI Wood = new ThemeAPI("Wood");
-	private static ThemeAPI forest = new ThemeAPI("Forest");
-	private static ThemeAPI sapphire = new ThemeAPI("Sapphire");
+	private static Theme lavender = new Theme("Lavender");
+	private static Theme Wood = new Theme("Wood");
+	private static Theme forest = new Theme("Forest");
+	private static Theme sapphire = new Theme("Sapphire");
 
 	//Colors used in GUI display 
 	/*
@@ -131,7 +131,7 @@ public class GUI2 extends JFrame {
 	return lastThemeChosen;
 	}
 	
-	private static ThemeAPI lastTheme = new ThemeAPI(setLastTheme());
+	private static Theme lastTheme = new Theme(setLastTheme());
 	
 	private static Color red = lastTheme.getColor("Red");
 	private static Color orange = lastTheme.getColor("Orange");

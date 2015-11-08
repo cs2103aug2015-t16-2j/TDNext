@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ThemeAPI {
+public class Theme {
 	//@@author A0113507R
 	private static Logger themeLog= Logger.getLogger("Theme");
 	
@@ -23,7 +23,7 @@ public class ThemeAPI {
 		private Color _foreground; //Font Color for system
 		private Color _background ; //Background Color for system
 
-	public ThemeAPI(String s){
+	public Theme(String s){
 		_name = s;
 		setDetails(_name);
 		themeLog.log(Level.INFO, "Theme created is: " + s + ".");
