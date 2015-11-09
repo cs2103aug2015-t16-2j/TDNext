@@ -10,6 +10,12 @@ public class TestSystem {
 	private static String EMPTY_STRING = "";
 	private static String ADD_DEADLINE_TASK1_WITH_DATE = "ADD deadline1 BY 21/11/2015";
 	private static String ADD_DEADLINE_TASK2_WITH_DATE = "ADD deadline2 BY 01/12/2015";
+	private static String ADD_DEADLINE_TASK3_WITH_DATE_AND_TIME = "ADD deadline3 BY 21/11/2015 FROM 8:00am";
+	private static String ADD_DEADLINE_TASK4_WITH_DATE_AND_TIME = "ADD deadline4 BY 01/12/2015 FROM 3:00pm";
+	private static String ADD_EVENT1_WITH_DATE = "ADD event1 ON 21/11/2015";
+	private static String ADD_EVENT2_WITH_DATE = "ADD event2 ON 01/12/2015";
+	private static String ADD_EVENT3_WITH_DATE_AND_TIME = "ADD event3 ON 21/11/2015 FROM 8:00am TO 12:00pm";
+	private static String ADD_EVENT4_WITH_DATE_AND_TIME = "ADD event4 ON 01/12/2015 FROM 3:00pm TO 10:00pm";
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
 	private static String ADD_TASK3_WITH_IMPORTANCE = "ADD task3 IMPORTANT";
@@ -41,9 +47,6 @@ public class TestSystem {
 	private static String SORT_BY_NAME = "SORT NAME";
 	private static String SORT_BY_DEADLINE = "SORT DEADLINE";
 	private static String UNDO = "UNDO";
-
-
-	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
 	
@@ -107,6 +110,84 @@ public class TestSystem {
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
 			String desiredOutput = "deadline1 BY 21/11/2015\n" + "task1\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testAddEventWithDate() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_EVENT1_WITH_DATE);
+		allInputs.add(ADD_EVENT2_WITH_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "event1 ON 21/11/2015\n" + 
+									"event2 ON 01/12/2015\n" + 
+									"task1\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testAddTaskWithDateAndTime() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK3_WITH_DATE_AND_TIME);
+		allInputs.add(ADD_DEADLINE_TASK4_WITH_DATE_AND_TIME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "deadline3 BY 21/11/2015 FROM 8:00am\n" + 
+									"deadline4 BY 01/12/2015 FROM 3:00pm\n" + 
+									"task1\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testAddWithEventWithDateAndTime() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_EVENT3_WITH_DATE_AND_TIME);
+		allInputs.add(ADD_EVENT4_WITH_DATE_AND_TIME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "event3 ON 21/11/2015 FROM 8:00am TO 12:00pm\n" + 
+									"event4 ON 01/12/2015 FROM 3:00pm TO 10:00pm\n" + 
+									"task1\n" + "task2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
