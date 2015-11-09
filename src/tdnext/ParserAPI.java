@@ -550,6 +550,7 @@ public class ParserAPI {
 			task.add(date);
 		}
 		else {
+			oneCheckDate(date);
 			task.add(date);
 		}
 		
@@ -580,6 +581,14 @@ public class ParserAPI {
 		task.add(endingTime);
 		
 		return task;
+	}
+	
+	private static void oneCheckDate(String temp) {
+		if (temp.toCharArray()[2] == '-' && temp.toCharArray().length == 11) {
+			String[] down = temp.split("-");
+			
+			date = down[2].substring(1) + "-" + down[1] + "-" + down[0];
+		}
 	}
 	
 	private static void doubleCheckDate() {
@@ -761,6 +770,7 @@ public class ParserAPI {
 	}
 
 	private static void setDate() throws TDNextException {
+		Boolean isCaseTwo = false;
 		String initial = date;
 		date = date.trim();
 		
@@ -835,7 +845,20 @@ public class ParserAPI {
 				else {
 					year++;
 				}
-			}			
+			}
+			//2015/02/15 5:00pm
+			else if (temp[0].contains("-") || temp[0].contains("/")) {
+				isCaseTwo = true;
+				
+				if (temp[0].contains("-")) {
+					date = temp[0].replace("-", "/");
+				}
+				else {
+					date = temp[0];
+				}
+				
+				startingTime = temp[1];
+			}
 			//Case: 5:00pm today
 			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("today"))) {
 				setNewDate(0);
@@ -867,14 +890,14 @@ public class ParserAPI {
 			
 			String stringDay = Integer.toString(day);
 			
-			if (stringDay.toCharArray().length == 1) {
+			if (stringDay.toCharArray().length == 1 && !isCaseTwo) {
 				stringDay = "0" + stringDay;
 			}
 			
-            if (month < 10) {
+            if (month < 10 && !isCaseTwo) {
             	date = Integer.toString(day) + "/" + "0" + Integer.toString(month) + "/" + Integer.toString(year);
             }
-            else {
+            else if (!isCaseTwo) {
             	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
             }
 		}	
@@ -918,6 +941,22 @@ public class ParserAPI {
 					convertMonth(temp[1]);
 				}
 				year = Integer.parseInt(temp[0]);
+			}
+			
+			else if (temp[2].contains(":") && isDate(temp[1])) {
+				convertDate(temp[1]);
+				convertMonth(temp[0]);
+				startingTime = temp[2];
+				
+				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+			}
+			
+			else if (temp[2].contains(":") && isDate(temp[0])) {
+				convertDate(temp[0]);
+				convertMonth(temp[1]);
+				startingTime = temp[2];
+				
+				date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
 			}
 			
 			String stringDay = Integer.toString(day);
