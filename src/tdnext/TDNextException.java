@@ -1,5 +1,5 @@
 package tdnext;
-//@@author Tan Wei Ming
+//@@author A0122456L
 public class TDNextException extends Exception {
 	
 	public TDNextException(){
