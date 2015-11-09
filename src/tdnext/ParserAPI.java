@@ -102,10 +102,10 @@ public class ParserAPI {
 			return CommandType.EDIT;
 		}
 		else if (command.contains("search")) {
-			if (breakDown[1].contains("date")) {
+			if (breakDown[1].equalsIgnoreCase("date")) {
 				return CommandType.SEARCH_DATE;
 			}
-			else if (breakDown[1].contains("time")) {
+			else if (breakDown[1].equalsIgnoreCase("time")) {
 				return CommandType.SEARCH_TIME;
 			}
 			else {
