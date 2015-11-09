@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//@@author Tan Wei Ming
+//@@author A0122456L
 public class StorageAPI {
 	public static String dir;
 	public static String outputName;
@@ -114,7 +114,7 @@ public class StorageAPI {
 	}
 	
 	//Private method to retrieve dir and outputName from settings.txt and create a new settings.txt if it does not exist
-	private static void initialise() throws TDNextException{
+	static void initialise() throws TDNextException{
 		
 		if(fileExists("settings.txt")){
 			//Fetching properties
