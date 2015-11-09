@@ -27,6 +27,7 @@ public class TestSystem {
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
 	private static String ADD_TASK3_WITH_IMPORTANCE = "ADD task3 IMPORTANT";
+	private static String ADD_TASK4_WITH_MORE_THAN_ONE_WORD = "ADD task4 which is longer than one word";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String ADD_FLEXI_TASK1 = "AdD task1";
@@ -58,7 +59,19 @@ public class TestSystem {
 	private static String EDIT_INDEX4_WITH_HOMEWORK3 = "EDIT 4 homework3";
 	private static String EDIT_FLEXI_INDEX1 = "Edit 1 taskEdit";
 	private static String SEARCH_HOME = "SEARCH home";
+	private static String SEARCH_HOMEWRK = "SEARCH homewrk";
+	private static String SEARCH_HOMEWORL = "SEARCH homeworl";
+	private static String SEARCH_HOMEWROK = "SEARCH homewrok";
 	private static String SEARCH_FLEXI_HOME = "search home";
+	private static String SEARCH_EXISTING_DATE = "SEARCH DATE 21/11/2015";
+	private static String SEARCH_INVALID_DATE = "SEARCH DATE 31/11/2015";
+	private static String SEARCH_NONEXISTING_DATE = "SEARCH DATE 21/11/2016";
+	private static String SEARCH_EXISTING_TIME = "SEARCH TIME 8:00am";
+	private static String SEARCH_INVALID_TIME = "SEARCH TIME 13:00am";
+	private static String SEARCH_IN_BETWEEN_TIME = "SEARCH TIME 5:00pm";
+	private static String SEARCH_NONEXISTING_TIME = "SEARCH TIME 12:00am";
+	private static String SEARCH_NONEXISTING_INPUT = "SEARCH nothing";
+	private static String SEARCH_TWO_WORDS = "SEARCH longer than";
 	private static String SORT_DEFAULT_FLEXI = "SorT";
 	private static String SORT_BY_NAME = "SORT NAME";
 	private static String SORT_BY_DEADLINE = "SORT DEADLINE";
@@ -66,6 +79,7 @@ public class TestSystem {
 	private static String SORT_BY_DEADLINE_FLEXI = "SORT deadline";
 	private static String UNDO = "UNDO";
 	private static String UNDO_FLEXI = "uNDo";	
+
 
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
@@ -262,6 +276,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case for the 'less that valid size' partition
 	public void testDeleteWithIndex0() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -306,7 +321,7 @@ public class TestSystem {
 	}
 	
 	@Test
-	// This is to test the boundary case of 'greater than size' partition
+	// This is to test a case in 'greater than size' partition
 	public void testEditWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -442,7 +457,7 @@ public class TestSystem {
 	}
 	
 	@Test
-	// This is to test the boundary case of 'invalid index' partition.
+	// This is to test the boundary case of 'greater than size' partition.
 	public void testEditAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -466,7 +481,7 @@ public class TestSystem {
 	}
 	
 	@Test
-	// This is to test the boundary case of 'invalid index' partition.
+	// This is to test the boundary case of 'greater than size' partition.
 	public void testDeleteAfterSearchWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -694,6 +709,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case for the 'less that valid size' partition
 	public void testEditWithIndex0() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -713,6 +729,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case for the 'less that valid size' partition
 	public void testEditWithNegativeIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -732,6 +749,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'greater than size' partition
 	public void testEditWithMaxInteger() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -751,6 +769,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testEditWithMinInteger() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -770,6 +789,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testMarkAsDoneWithIndex0() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -789,6 +809,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'greater than size' partition
 	public void testMarkAsDoneWithIndexOutOfBound() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -808,6 +829,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testMarkAsDoneWithNegativeIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -827,6 +849,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'greater than size' partition
 	public void testMarkAsDoneWithMaxIndex() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -846,6 +869,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testMarkAsDoneWithMinIndex() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -865,7 +889,7 @@ public class TestSystem {
 	}
 	
 	@Test
-	// This is to test the boundary case of 'invalid index' partition.
+	// This is to test a case in 'within size' partition.
 	public void testMarkAsDoneAfterSearchWithIndex4() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -893,6 +917,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test a case in 'within size' partition.
 	public void testEditWithIndex1WithDeadlineTask() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -916,6 +941,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test a case in 'within size' partition.
 	public void testEditWithIndex2WithDeadlineTask() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -939,6 +965,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test a case in 'within size' partition.
 	public void testEditAfterSearchWithIndex4WithHomework() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -966,6 +993,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testEditAfterSearchWithIndex0() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -989,6 +1017,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testEditAfterSearchWithNegativeIndex1() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -1012,6 +1041,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'greater than size' partition
 	public void testEditAfterSearchWithMaxIndex() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -1035,6 +1065,7 @@ public class TestSystem {
 	}
 	
 	@Test
+	// This is to test the boundary case of 'less that valid size' partition
 	public void testEditAfterSearchWithMinIndex() {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
@@ -1417,4 +1448,299 @@ public class TestSystem {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testSearchDateWithExistingDate() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_EXISTING_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "deadline1 BY 21/11/2015\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchDateWithNonExistingDate() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_NONEXISTING_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchTimeWithNonExistingTime() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_NONEXISTING_TIME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchDateWithInvalidDate() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_INVALID_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchTimeWithInvalidTime() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_INVALID_TIME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchTimeWithInBetweenTime() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_IN_BETWEEN_TIME);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchWithNonExistingInput() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(SEARCH_NONEXISTING_INPUT);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSearchWithMoreThanOneWord() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_TASK4_WITH_MORE_THAN_ONE_WORD);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(SEARCH_TWO_WORDS);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "task4 which is longer than one word\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	// This is to test the boundary case of 'valid input' partition.
+	// This is to test that if there are more than one task matching the input,
+	// all the tasks will be displayed.
+	public void testPowerSearchWithMissingCharacter() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOMEWRK);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework1\n" + "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	// This is to test the boundary case of 'valid input' partition.
+	// This is to test that if there are more than one task matching the input,
+	// all the tasks will be displayed.
+	public void testPowerSearchWithWrongCharacter() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOMEWORL);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework1\n" + "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	// This is to test the boundary case of 'valid input' partition.
+	// This is to test that if there are more than one task matching the input,
+	// all the tasks will be displayed.
+	public void testPowerSearchWithCharacterInWrongPosition() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOMEWROK);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework1\n" + "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
 }
