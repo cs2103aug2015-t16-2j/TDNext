@@ -964,7 +964,7 @@ public class ParserAPI {
 	                }
 	                else {
 	                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-	                }
+	                } 
 				}
 				
 				startingTime = temp[2];
