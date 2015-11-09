@@ -8,11 +8,11 @@ import org.junit.Test;
 
 public class TestSystem {
 	private static String EMPTY_STRING = "";
+	private static String ADD_DEADLINE_TASK1_WITH_DATE = "ADD deadline1 BY 21/11/2015";
+	private static String ADD_DEADLINE_TASK2_WITH_DATE = "ADD deadline2 BY 01/12/2015";
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
-	private static String ADD_TASK3_WITH_DATE = "ADD task3 BY 21/11/2015";
-	private static String ADD_TASK4_WITH_DATE = "ADD task4 BY 01/12/2015";
-	private static String ADD_TASK5_WITH_IMPORTANCE = "ADD task5 IMPORTANT";
+	private static String ADD_TASK3_WITH_IMPORTANCE = "ADD deadline1 IMPORTANT";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String CLEAR = "CLEAR";
@@ -28,6 +28,7 @@ public class TestSystem {
 	private static String SORT_BY_NAME = "SORT NAME";
 	private static String SORT_BY_DEADLINE = "SORT DEADLINE";
 	private static String UNDO = "UNDO";
+
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
 	ArrayList<Task> _output = new ArrayList<Task>();
@@ -85,13 +86,13 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		
 		try {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 21/11/2015\n" + "task1\n" + "task2\n";
+			String desiredOutput = "deadline1 BY 21/11/2015\n" + "task1\n" + "task2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
@@ -110,7 +111,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(DELETE_INDEX1);
 		
 		try {
@@ -135,7 +136,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(DELETE_INDEXOUTOFBOUND);
 		
 		try {
@@ -155,7 +156,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(DELETE_INDEX0);
 		
 		try {
@@ -221,7 +222,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(SEARCH_HOME);
 		
@@ -249,7 +250,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
@@ -278,7 +279,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
@@ -308,7 +309,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
@@ -336,7 +337,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
@@ -360,7 +361,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SEARCH_HOME);
@@ -451,9 +452,9 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
-		allInputs.add(ADD_TASK4_WITH_DATE);
-		allInputs.add(ADD_TASK5_WITH_IMPORTANCE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK2_WITH_DATE);
+		allInputs.add(ADD_TASK3_WITH_IMPORTANCE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		
@@ -461,9 +462,9 @@ public class TestSystem {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 21/11/2015\n" +
-									"task5 IMPORTANT\n" +
-									"task4 BY 01/12/2015\n" + 
+			String desiredOutput = "deadline1 BY 21/11/2015\n" +
+									"task3 IMPORTANT\n" +
+									"deadline2 BY 01/12/2015\n" + 
 									"task1\n" + "task2\n" +
 									"homework1\n" + "homework2\n";
 			String testOutput = new String();
@@ -482,7 +483,7 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SORT_BY_NAME);
@@ -493,7 +494,7 @@ public class TestSystem {
 			}
 			String desiredOutput = "homework1\n" + "homework2\n" + 
 									"task1\n" + "task2\n" + 
-									"task3 BY 21/11/2015\n";
+									"deadline1 BY 21/11/2015\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
@@ -510,9 +511,9 @@ public class TestSystem {
 		ArrayList<String> allInputs = new ArrayList<String>();
 		allInputs.add(ADD_TASK1);
 		allInputs.add(ADD_TASK2);
-		allInputs.add(ADD_TASK3_WITH_DATE);
-		allInputs.add(ADD_TASK4_WITH_DATE);
-		allInputs.add(ADD_TASK5_WITH_IMPORTANCE);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_DEADLINE_TASK2_WITH_DATE);
+		allInputs.add(ADD_TASK3_WITH_IMPORTANCE);
 		allInputs.add(ADD_HOMEWORK1);
 		allInputs.add(ADD_HOMEWORK2);
 		allInputs.add(SORT_BY_DEADLINE);
@@ -521,9 +522,9 @@ public class TestSystem {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "task3 BY 21/11/2015\n" +
-									"task4 BY 01/12/2015\n" + 
-									"task5 IMPORTANT\n" +
+			String desiredOutput = "deadline1 BY 21/11/2015\n" +
+									"deadline2 BY 01/12/2015\n" + 
+									"task3 IMPORTANT\n" +
 									"task1\n" + "task2\n" +
 									"homework1\n" + "homework2\n";
 			String testOutput = new String();
