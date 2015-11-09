@@ -266,9 +266,9 @@ public class ParserAPI {
 			}
 		}
 		
-		if (possibleWords.isEmpty()) {
+		/*if (possibleWords.isEmpty()) {
 			throw new TDNextException("There are no related tasks in the list.");
-		}
+		}*/
 		
 		possibleWords.add(keyWord);
 		
@@ -1268,12 +1268,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    public static void main(String[] args) throws TDNextException {
+    /*public static void main(String[] args) throws TDNextException {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseInformation(input.nextLine()));
+		System.out.println(parseSearch(input.nextLine()));
 		}
-	}
+	}*/
 } 
