@@ -17,7 +17,7 @@ public class Logic {
 
 	private ArrayList<Task> _listTask = new ArrayList<Task>();
 	private Stack<String> _lastCommandList = new Stack<String>();
-	private Stack<ArrayList<Task>> _tempTask = new Stack<ArrayList<Task>>();
+	private Stack<ArrayList<Task>> _tempTaskList = new Stack<ArrayList<Task>>();
 	private ArrayList<Task> _searchList;
 	public static Logger _logger = Logger.getLogger("Logic");
 	private boolean _searchMode = false;
@@ -67,7 +67,7 @@ public class Logic {
 				exitProgram();
 
 			case UNDONE :
-				return markAsUndone(input);
+				return markTaskAsUndone(input);
 
 			case ADD_ALL :
 				return addAllTask();
@@ -88,12 +88,10 @@ public class Logic {
 
 	private ArrayList<Task> searchDate(String input) throws TDNextException{
 		String dateString = ParserAPI.parseDate(input);
-		System.out.println(dateString);
 		_searchList = new ArrayList<Task>();
 		for(int i = 0; i < _listTask.size(); i++) {
 			Task currTask = _listTask.get(i);
 			if(currTask.getDeadline().toString().equals(dateString)){
-				System.out.println(currTask.getDeadline());
 				_searchList.add(currTask);
 			}
 		}
@@ -119,7 +117,7 @@ public class Logic {
 	}
 
 	private ArrayList<Task> addAllTask() throws TDNextException {
-		ArrayList<Task> tempTaskList = _tempTask.pop();
+		ArrayList<Task> tempTaskList = _tempTaskList.pop();
 		for(int i = 0; i < tempTaskList.size(); i++) {
 			Task currTask = tempTaskList.get(i);
 			_listTask.add(currTask);
@@ -168,7 +166,7 @@ public class Logic {
 		}
 	}
 
-	private ArrayList<Task> markAsUndone(String input) throws TDNextException {
+	private ArrayList<Task> markTaskAsUndone(String input) throws TDNextException {
 		input = input.split(" ", 2)[1];
 		ArrayList<String> information = ParserAPI.parseInformation(input);
 		Task currTask = new Task(information);
@@ -189,7 +187,7 @@ public class Logic {
 		try{
 			oldTask = _listTask.get(index);
 		} catch (IndexOutOfBoundsException e) {
-			throw new TDNextException("Invalid index");
+			throw new TDNextException("Invalid Index");
 		}
 		_listTask.remove(index);
 		ArrayList<String> information = ParserAPI.parseInformation(input);
@@ -210,7 +208,7 @@ public class Logic {
 
 	private ArrayList<Task> clearAll() throws TDNextException{
 		ArrayList<Task> tempTaskList = new ArrayList<Task>(_listTask);
-		_tempTask.push(tempTaskList);
+		_tempTaskList.push(tempTaskList);
 		_listTask.clear();
 		StorageAPI.clearFile();
 		String lastCommand = "ADD_ALL";
@@ -251,7 +249,6 @@ public class Logic {
 
 	private ArrayList<Task> addTask(String input) throws TDNextException {
 		ArrayList<String> information = ParserAPI.parseInformation(input);
-		System.out.println(information);
 		Task newTask = new Task(information);
 		StorageAPI.writeToFile(newTask.toString());
 		_listTask.add(newTask);
