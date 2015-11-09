@@ -66,7 +66,7 @@ public class ParserAPI {
 		String command = breakDown[0].toLowerCase();
 		
 		
-		if (breakDown.length == 1 && breakDown[0].equals("sort")) {
+		if (breakDown.length == 1 && command.equals("sort")) {
 			return CommandType.SORT_DEFAULT;	
 		}
 		else if (command.equals("add")) {
@@ -147,7 +147,7 @@ public class ParserAPI {
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
 		if (!breakDown[1].matches("\\d+")) {
-			throw new TDNextException("Invalid index.");
+			throw new TDNextException("Invalid Index");
 		}
 		
 		try {
