@@ -56,9 +56,7 @@ public class Task {
 		    _endTime = LocalTime.MAX;
 		} else {
 			_endTime = LocalTime.parse(information.get(5));
-			System.out.println(_endTime);
 		}
-
 		calculatePriorityIndex();
 		determineColourType();
 
