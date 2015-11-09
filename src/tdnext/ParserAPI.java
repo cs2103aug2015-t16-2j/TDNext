@@ -563,7 +563,7 @@ public class ParserAPI {
 		findSpecificTime();
 		
 		if (!specificTime.isEmpty()) {
-			//System.out.println(specificTime);
+			/*//System.out.println(specificTime);
 			startingTime = twentyFourHour(specificTime);
 			
 			if (startingTime.toCharArray().length == 4) {
@@ -572,7 +572,7 @@ public class ParserAPI {
 			}
 		}
 		
-		if (!startingTime.isEmpty()) {
+		if (!startingTime.isEmpty()) {*/
 		    formateTime();
 		}
 		
@@ -609,6 +609,7 @@ public class ParserAPI {
 	
 	private static String twentyFourHour(String originalTime) throws TDNextException {
 		int addition = 0;
+		System.out.println("Original time = " + originalTime);
 		
 		if (originalTime.contains("am") && originalTime.contains("12")) {
 			return "00" + originalTime.substring(2, 5);
@@ -636,6 +637,7 @@ public class ParserAPI {
 			actualMin = originalTime.substring(1, 4);
 			zero = "0";
 		}
+		System.out.println("Actual hour = " + actualHour);
 		//System.out.println(actual);
 		int time = Integer.parseInt(actualHour);
 		
