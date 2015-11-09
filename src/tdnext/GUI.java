@@ -63,66 +63,58 @@ public class GUI extends JFrame {
 	private static TDNextLogicAPI logicAPI = new TDNextLogicAPI();
 	private static Logger guiLog= Logger.getLogger("GUI");
 	private static Date today = new Date();
-
-
+	
 	private final static String helpMsg =
-			"Hi! See below for our list of commands availavle:"
+			"Hi! See below for list of commands:"
 			+"\n\n"
-			+ "Create-\n"
-			+"To create a task with deadline:\n"
-			+"	ADD <task description> BY <deadline> WITH <importance>\n"
-			+"To create an event with a set date and/or time, use this command:\n"
-			+"	ADD <event description> ON <date, time> WITH <importance> \n"
-			+"To create to-do task that has no date or time, use this command:\n"
-			+"	ADD <task description> WITH <importance> \n"
+			+"Adding an item:\n"
+			+"\t With time and date~\n"
+			+"\t ADD <Item name> BY <Date> <Time> <importance>\n "
+			+"or \n"
+			+"\t ADD <Item name> FROM <Start Time> TO <End Time> ON <Date> <importance>\n"
+			+"\t \t * Leave out 'important' if you do not wish to label item as important. \n"
+			+"\t Without time and date~ \n"
+			+"\t ADD <Item name> <important>\n"	
+			+"\t \t * Leave out 'important' if you do not wish to label item as important. \n"
 			+"\n"
-			+"Read-\n"
-			+"To read all the tasks in the list, use this command:\n"
-			+"	DISPLAY\n"
+			+"Editing an item: \n"
+			+"\t EDIT <Index> <New item name> FROM <New start time> to <New end time> BY/ON<New date> <important>\n"
+			+"\t \t	* Not ALL fields need to be filled. \n"
 			+"\n"
-			+"Update-\n"
-			+"To update a task, use this command:\n"
-			+"	CHANGE <number on the list> \n"
+			+"Deleting an item: \n"
+			+"\t DELETE <Index>\n"
 			+"\n"
-			+"Delete-\n"
-			+"To delete a task, use this command:\n"
-			+"	DELETE <number on the list>\n"
+			+"Undo previous action: \n"
+			+"\t UNDO\n"
+			+"\t \t * You can undo until start of the program. \n"
 			+"\n"
-			+"Clear\n"
-			+"To delete all tasks, use this command:\n"
-			+"	CLEAR<ALL>\n"
+			+"Clearing both displayed and archived items:\n"
+			+"\t CLEAR\n"
 			+"\n"
-			+"Search\n"
-			+"To search for a particular task, use this command:\n"
-			+"	SEARCH <keyword>\n"
+			+"Search for an item: \n"
+			+"\t SEARCH <keyword>\n"
+			+"\t \t * Enter 'sort' to exit Search Mode. \n"
 			+"\n"
-			+"Sort-\n"
-			+"To sort, use this command:\n"
-			+"	SORT <importance/deadline/task/event/to-do>\n"
+			+"Sorting the items: \n"
+			+"\t By default~ \n"
+			+"\t SORT\n"
+			+"\t name (Alphabetical order)~ \n"
+			+"\t SORT NAME \n"
+			+"\t By deadline (Chronological order)~ \n"
+			+"\t SORT DEADLINE \n"
 			+"\n"
-			+"Exit-\n"
-			+"To exit, use this command:\n"
-			+"	EXIT";
+			+"Exit TDNext:\n"
+			+"\t EXIT"
+			+"\n"
+			+"---------- ALL COMMANDS ARE CASE-INSENSITIVE. FOR MORE DETAIL, CHECK USER GUIDE ----------";
 
-	//Themes
+	//Theme Objects
 	private static Theme lavender = new Theme("Lavender");
 	private static Theme Wood = new Theme("Wood");
 	private static Theme forest = new Theme("Forest");
 	private static Theme sapphire = new Theme("Sapphire");
 
-	//Colors used in GUI display
-	/*
-	private static Color red = new Color(255, 195, 206);
-	private static Color orange = new Color(255, 207, 121);
-	private static Color green = new Color(142, 210, 201);
-	private static Color white = new Color(236, 236, 240);
-	private static Color displayBackground= new Color(255, 255, 255);
-	private static Color foreground = new Color(70, 32, 102);
-	private static Color displayFontColor = foreground;
-	private static Color inputFontColor = foreground;
-	private static Color background = new Color(230, 230, 250);
-	private static String systemFont = "Arial";*/
-
+	//Method: Create 5th Theme Object
 	private static String setLastTheme(){
 		lastThemeChosen = null;
 	try {
@@ -139,6 +131,7 @@ public class GUI extends JFrame {
 
 	private static Theme lastTheme = new Theme(setLastTheme());
 
+	//Attributes: Colors used in Themes
 	private static Color red = lastTheme.getColor("Red");
 	private static Color orange = lastTheme.getColor("Orange");
 	private static Color green = lastTheme.getColor("Green");
@@ -150,7 +143,7 @@ public class GUI extends JFrame {
 	private static Color background = lastTheme.getColor("background");
 	private static String systemFont = "Arial";
 
-	//By Maple: Input and display related
+	//Methods: Input and display related
 	private String getInput(JTextField textInput){
 		return textInput.getText();
 	}
@@ -189,12 +182,16 @@ public class GUI extends JFrame {
 		    return "Great! You have mark the item as done!";
 
 		case SORT_DEFAULT :
-
+			lbl.setText("Display Mode: showing ALL items");
+			return "Your items are sorted by default!";
+			
 		case SORT_BY_NAME :
-
+			lbl.setText("Display Mode: showing ALL items");
+			return "Your items are sorted by name (alphabetical order)!";
+			
 		case SORT_BY_DEADLINE :
 			lbl.setText("Display Mode: showing ALL items");
-			return "Your items are sorted!";
+			return "Your items are sorted by deadline (chronological order)!";
 
 		case SEARCH :
 
@@ -223,7 +220,7 @@ public class GUI extends JFrame {
 		textInput.setText("");
 	}
 
-	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){
+	private static String getParsedInoString(ArrayList<Task> parsedInfo, int i){ //Indentation for <1000 items
 		int index = parsedInfo.get(i).getIndex();
 		if(index > 9){
 		return " " + index + ".  " + parsedInfo.get(i).toString() + "  ";
@@ -267,13 +264,13 @@ public class GUI extends JFrame {
 
 	//@@author A0113507R
 
-	//By Maple: Color related
-	static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
+	//Methods: Color & Theme related
+	private static ColourType getColorType(ArrayList<Task> parsedInfo, int i){
 		ColourType cT= parsedInfo.get(i).getColour();
 		return cT;
 	}
 
-	static Color decideColor(ColourType cT){
+	private static Color decideColor(ColourType cT){
 		Color c = null;
 		switch(cT){
 		case RED:
@@ -292,9 +289,7 @@ public class GUI extends JFrame {
 		return c;
 	}
 
-	//Theme
-	static void setTheme(String s){
-
+	private static void setTheme(String s){
 		if(s.equals("Wood")){
 			red = Wood.getColor("red");
 			orange = Wood.getColor("orange");
@@ -316,7 +311,6 @@ public class GUI extends JFrame {
 
 				e.printStackTrace();
 			}
-
 
 		}else if(s.equals("Lavender")){
 			red = lavender.getColor("red");
@@ -340,7 +334,6 @@ public class GUI extends JFrame {
 				e.printStackTrace();
 			}
 
-
 		}else if(s.equals("Forest")){
 			red = forest.getColor("red");
 			orange = forest.getColor("orange");
@@ -362,7 +355,6 @@ public class GUI extends JFrame {
 
 				e.printStackTrace();
 			}
-
 
 		}else if(s.equals("Sapphire")){
 			red = sapphire.getColor("red");
@@ -401,18 +393,20 @@ public class GUI extends JFrame {
 	}
 
 	//@@author
-	final static ImageIcon helpIcon = new ImageIcon(GUI.class.getResource("/Help Icon S.png"));
-	final static ImageIcon themeIcon = new ImageIcon(GUI.class.getResource("/theme Icon S.png"));
+	private final static ImageIcon helpIcon = new ImageIcon(GUI.class.getResource("/Help Icon S.png"));
+	private final static ImageIcon themeIcon = new ImageIcon(GUI.class.getResource("/theme Icon S.png"));
 
 	//@@author A0113507R
-	static void setStyle(int i){
+	
+	//Methods: GUI-setting related
+	private static void setStyle(int i){
 		textArea.setBackground(decideColor(getColorType(parsedInfo, i)));
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.BOLD, 16));
 		textArea.setBorder(new LineBorder(displayBackground));
 	}
 
-	static void setStyleExtra(){
+	private static void setStyleExtra(){
 		textArea.setEditable(false);
 		textArea.setFont(new Font(systemFont, Font.PLAIN, 16));
 		textArea.setBorder(new LineBorder(displayBackground));
@@ -600,7 +594,7 @@ public class GUI extends JFrame {
 			}
 		};
 
-	//End of functions added by Maple
+	//End of methods added by Maple
 
 	/**
 	 * Launch the application.
@@ -697,7 +691,7 @@ public class GUI extends JFrame {
 		guiLog.log(Level.INFO, "GUI Initialised: 'txtStatus'.");
 
 		lbl = new JLabel("Display Mode: showing ALL items");
-
+		guiLog.log(Level.INFO, "GUI Initialised: 'lbl'.");
 
 		setBounds(100, 100, 500, 500);
 		setContentPane(contentPane);

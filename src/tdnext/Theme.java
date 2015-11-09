@@ -17,7 +17,6 @@ public class Theme {
 		private Color _white;
 		
 		private Color _displayBg; //Background for panelDisplay and textInput
-		
 		private Color _displayFontColor; //Font Color for panelDisplay's textAreas
 		private Color _inputFontColor; //Font Color for textInput
 		private Color _foreground; //Font Color for system
@@ -91,7 +90,7 @@ public class Theme {
 				_displayFontColor = new Color(104, 86, 66);
 				_inputFontColor = _displayFontColor;
 				_background = new Color(183, 198, 139);
-			}else{
+			}else{ //Lavender is used as Default theme
 				_red = new Color(255, 195, 206);
 				_orange = new Color(255, 207, 121);
 				_green = new Color(142, 210, 201);
