@@ -66,7 +66,7 @@ public class ParserAPI {
 		String command = breakDown[0].toLowerCase();
 		
 		
-		if (breakDown.length == 1 && breakDown[0].equals("sort")) {
+		if (breakDown.length == 1 && command.equals("sort")) {
 			return CommandType.SORT_DEFAULT;	
 		}
 		else if (command.equals("add")) {
@@ -102,10 +102,10 @@ public class ParserAPI {
 			return CommandType.EDIT;
 		}
 		else if (command.contains("search")) {
-			if (breakDown[1].contains("date")) {
+			if (breakDown[1].equalsIgnoreCase("date")) {
 				return CommandType.SEARCH_DATE;
 			}
-			else if (breakDown[1].contains("time")) {
+			else if (breakDown[1].equalsIgnoreCase("time")) {
 				return CommandType.SEARCH_TIME;
 			}
 			else {
@@ -147,7 +147,7 @@ public class ParserAPI {
         /*int number = Integer.parseInt(breakDown[1])-1;
         System.out.println(number);*/
 		if (!breakDown[1].matches("\\d+")) {
-			throw new TDNextException("Invalid index.");
+			throw new TDNextException("Invalid Index");
 		}
 		
 		try {
@@ -609,7 +609,7 @@ public class ParserAPI {
 	
 	private static String twentyFourHour(String originalTime) throws TDNextException {
 		int addition = 0;
-		System.out.println("Original time = " + originalTime);
+		//System.out.println("Original time = " + originalTime);
 		
 		if (originalTime.contains("am") && originalTime.contains("12")) {
 			return "00" + originalTime.substring(2, 5);
@@ -637,11 +637,11 @@ public class ParserAPI {
 			actualMin = originalTime.substring(1, 4);
 			zero = "0";
 		}
-		System.out.println("Actual hour = " + actualHour);
+		//System.out.println("Actual hour = " + actualHour);
 		//System.out.println(actual);
 		int time = Integer.parseInt(actualHour);
 		
-		if (time > 12) {
+		if (time > 24) {
 			throw new TDNextException("Time cannot be larger than 12.");
 		}
 		
@@ -843,6 +843,7 @@ public class ParserAPI {
 			//Case: today 5:00pm
 			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("today"))) {
 				setNewDate(0);
+				startingTime = twentyFourHour(temp[1]);
 			}
 			//Case: 5:00pm tmrw/tomorrow
 			else if (temp[0].contains(":") && (temp[1].equalsIgnoreCase("tomorrow") || temp[1].equalsIgnoreCase("tmrw"))) {
@@ -851,6 +852,7 @@ public class ParserAPI {
 			//Case: tmrw/tomorrow 5:00pm
 			else if (temp[1].contains(":") && (temp[0].equalsIgnoreCase("tomorrow") || temp[0].equalsIgnoreCase("tmrw"))) {
 				setNewDate(1);
+				startingTime = twentyFourHour(temp[1]);
 			}
 			//Case: 1st September
 			else if (isDate(temp[0])) {
@@ -962,7 +964,7 @@ public class ParserAPI {
 	                }
 	                else {
 	                	date = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-	                }
+	                } 
 				}
 				
 				startingTime = temp[2];
@@ -1268,12 +1270,12 @@ public class ParserAPI {
 		return word.contains(":");
 	}
 	
-    /*public static void main(String[] args) throws TDNextException {
+    public static void main(String[] args) throws TDNextException {
 		storage.add("add this is a proper task");
 		while (true) {
 
 		Scanner input = new Scanner(System.in);
-		System.out.println(parseSearch(input.nextLine()));
+		System.out.println(parseInformation(input.nextLine()));
 		}
-	}*/
+	}
 } 
