@@ -12,7 +12,7 @@ public class TestSystem {
 	private static String ADD_DEADLINE_TASK2_WITH_DATE = "ADD deadline2 BY 01/12/2015";
 	private static String ADD_TASK1 = "ADD task1";
 	private static String ADD_TASK2 = "ADD task2";
-	private static String ADD_TASK3_WITH_IMPORTANCE = "ADD deadline1 IMPORTANT";
+	private static String ADD_TASK3_WITH_IMPORTANCE = "ADD task3 IMPORTANT";
 	private static String ADD_HOMEWORK1 = "ADD homework1";
 	private static String ADD_HOMEWORK2 = "ADD homework2";
 	private static String CLEAR = "CLEAR";
@@ -20,14 +20,28 @@ public class TestSystem {
 	private static String DELETE_INDEX1 = "DELETE 1";
 	private static String DELETE_INDEX4 = "DELETE 4";
 	private static String DELETE_INDEXOUTOFBOUND = "DELETE 100";
+	private static String DONE_INDEX0 = "DONE 0";
 	private static String DONE_INDEX1 = "DONE 1";
+	private static String DONE_INDEX4 = "DONE 4";
+	private static String DONE_INDEXOUTOFBOUND = "DONE 100";
+	private static String DONE_NEGATIVE_INDEX1 = "DONE -1";
+	private static String DONE_MAX_INDEX = "DONE " + Integer.MAX_VALUE;
+	private static String DONE_MIN_INDEX = "DONE " + Integer.MIN_VALUE;
+	private static String EDIT_INDEX0 = "EDIT 0 taskEdit";
 	private static String EDIT_INDEX1 = "EDIT 1 taskEdit";
 	private static String EDIT_INDEX4 = "EDIT 4 taskEdit";
+	private static String EDIT_NEGATIVE_INDEX1 = "EDIT -1 taskEdit";
 	private static String EDIT_INDEXOUTOFBOUND = "EDIT 100 taskEdit";
+	private static String EDIT_MAX_INDEX = "EDIT " + Integer.MAX_VALUE + " taskEdit";
+	private static String EDIT_MIN_INDEX = "EDIT " + Integer.MIN_VALUE + " taskEdit";
+	private static String EDIT_INDEX1_WITH_DEADLINE_TASK_WITH_DATE = "EDIT 1 deadline BY 21/11/2015";
+	private static String EDIT_INDEX2_WITH_DEADLINE_TASK_WITH_DATE = "EDIT 2 deadline BY 21/11/2015";
+	private static String EDIT_INDEX4_WITH_HOMEWORK3 = "EDIT 4 homework3";
 	private static String SEARCH_HOME = "SEARCH home";
 	private static String SORT_BY_NAME = "SORT NAME";
 	private static String SORT_BY_DEADLINE = "SORT DEADLINE";
 	private static String UNDO = "UNDO";
+
 
 	
 	TDNextLogicAPI _testLogic = new TDNextLogicAPI();
@@ -492,9 +506,9 @@ public class TestSystem {
 			for(int i = 0; i < allInputs.size(); i++){
 				_output = _testLogic.executeCommand(allInputs.get(i));
 			}
-			String desiredOutput = "homework1\n" + "homework2\n" + 
-									"task1\n" + "task2\n" + 
-									"deadline1 BY 21/11/2015\n";
+			String desiredOutput = "deadline1 BY 21/11/2015\n" + 
+					                "homework1\n" + "homework2\n" + 
+									"task1\n" + "task2\n";
 			String testOutput = new String();
 			for(int i = 0; i < _output.size(); i++) {
 				testOutput = testOutput + _output.get(i).toString() + "\n";
@@ -583,4 +597,367 @@ public class TestSystem {
 		}
 	}
 	
+	@Test
+	public void testEditWithIndex0() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_INDEX0);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditWithNegativeIndex1() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_NEGATIVE_INDEX1);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditWithMaxInteger() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_MAX_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditWithMinInteger() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_MIN_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testMarkAsDoneWithIndex0() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(DONE_INDEX0);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testMarkAsDoneWithIndexOutOfBound() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(DONE_INDEXOUTOFBOUND);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testMarkAsDoneWithNegativeIndex1() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(DONE_NEGATIVE_INDEX1);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testMarkAsDoneWithMaxIndex() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(DONE_MAX_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testMarkAsDoneWithMinIndex() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(DONE_MIN_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	// This is to test the boundary case of 'invalid index' partition.
+	public void testMarkAsDoneAfterSearchWithIndex4() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(DONE_INDEX4);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEditWithIndex1WithDeadlineTask() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_INDEX1_WITH_DEADLINE_TASK_WITH_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "deadline BY 21/11/2015\n" + "task2\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEditWithIndex2WithDeadlineTask() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(EDIT_INDEX2_WITH_DEADLINE_TASK_WITH_DATE);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "deadline BY 21/11/2015\n" + "task1\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEditAfterSearchWithIndex4WithHomework() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_INDEX4_WITH_HOMEWORK3);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			String desiredOutput = "homework2\n" + "homework3\n";
+			String testOutput = new String();
+			for(int i = 0; i < _output.size(); i++) {
+				testOutput = testOutput + _output.get(i).toString() + "\n";
+			}
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		} catch (TDNextException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEditAfterSearchWithIndex0() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_INDEX0);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditAfterSearchWithNegativeIndex1() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_NEGATIVE_INDEX1);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditAfterSearchWithMaxIndex() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_MAX_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
+	
+	@Test
+	public void testEditAfterSearchWithMinIndex() {
+		ArrayList<String> allInputs = new ArrayList<String>();
+		allInputs.add(ADD_TASK1);
+		allInputs.add(ADD_TASK2);
+		allInputs.add(ADD_DEADLINE_TASK1_WITH_DATE);
+		allInputs.add(ADD_HOMEWORK1);
+		allInputs.add(ADD_HOMEWORK2);
+		allInputs.add(SEARCH_HOME);
+		allInputs.add(EDIT_MIN_INDEX);
+		
+		try {
+			for(int i = 0; i < allInputs.size(); i++){
+				_output = _testLogic.executeCommand(allInputs.get(i));
+			}
+			fail();
+		} catch (TDNextException e) {
+			String desiredOutput = "Invalid Index";
+			String testOutput = e.getMessage();
+			assertEquals(EMPTY_STRING, desiredOutput, testOutput);
+		}
+	}
 }
