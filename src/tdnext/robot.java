@@ -37,18 +37,23 @@ public class robot
 //Check btnHelp
     System.out.println("Try btnHelp");
     robot.delay(1000);
-	robot.mouseMove(531, 524);//to btnHelp
+	robot.mouseMove(532, 535);//to btnHelp
 	robot.delay(500);
 	leftClick();
 	robot.delay(2000);
 	enter();
+	
+	System.out.println("Pressed F1 for HELP");
+	robot.keyPress(KeyEvent.VK_F1);
+	robot.keyRelease(KeyEvent.VK_F1);
+	robot.delay(2000);
 	enter();
 	
 	
 //Check btnTheme
     System.out.println("Try btnTheme");
     robot.delay(2000);
-    robot.mouseMove(532,559); //to btnTheme
+    robot.mouseMove(532,570); //to btnTheme
     leftClick();
 	robot.delay(1000);
 	robot.mouseMove(829,456);//Choices
@@ -59,12 +64,11 @@ public class robot
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
-	robot.mouseMove(810, 515);//o OK
+	robot.mouseMove(810, 530);//o OK
 	leftClick();
-	enter();
 	robot.delay(1000);
 	
-	robot.mouseMove(532,559); //to btnTheme
+	robot.mouseMove(532,570); //to btnTheme
     leftClick();
 	robot.delay(1000);
 	robot.mouseMove(829,456);//Choices
@@ -75,12 +79,11 @@ public class robot
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
-	robot.mouseMove(810, 515);//o OK
+	robot.mouseMove(810, 530);//o OK
 	leftClick();
-	enter();
 	robot.delay(1000);
 	
-	robot.mouseMove(532,559); //to btnTheme
+	robot.mouseMove(532,570); //to btnTheme
 	leftClick();
 	robot.delay(1000);
 	robot.mouseMove(829,456);//Choices
@@ -91,12 +94,11 @@ public class robot
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
-	robot.mouseMove(810, 515);//o OK
+	robot.mouseMove(810, 530);//o OK
 	leftClick();
-	enter();
 	robot.delay(1000);
 
-    robot.mouseMove(532,559); //to btnTheme
+    robot.mouseMove(532,570); //to btnTheme
     leftClick();
 	robot.delay(1000);
 	robot.mouseMove(829,456);//Choices
@@ -107,50 +109,54 @@ public class robot
 	robot.delay(1000);
 	leftClick();
 	robot.delay(1000);
-	robot.mouseMove(810, 515);//o OK
+	robot.mouseMove(810, 530);//OK
 	leftClick();
-	enter();
 	robot.delay(1000);
 	
-    robot.mouseMove(532,559); //to btnTheme
-    leftClick();
-	robot.delay(1000);
-	robot.mouseMove(829,456);//Choices
-	leftClick();
-	robot.delay(500);
-	robot.mouseMove(829,532);//to "Default"
-	System.out.println("Default Theme selected");
-	robot.delay(1000);
-	leftClick();
-	robot.delay(1000);
-	robot.mouseMove(810, 535);//o OK
-	leftClick();
-	enter();
-	robot.delay(1000);
-	
-	    robot.mouseMove(532,559); //to btnTheme
-	    leftClick();
-		robot.delay(1000);
-		robot.mouseMove(829,456);//Choices
-		leftClick();
-		robot.delay(500);
-		robot.mouseMove(829,452);//to "Lavender"
-		System.out.println("Lavender Theme selected");
-		robot.delay(1000);
-		leftClick();
-		robot.delay(1000);
-		robot.mouseMove(810, 515);//o OK
-		leftClick();
-		enter();
-		robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_F2);
+	    robot.keyRelease(KeyEvent.VK_F2);
+	    robot.delay(500);
+	    robot.keyPress(KeyEvent.VK_KP_DOWN);
+	    robot.keyRelease(KeyEvent.VK_KP_DOWN);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_DOWN);
+	    robot.keyRelease(KeyEvent.VK_KP_DOWN);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_DOWN);
+	    robot.keyRelease(KeyEvent.VK_KP_DOWN);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_DOWN);
+	    robot.keyRelease(KeyEvent.VK_KP_DOWN);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_UP);
+	    robot.keyRelease(KeyEvent.VK_KP_UP);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_UP);
+	    robot.keyRelease(KeyEvent.VK_KP_UP);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_UP);
+	    robot.keyRelease(KeyEvent.VK_KP_UP);
+	    robot.delay(1000);
+	    robot.keyPress(KeyEvent.VK_KP_UP);
+	    robot.keyRelease(KeyEvent.VK_KP_UP);
+	    robot.delay(1000);
+	    enter();
 		
-	    robot.mouseMove(532,559); //to btnTheme
+	    robot.mouseMove(534,569); //to btnTheme
 	    leftClick();
 		robot.delay(1000);
 		robot.mouseMove(710, 510);//Cancel
+		robot.delay(500);
 		leftClick();
 		System.out.println("Cancel");
 		robot.delay(1000);
+		
+		 robot.keyPress(KeyEvent.VK_F2);
+		 robot.keyRelease(KeyEvent.VK_F2);
+		 robot.delay(500);
+		 robot.keyPress(KeyEvent.VK_ESCAPE);
+		 robot.keyRelease(KeyEvent.VK_ESCAPE);
+		 robot.delay(500);
 		
 		System.out.println("End of Theme demo");
 		robot.delay(5000);
@@ -352,16 +358,16 @@ public class robot
     robot.mouseWheel(500);//scroll to the top
     robot.delay(3000);
     
-    type("clear");
+  /*  type("clear");
     robot.delay(1000);
     enter();
-
+    
 //Exit GUI
     robot.delay(2000);
     type("exit");//exit GUI2
     System.out.println("End of robot");
     robot.delay(2000);
-    enter();
+    enter();*/
     System.exit(0);//exit robot
   }
  
